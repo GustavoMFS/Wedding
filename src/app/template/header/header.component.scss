@@ -2,7 +2,7 @@
   position: fixed;
   top: 0;
   width: 100%;
-  background-color: #f7f3fa; // cor suave
+  background-color: #f7f3fa;
   backdrop-filter: blur(6px);
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   z-index: 1000;
@@ -68,37 +68,53 @@
       &.open {
         display: flex;
         padding: 1rem 0;
-        max-height: 500px; // altura máxima animada
+        max-height: 500px;
       }
     }
   }
 }
 
 @media (min-width: 768px) {
-  .top-nav nav .nav-container {
+  .top-nav nav {
     flex-direction: row;
-    justify-content: space-between;
     align-items: center;
   }
 
+  .top-nav nav .nav-container {
+    padding: 0 1.5rem;
+    flex: 1;
+  }
+
   .menu-btn {
-    display: none;
+    display: none !important;
   }
 
   .nav-links {
     display: flex !important;
-    flex-direction: row;
-    padding: 0 1.5rem !important;
+    flex-direction: row !important;
+    padding: 0 !important;
     max-height: none !important;
-    border-top: none;
+    border-top: none !important;
+    flex-grow: 1;
+    justify-content: flex-end;
+  }
 
-    li {
-      margin: 0;
-      padding: 0;
+  .nav-links li {
+    margin: 0 0.75rem;
+    padding: 0;
+    flex-shrink: 0;
+  }
 
-      a {
-        padding: 0.5rem 1rem;
-      }
-    }
+  .nav-links li a {
+    padding: 0.5rem 1rem;
+    white-space: nowrap;
+    display: block;
+  }
+
+  .nav-links.open {
+    max-height: none !important;
+    padding: 0 !important;
+    display: flex !important;
+    flex-direction: row !important;
   }
 }
