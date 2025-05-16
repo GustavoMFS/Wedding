@@ -1,0 +1,7 @@
+<div class="login-container">
+  <h2>Bem-vindo ao nosso casamento!</h2>
+  <p>Insira a senha que está no convite:</p>
+  <input type="password" [(ngModel)]="password" placeholder="Digite a senha" />
+  <button (click)="verifyPW()">Entrar</button>
+  <p *ngIf="error" class="erro">Senha incorreta</p>
+</div>

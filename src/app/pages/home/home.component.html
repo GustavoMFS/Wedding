@@ -1,0 +1,58 @@
+<app-header></app-header>
+
+<main class="home">
+  <section class="hero" id="inicio">
+    <figure>
+      <img src="assets/couple.jpg" alt="Foto dos noivos" />
+      <figcaption class="sr-only">Foto dos noivos</figcaption>
+    </figure>
+    <h2 class="names">Gustavo & Maria</h2>
+  </section>
+
+  <section class="intro">
+    <p>
+      Estamos muito felizes em compartilhar este momento com você! Esperamos que
+      possa estar presente para comemorar esse dia tão especial.
+    </p>
+  </section>
+
+  <div class="divider">
+    <img src="assets/divisor.png" alt="Divisor" />
+  </div>
+
+  <section class="details" id="programacao" aria-labelledby="details-heading">
+    <h3 id="details-heading">Detalhes da festa</h3>
+    <p><strong>Data:</strong>2026</p>
+    <p><strong>Horário:</strong> 16h</p>
+  </section>
+
+  <div class="divider">
+    <img src="assets/divisor.png" alt="Divisor" />
+  </div>
+
+  <section class="location" aria-labelledby="location-heading">
+    <h3 id="location-heading">Local do Evento</h3>
+    <p>Espaço - Rua, 123 - Curitiba, PR</p>
+    <div class="map-container">
+      <iframe
+        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1071.3817958818577!2d-49.257037037736794!3d-25.41537622205415!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x94dce43b2d590e2d%3A0x6dfca14b366f174!2sDon%20Hugo%20Empanadas!5e0!3m2!1spt-BR!2sbr!4v1747246910116!5m2!1spt-BR!2sbr"
+        width="600"
+        height="450"
+        style="border: 0"
+        allowfullscreen=""
+        loading="lazy"
+        referrerpolicy="no-referrer-when-downgrade"
+      ></iframe>
+    </div>
+  </section>
+
+  <div class="divider">
+    <img src="assets/divisor.png" alt="Divisor" />
+  </div>
+
+  <section class="gifts" id="presentes" aria-labelledby="gifts-heading">
+    <h3 id="gifts-heading">Lista de Presentes</h3>
+    <p>Você pode escolher um presente ou contribuir com qualquer valor.</p>
+    <a routerLink="/home/presentes" class="gift-link">Ver lista de presentes</a>
+  </section>
+</main>

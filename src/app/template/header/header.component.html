@@ -1,0 +1,16 @@
+<header class="top-nav">
+  <nav>
+    <div class="nav-container">
+      <h1 class="logo">Gustavo & Maria</h1>
+      <button class="menu-btn" (click)="toggleMenu()">
+        <span class="material-icons">{{ menuOpen ? "close" : "menu" }}</span>
+      </button>
+    </div>
+    <ul class="nav-links" [class.open]="menuOpen">
+      <li><a (click)="scrollToSection('inicio')">INÍCIO</a></li>
+      <li><a (click)="scrollToSection('programacao')">PROGRAMAÇÃO</a></li>
+      <li><a (click)="scrollToSection('traje')">TRAJE</a></li>
+      <li><a (click)="scrollToSection('presentes')">LISTA DE PRESENTES</a></li>
+    </ul>
+  </nav>
+</header>
