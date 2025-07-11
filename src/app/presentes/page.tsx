@@ -2,15 +2,7 @@
 
 import Image from "next/image";
 import { useEffect, useState } from "react";
-import {
-  SignInButton,
-  SignedOut,
-  SignedIn,
-  UserButton,
-  useUser,
-  useAuth,
-} from "@clerk/nextjs";
-import { useRouter } from "next/navigation";
+import { SignInButton, SignedOut, SignedIn, UserButton } from "@clerk/nextjs";
 
 type ExternalLink = {
   _id: string;
@@ -33,8 +25,6 @@ export default function PresentesPage() {
   const [links, setLinks] = useState<ExternalLink[]>([]);
   const [gifts, setGifts] = useState<Gift[]>([]);
   const [loading, setLoading] = useState(true);
-  const router = useRouter();
-  const { user } = useUser();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -58,30 +48,6 @@ export default function PresentesPage() {
     fetchData();
   }, []);
 
-  const { getToken } = useAuth();
-
-  useEffect(() => {
-    const checkAccess = async () => {
-      const token = await getToken({ template: "backend-access" });
-      if (!token) return;
-
-      const res = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}/api/admin/check-admin`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-
-      if (res.ok) {
-        router.push("/admin/panel");
-      }
-    };
-
-    if (user) checkAccess();
-  }, [user, getToken, router]);
-
   if (loading) return <p className="text-center p-4">Carregando...</p>;
 
   if (links.length === 0 && gifts.length === 0) {
@@ -96,7 +62,7 @@ export default function PresentesPage() {
     <main className="max-w-4xl mx-auto p-4 space-y-8">
       <header className="flex justify-end mb-4">
         <SignedOut>
-          <SignInButton>
+          <SignInButton mode="modal" forceRedirectUrl="/login/post-login">
             <button className="text-sm text-purple-700 underline hover:text-purple-900">
               Login dos noivos
             </button>
@@ -104,7 +70,7 @@ export default function PresentesPage() {
         </SignedOut>
 
         <SignedIn>
-          <UserButton />
+          <UserButton afterSignOutUrl="/presentes" />
         </SignedIn>
       </header>
 
