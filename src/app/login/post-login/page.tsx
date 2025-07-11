@@ -1,4 +1,6 @@
-import { useRouter } from "next/router";
+"use client";
+
+import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 import { useUser } from "@clerk/nextjs";
 
@@ -6,16 +8,10 @@ export default function PostLogin() {
   const router = useRouter();
   const { user, isLoaded } = useUser();
 
-  interface UserWithMetadata {
-    publicMetadata?: {
-      role?: string;
-    };
-  }
-
   useEffect(() => {
     if (!isLoaded || !user) return;
 
-    const role = (user as UserWithMetadata).publicMetadata?.role;
+    const role = user.publicMetadata?.role;
 
     if (role === "admin") {
       router.replace("/admin/panel");
