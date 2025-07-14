@@ -28,11 +28,31 @@ export default function PresentesPage() {
 
   useEffect(() => {
     const fetchData = async () => {
+      const token = localStorage.getItem("guestToken");
+      if (!token) {
+        console.error("Token não encontrado no localStorage");
+        setLoading(false);
+        return;
+      }
+
       try {
         const [linksRes, giftsRes] = await Promise.all([
-          fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/links`),
-          fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/gifts`),
+          fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/links`, {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }),
+          fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/gifts`, {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }),
         ]);
+
+        if (!linksRes.ok || !giftsRes.ok) {
+          throw new Error("Erro ao buscar dados do servidor");
+        }
+
         const linksData = await linksRes.json();
         const giftsData = await giftsRes.json();
 
