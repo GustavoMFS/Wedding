@@ -1,12 +1,8 @@
 "use client";
 
-import {
-  UserButton,
-  SignedIn,
-  SignedOut,
-  SignInButton,
-  //   SignOutButton,
-} from "@clerk/nextjs";
+import { UserButton, SignedIn, SignedOut, SignInButton } from "@clerk/nextjs";
+import CreateGiftForm from "./CreateGiftForm";
+import CreateExternalLinkForm from "./CreateExternalLinkForm";
 
 export default function AdminPanel() {
   return (
@@ -22,16 +18,27 @@ export default function AdminPanel() {
 
         <SignedIn>
           <UserButton afterSignOutUrl="/presentes" />
-          {/* <SignOutButton redirectUrl="/presentes"></SignOutButton> */}
         </SignedIn>
       </header>
 
-      <section>
-        <h1 className="text-2xl font-bold mb-4">Painel de Administração</h1>
-        <p>
-          Aqui você poderá gerenciar os presentes e os links exibidos no site.
-        </p>
-      </section>
+      <SignedIn>
+        <section>
+          <h1 className="text-2xl font-bold mb-4">Painel de Administração</h1>
+          <p>
+            Aqui você poderá gerenciar os presentes e os links exibidos no site.
+          </p>
+        </section>
+
+        <section>
+          <h2 className="text-xl font-semibold mb-2">Criar Presente</h2>
+          <CreateGiftForm />
+        </section>
+
+        <section>
+          <h2 className="text-xl font-semibold mb-2">Adicionar Link Externo</h2>
+          <CreateExternalLinkForm />
+        </section>
+      </SignedIn>
     </main>
   );
 }
