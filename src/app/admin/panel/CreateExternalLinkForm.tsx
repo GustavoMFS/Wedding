@@ -1,0 +1,125 @@
+"use client";
+
+import { useState } from "react";
+import { useAuth } from "@clerk/nextjs";
+import axios from "axios";
+
+export default function CreateExternalLinkForm() {
+  const { getToken } = useAuth();
+
+  const [form, setForm] = useState({ title: "", url: "" });
+  const [file, setFile] = useState<File | null>(null);
+  const [uploading, setUploading] = useState(false);
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setForm((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const selected = e.target.files?.[0];
+    if (selected && selected.size <= 2 * 1024 * 1024) {
+      setFile(selected);
+    } else {
+      alert("Imagem muito grande. Limite: 2MB.");
+      e.target.value = "";
+    }
+  };
+
+  const uploadImageToCloudinary = async (): Promise<string | null> => {
+    if (!file) return null;
+
+    const cloudName = process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME;
+    const preset = process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET;
+
+    if (!cloudName || !preset) {
+      alert("Configuração do Cloudinary ausente.");
+      return null;
+    }
+
+    const formData = new FormData();
+    formData.append("file", file);
+    formData.append("upload_preset", preset);
+
+    try {
+      setUploading(true);
+      const res = await axios.post(
+        `https://api.cloudinary.com/v1_1/${cloudName}/image/upload`,
+        formData
+      );
+      return res.data.secure_url;
+    } catch (err: unknown) {
+      if (axios.isAxiosError(err)) {
+        console.error(
+          "Erro ao enviar imagem:",
+          err.response?.data || err.message
+        );
+      } else {
+        console.error("Erro inesperado:", err);
+      }
+      alert("Erro ao enviar imagem.");
+      return null;
+    } finally {
+      setUploading(false);
+    }
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    if (!file) {
+      alert("Por favor, selecione uma imagem.");
+      return;
+    }
+
+    const imageUrl = await uploadImageToCloudinary();
+    if (!imageUrl) return;
+
+    const token = await getToken({ template: "backend-access" });
+
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/links`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({ ...form, image: imageUrl }),
+    });
+
+    if (res.ok) {
+      alert("Link criado com sucesso!");
+      setForm({ title: "", url: "" });
+      setFile(null);
+    } else {
+      alert("Erro ao criar link");
+    }
+  };
+
+  return (
+    <form onSubmit={handleSubmit} className="space-y-4">
+      <input
+        name="title"
+        placeholder="Título"
+        value={form.title}
+        onChange={handleChange}
+        required
+      />
+      <input
+        name="url"
+        placeholder="URL do Site"
+        value={form.url}
+        onChange={handleChange}
+        required
+      />
+      <input
+        type="file"
+        accept="image/*"
+        onChange={handleFileChange}
+        required
+      />
+      <button type="submit" disabled={uploading}>
+        {uploading ? "Enviando imagem..." : "Criar Link"}
+      </button>
+    </form>
+  );
+}
