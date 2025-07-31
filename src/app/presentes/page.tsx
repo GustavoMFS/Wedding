@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import { SignInButton, SignedOut, SignedIn, UserButton } from "@clerk/nextjs";
+import { GuestProtectedPage } from "../components/GuestProtectedPage";
 
 type ExternalLink = {
   _id: string;
@@ -21,7 +22,15 @@ type Gift = {
   amountCollected: number;
 };
 
-export default function PresentesPage() {
+export default function PresentesPageWrapper() {
+  return (
+    <GuestProtectedPage>
+      <PresentesPage />
+    </GuestProtectedPage>
+  );
+}
+
+function PresentesPage() {
   const [links, setLinks] = useState<ExternalLink[]>([]);
   const [gifts, setGifts] = useState<Gift[]>([]);
   const [loading, setLoading] = useState(true);
@@ -101,7 +110,9 @@ export default function PresentesPage() {
             {links.map((link) => (
               <a
                 key={link._id}
-                href={link.url}
+                href={
+                  link.url.startsWith("http") ? link.url : `https://${link.url}`
+                }
                 target="_blank"
                 rel="noopener noreferrer"
                 className="border rounded-xl shadow hover:shadow-lg transition"
