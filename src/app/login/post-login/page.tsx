@@ -14,7 +14,7 @@ export default function PostLogin() {
     const role = user.publicMetadata?.role;
 
     if (role === "admin") {
-      router.replace("/admin/panel");
+      router.replace("/admin");
     } else {
       router.replace("/presentes");
     }
