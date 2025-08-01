@@ -2,8 +2,16 @@
 
 import Image from "next/image";
 import { useEffect, useState } from "react";
-import { SignInButton, SignedOut, SignedIn, UserButton } from "@clerk/nextjs";
 import { GuestProtectedPage } from "../components/GuestProtectedPage";
+import GuestLayout from "../components/GuestLayout";
+import { useRouter } from "next/navigation";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 
 type ExternalLink = {
   _id: string;
@@ -31,6 +39,7 @@ export default function PresentesPageWrapper() {
 }
 
 function PresentesPage() {
+  const router = useRouter();
   const [links, setLinks] = useState<ExternalLink[]>([]);
   const [gifts, setGifts] = useState<Gift[]>([]);
   const [loading, setLoading] = useState(true);
@@ -88,77 +97,82 @@ function PresentesPage() {
   }
 
   return (
-    <main className="max-w-4xl mx-auto p-4 space-y-8">
-      <header className="flex justify-end mb-4">
-        <SignedOut>
-          <SignInButton mode="modal" forceRedirectUrl="/login/post-login">
-            <button className="text-sm text-purple-700 underline hover:text-purple-900">
-              Login dos noivos
-            </button>
-          </SignInButton>
-        </SignedOut>
+    <GuestLayout>
+      <main className="max-w-5xl mx-auto p-4 space-y-12">
+        {/* Seção de Links Externos */}
+        {links.length > 0 && (
+          <section>
+            <h2 className="text-2xl font-bold mb-4">
+              Outras opções de presente
+            </h2>
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+              {links.map((link) => (
+                <a
+                  key={link._id}
+                  href={
+                    link.url.startsWith("http")
+                      ? link.url
+                      : `https://${link.url}`
+                  }
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="block"
+                >
+                  <Card className="rounded-xl shadow hover:shadow-lg transition h-full flex flex-col">
+                    <CardHeader>
+                      <CardTitle className="text-base">{link.title}</CardTitle>
+                    </CardHeader>
+                    <CardContent className="flex-1">
+                      <Image
+                        src={link.image}
+                        alt={link.title}
+                        width={300}
+                        height={160}
+                        className="w-full h-40 object-cover rounded-lg"
+                      />
+                    </CardContent>
+                  </Card>
+                </a>
+              ))}
+            </div>
+          </section>
+        )}
 
-        <SignedIn>
-          <UserButton afterSignOutUrl="/presentes" />
-        </SignedIn>
-      </header>
-
-      {links.length > 0 && (
-        <section>
-          <h2 className="text-2xl font-bold mb-4">Outras opções de presente</h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-            {links.map((link) => (
-              <a
-                key={link._id}
-                href={
-                  link.url.startsWith("http") ? link.url : `https://${link.url}`
-                }
-                target="_blank"
-                rel="noopener noreferrer"
-                className="border rounded-xl shadow hover:shadow-lg transition"
-              >
-                <Image
-                  src={link.image}
-                  alt={link.title}
-                  className="w-full h-40 object-cover rounded-t-xl"
-                  width={300}
-                  height={160}
-                />
-                <div className="p-2 text-center font-semibold">
-                  {link.title}
+        {/* Seção de Presentes */}
+        {gifts.length > 0 && (
+          <section>
+            <h2 className="text-2xl font-bold mb-4">Presentes em dinheiro</h2>
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+              {gifts.map((gift) => (
+                <div
+                  key={gift._id}
+                  onClick={() => router.push(`/presentes/${gift._id}`)}
+                  className="cursor-pointer"
+                >
+                  <Card className="rounded-xl shadow hover:shadow-lg transition h-full flex flex-col">
+                    <CardHeader>
+                      <CardTitle className="text-base">{gift.title}</CardTitle>
+                      <CardDescription className="text-sm">
+                        {gift.description}
+                      </CardDescription>
+                    </CardHeader>
+                    <CardContent className="flex-1">
+                      <img
+                        src={gift.image}
+                        alt={gift.title}
+                        className="w-full h-40 object-cover rounded-lg"
+                      />
+                      <p className="mt-2 font-semibold text-sm">
+                        Valor: R$ {gift.value.toFixed(2)}
+                      </p>
+                    </CardContent>
+                  </Card>
                 </div>
-              </a>
-            ))}
-          </div>
-        </section>
-      )}
-
-      {gifts.length > 0 && (
-        <section>
-          <h2 className="text-2xl font-bold mb-4">Lista de Presentes</h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            {gifts.map((gift) => (
-              <div
-                key={gift._id}
-                className="border rounded-xl shadow hover:shadow-lg transition p-4"
-              >
-                <Image
-                  src={gift.image}
-                  alt={gift.title}
-                  className="w-full h-40 object-cover rounded mb-2"
-                  width={300}
-                  height={160}
-                />
-                <h3 className="text-lg font-bold">{gift.title}</h3>
-                <p className="text-sm text-gray-600">{gift.description}</p>
-                <p className="mt-2 font-semibold">
-                  Valor: R$ {gift.value.toFixed(2)}
-                </p>
-              </div>
-            ))}
-          </div>
-        </section>
-      )}
-    </main>
+              ))}
+            </div>
+          </section>
+        )}
+      </main>
+    </GuestLayout>
   );
 }
