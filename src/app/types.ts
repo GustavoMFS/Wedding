@@ -5,7 +5,6 @@ export interface Gift {
   image?: string;
   value: number;
   paymentType: "full" | "partial";
-  disableOnGoalReached?: boolean;
   amountCollected?: number;
 }
 
