@@ -3,6 +3,9 @@
 import { useState } from "react";
 import { useAuth } from "@clerk/nextjs";
 import axios from "axios";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import { Label } from "@/components/ui/label";
 
 export default function CreateExternalLinkForm() {
   const { getToken } = useAuth();
@@ -96,30 +99,48 @@ export default function CreateExternalLinkForm() {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-4">
-      <input
-        name="title"
-        placeholder="Título"
-        value={form.title}
-        onChange={handleChange}
-        required
-      />
-      <input
-        name="url"
-        placeholder="URL do Site"
-        value={form.url}
-        onChange={handleChange}
-        required
-      />
-      <input
-        type="file"
-        accept="image/*"
-        onChange={handleFileChange}
-        required
-      />
-      <button type="submit" disabled={uploading}>
+    <form onSubmit={handleSubmit} className="space-y-5">
+      <div>
+        <Label htmlFor="title" className="py-2">
+          Título
+        </Label>
+        <Input
+          name="title"
+          value={form.title}
+          onChange={handleChange}
+          placeholder="Nome do site ou link"
+          required
+        />
+      </div>
+
+      <div>
+        <Label htmlFor="url" className="py-2">
+          URL do Site
+        </Label>
+        <Input
+          name="url"
+          value={form.url}
+          onChange={handleChange}
+          placeholder="https://exemplo.com"
+          required
+        />
+      </div>
+
+      <div>
+        <Label htmlFor="file" className="py-2">
+          Imagem (até 2MB)
+        </Label>
+        <Input
+          type="file"
+          accept="image/*"
+          onChange={handleFileChange}
+          required
+        />
+      </div>
+
+      <Button type="submit" className="w-full py-2" disabled={uploading}>
         {uploading ? "Enviando imagem..." : "Criar Link"}
-      </button>
+      </Button>
     </form>
   );
 }

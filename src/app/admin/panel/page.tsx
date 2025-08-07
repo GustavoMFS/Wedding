@@ -8,41 +8,52 @@ import { AdminProtectedPage } from "../../components/AdminProtectedPage";
 export default function AdminPanel() {
   return (
     <AdminProtectedPage>
-      <main className="max-w-4xl mx-auto p-4 space-y-8">
-        <header className="flex justify-end mb-4">
-          <SignedOut>
-            <SignInButton>
-              <button className="text-sm text-purple-700 underline hover:text-purple-900">
-                Login
-              </button>
-            </SignInButton>
-          </SignedOut>
+      <main className="max-w-5xl mx-auto p-6 space-y-10">
+        {/* Header */}
+        <header className="flex justify-between items-center">
+          <div>
+            <h1 className="text-3xl font-bold text-gray-800">
+              Painel de Administração
+            </h1>
+            <p className="text-gray-600 mt-1">
+              Gerencie os presentes e os links exibidos no site.
+            </p>
+          </div>
 
-          <SignedIn>
-            <UserButton afterSignOutUrl="/presentes" />
-          </SignedIn>
+          <div>
+            <SignedOut>
+              <SignInButton>
+                <button className="text-sm text-purple-700 underline hover:text-purple-900">
+                  Login
+                </button>
+              </SignInButton>
+            </SignedOut>
+
+            <SignedIn>
+              <UserButton afterSignOutUrl="/presentes" />
+            </SignedIn>
+          </div>
         </header>
 
+        {/* Conteúdo Principal */}
         <SignedIn>
-          <section>
-            <h1 className="text-2xl font-bold mb-4">Painel de Administração</h1>
-            <p>
-              Aqui você poderá gerenciar os presentes e os links exibidos no
-              site.
-            </p>
-          </section>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
+            {/* Criar Presente */}
+            <section className="bg-white shadow-lg rounded-2xl p-8 border border-gray-200">
+              <h2 className="text-xl font-bold text-purple-700 mb-4">
+                Criar Presente
+              </h2>
+              <CreateGiftForm />
+            </section>
 
-          <section>
-            <h2 className="text-xl font-semibold mb-2">Criar Presente</h2>
-            <CreateGiftForm />
-          </section>
-
-          <section>
-            <h2 className="text-xl font-semibold mb-2">
-              Adicionar Link Externo
-            </h2>
-            <CreateExternalLinkForm />
-          </section>
+            {/* Adicionar Link Externo */}
+            <section className="bg-white shadow-lg rounded-2xl p-8 border border-gray-200">
+              <h2 className="text-xl font-bold text-purple-700 mb-4">
+                Adicionar Link Externo
+              </h2>
+              <CreateExternalLinkForm />
+            </section>
+          </div>
         </SignedIn>
       </main>
     </AdminProtectedPage>

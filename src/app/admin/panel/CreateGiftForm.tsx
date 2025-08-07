@@ -3,6 +3,17 @@
 import { useState } from "react";
 import { useAuth } from "@clerk/nextjs";
 import axios from "axios";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { Button } from "@/components/ui/button";
+import { Label } from "@/components/ui/label";
+import {
+  Select,
+  SelectTrigger,
+  SelectValue,
+  SelectContent,
+  SelectItem,
+} from "@/components/ui/select";
 
 export default function CreateGiftForm() {
   const { getToken } = useAuth();
@@ -19,17 +30,21 @@ export default function CreateGiftForm() {
   const [uploading, setUploading] = useState(false);
 
   const handleChange = (
-    e: React.ChangeEvent<
-      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
-    >
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
     const { name, type, value } = e.target;
+    const isCheckbox = type === "checkbox";
+
     setForm((prev) => ({
       ...prev,
-      [name]:
-        type === "checkbox" && e.target instanceof HTMLInputElement
-          ? e.target.checked
-          : value,
+      [name]: isCheckbox ? (e.target as HTMLInputElement).checked : value,
+    }));
+  };
+
+  const handleSelectChange = (value: string) => {
+    setForm((prev) => ({
+      ...prev,
+      paymentType: value,
     }));
   };
 
@@ -45,7 +60,6 @@ export default function CreateGiftForm() {
 
   const uploadImageToCloudinary = async (): Promise<string | null> => {
     if (!file) return null;
-
     const cloudName = process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME;
     const preset = process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET;
 
@@ -65,15 +79,8 @@ export default function CreateGiftForm() {
         formData
       );
       return res.data.secure_url;
-    } catch (err: unknown) {
-      if (axios.isAxiosError(err)) {
-        console.error(
-          "Erro ao enviar imagem:",
-          err.response?.data || err.message
-        );
-      } else {
-        console.error("Erro inesperado:", err);
-      }
+    } catch (err) {
+      console.error("Erro ao enviar imagem:", err);
       alert("Erro ao enviar imagem.");
       return null;
     } finally {
@@ -114,60 +121,77 @@ export default function CreateGiftForm() {
       });
       setFile(null);
     } else {
-      const errorData = await res.json();
-      alert("Erro ao criar presente: " + (errorData?.message || ""));
+      alert("Erro ao criar presente.");
     }
   };
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-4">
-      <input
-        name="title"
-        placeholder="Título"
-        value={form.title}
-        onChange={handleChange}
-        required
-      />
-      <textarea
-        name="description"
-        placeholder="Descrição"
-        value={form.description}
-        onChange={handleChange}
-      />
-      <input
-        type="file"
-        accept="image/*"
-        onChange={handleFileChange}
-        required
-      />
-      <input
-        type="number"
-        name="value"
-        placeholder="Valor"
-        value={form.value}
-        onChange={handleChange}
-        required
-      />
-      <select
-        name="paymentType"
-        value={form.paymentType}
-        onChange={handleChange}
-      >
-        <option value="full">Valor completo</option>
-        <option value="partial">Pagamento parcial</option>
-      </select>
-      <label>
-        <input
-          type="checkbox"
-          name="disableOnGoalReached"
-          checked={form.disableOnGoalReached}
+    <form onSubmit={handleSubmit} className="space-y-5">
+      <div>
+        <Label htmlFor="title" className="py-2">
+          Título
+        </Label>
+        <Input
+          name="title"
+          value={form.title}
           onChange={handleChange}
+          required
         />
-        Desativar quando atingir o valor
-      </label>
-      <button type="submit" disabled={uploading}>
+      </div>
+
+      <div>
+        <Label htmlFor="description" className="py-2">
+          Descrição
+        </Label>
+        <Textarea
+          name="description"
+          value={form.description}
+          onChange={handleChange}
+          placeholder="Digite uma descrição opcional"
+        />
+      </div>
+
+      <div>
+        <Label htmlFor="file" className="py-2">
+          Imagem (até 2MB)
+        </Label>
+        <Input
+          type="file"
+          accept="image/*"
+          onChange={handleFileChange}
+          required
+        />
+      </div>
+
+      <div>
+        <Label htmlFor="value" className="py-2">
+          Valor (R$)
+        </Label>
+        <Input
+          type="number"
+          name="value"
+          value={form.value}
+          onChange={handleChange}
+          required
+        />
+      </div>
+
+      <div>
+        <Label className="py-2">Opção de pagamento total ou parcial</Label>
+        <Select onValueChange={handleSelectChange} value={form.paymentType}>
+          <SelectTrigger>
+            <SelectValue placeholder="Selecione o tipo" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="full">Valor completo</SelectItem>
+            <SelectItem value="partial">Pagamento parcial</SelectItem>
+          </SelectContent>
+        </Select>
+      </div>
+
+      <Button type="submit" className="w-full" disabled={uploading}>
         {uploading ? "Enviando imagem..." : "Criar Presente"}
-      </button>
+      </Button>
     </form>
   );
 }
