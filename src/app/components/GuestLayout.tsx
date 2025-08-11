@@ -59,7 +59,7 @@ export default function GuestLayout({ children }: { children: ReactNode }) {
 
           {/* Autenticação */}
           <SignedOut>
-            <SignInButton mode="modal" forceRedirectUrl="/login/post-login">
+            <SignInButton mode="modal" forceRedirectUrl="/login/sign-in">
               <button className="text-pink-500 font-semibold hover:underline">
                 Login
               </button>
@@ -67,7 +67,7 @@ export default function GuestLayout({ children }: { children: ReactNode }) {
           </SignedOut>
 
           <SignedIn>
-            <UserButton afterSignOutUrl="/presentes" />
+            <UserButton afterSignOutUrl="/home" />
           </SignedIn>
         </div>
       </header>
