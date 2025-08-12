@@ -107,13 +107,13 @@ export default function GiftDetailPage() {
           <p>
             Valor total: <strong>R$ {gift.value.toFixed(2)}</strong>
           </p>
-          <p>
+          {/* <p>
             Já arrecadado:{" "}
             <strong>R$ {(gift.amountCollected || 0).toFixed(2)}</strong>
           </p>
           <p>
             Restante: <strong>R$ {remaining.toFixed(2)}</strong>
-          </p>
+          </p> */}
 
           <div className="space-y-2 pt-4">
             <input
