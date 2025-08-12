@@ -30,9 +30,9 @@ export default function GuestLayout({ children }: { children: ReactNode }) {
 
         {/* Navegação e botões */}
         <div className="flex items-center gap-4">
-          {pathname !== "/" && (
+          {pathname !== "/home" && (
             <button
-              onClick={() => router.push("/")}
+              onClick={() => router.push("/home")}
               className="text-pink-500 font-semibold hover:underline"
             >
               Home
