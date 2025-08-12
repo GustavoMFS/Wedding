@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useId } from "react";
 import { useAuth } from "@clerk/nextjs";
 import axios from "axios";
 import { Input } from "@/components/ui/input";
@@ -17,6 +17,8 @@ import {
 
 export default function CreateGiftForm() {
   const { getToken } = useAuth();
+
+  const fileInputId = useId();
 
   const [form, setForm] = useState({
     title: "",
@@ -152,15 +154,28 @@ export default function CreateGiftForm() {
       </div>
 
       <div>
-        <Label htmlFor="file" className="py-2">
+        <Label htmlFor={fileInputId} className="py-2 block">
           Imagem (até 2MB)
         </Label>
-        <Input
+        <input
+          id={fileInputId}
           type="file"
           accept="image/*"
           onChange={handleFileChange}
           required
+          className="hidden"
         />
+        <label
+          htmlFor={fileInputId}
+          className="cursor-pointer inline-block bg-purple-600 text-white px-4 py-2 rounded-lg shadow-md hover:bg-purple-700 active:scale-95 transition"
+        >
+          Selecionar Imagem
+        </label>
+        {file && (
+          <p className="text-sm text-gray-600 mt-1">
+            Arquivo selecionado: {file.name}
+          </p>
+        )}
       </div>
 
       <div>
