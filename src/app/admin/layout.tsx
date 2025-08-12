@@ -18,6 +18,12 @@ export default function AdminLayout({ children }: { children: ReactNode }) {
 
           <div className="flex flex-wrap gap-2 md:gap-4 items-center text-xs md:text-sm">
             <Link
+              href="/presentes"
+              className="text-pink-500 font-semibold hover:underline"
+            >
+              Presentes
+            </Link>
+            <Link
               href="/admin"
               className="text-pink-500 font-semibold hover:underline"
             >
