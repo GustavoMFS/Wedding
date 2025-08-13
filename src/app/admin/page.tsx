@@ -50,6 +50,18 @@ export default function AdminDashboardPage() {
                 Editar ou excluir presentes e links existentes.
               </p>
             </Link>
+
+            <Link
+              href="/admin/received"
+              className="block border rounded-xl p-6 shadow hover:shadow-lg transition text-center"
+            >
+              <h2 className="text-xl font-semibold mb-2">
+                Presentes Recebidos
+              </h2>
+              <p className="text-gray-600">
+                Veja os presentes pagos pelos convidados e suas mensagens.
+              </p>
+            </Link>
           </div>
         </section>
       </main>

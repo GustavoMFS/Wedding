@@ -72,7 +72,7 @@ export default function GiftDetailPage() {
       const data = await res.json();
 
       if (data.url) {
-        window.location.href = data.url; // redireciona para o Stripe
+        window.location.href = data.url;
       } else {
         alert(data.message || "Erro ao iniciar pagamento.");
       }
