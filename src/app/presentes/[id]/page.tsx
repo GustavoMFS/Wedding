@@ -6,6 +6,7 @@ import { useParams } from "next/navigation";
 import { Gift } from "@/app/types";
 import { GuestProtectedPage } from "@/app/components/GuestProtectedPage";
 import GuestLayout from "@/app/components/GuestLayout";
+import PixPayment from "@/app/components/PixPayment";
 
 export default function GiftDetailPage() {
   const { id } = useParams();
@@ -105,7 +106,7 @@ export default function GiftDetailPage() {
           )}
           <p className="text-gray-700">{gift.description}</p>
           <p>
-            Valor total: <strong>R$ {gift.value.toFixed(2)}</strong>
+            Valor: <strong>R$ {gift.value.toFixed(2)}</strong>
           </p>
           {/* <p>
             Já arrecadado:{" "}
@@ -129,7 +130,6 @@ export default function GiftDetailPage() {
               onChange={(e) => setMessage(e.target.value)}
               className="w-full border p-2 rounded"
             />
-
             {gift.paymentType === "partial" && (
               <input
                 type="number"
@@ -143,12 +143,16 @@ export default function GiftDetailPage() {
               />
             )}
 
+            {/* Stripe */}
             <button
               onClick={handleSubmit}
               className="w-full bg-purple-600 text-white font-semibold py-2 rounded hover:bg-purple-700 transition"
             >
-              Comprar
+              Pagar com Cartão
             </button>
+
+            {/* Pix */}
+            <PixPayment value={gift.value} />
           </div>
         </div>
       </GuestLayout>
