@@ -53,7 +53,7 @@ export default function LoginPage() {
             Bem-vindo ao nosso casamento!
           </h1>
           <input
-            type="password"
+            // type="password"
             placeholder="Digite a senha do convite"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
