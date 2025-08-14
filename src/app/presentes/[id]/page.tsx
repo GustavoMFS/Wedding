@@ -143,7 +143,6 @@ export default function GiftDetailPage() {
               />
             )}
 
-            {/* Stripe */}
             <button
               onClick={handleSubmit}
               className="w-full bg-purple-600 text-white font-semibold py-2 rounded hover:bg-purple-700 transition"
@@ -151,7 +150,6 @@ export default function GiftDetailPage() {
               Pagar com Cartão
             </button>
 
-            {/* Pix */}
             <PixPayment value={gift.value} />
           </div>
         </div>
