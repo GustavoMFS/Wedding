@@ -6,7 +6,7 @@ import { useParams } from "next/navigation";
 import { Gift } from "@/app/types";
 import { GuestProtectedPage } from "@/app/components/GuestProtectedPage";
 import GuestLayout from "@/app/components/GuestLayout";
-import PixPayment from "@/app/components/PixPayment";
+import { useRouter } from "next/navigation";
 
 export default function GiftDetailPage() {
   const { id } = useParams();
@@ -16,6 +16,15 @@ export default function GiftDetailPage() {
   const [message, setMessage] = useState("");
   const [value, setValue] = useState("");
 
+  const router = useRouter();
+
+  const handlePixClick = () => {
+    router.push(
+      `/presentes/${id}/pix?name=${encodeURIComponent(
+        name
+      )}&message=${encodeURIComponent(message)}`
+    );
+  };
   useEffect(() => {
     const fetchGift = async () => {
       const token = localStorage.getItem("guestToken");
@@ -150,7 +159,12 @@ export default function GiftDetailPage() {
               Pagar com Cartão
             </button>
 
-            <PixPayment value={gift.value} />
+            <button
+              onClick={handlePixClick}
+              className="w-full bg-green-600 text-white font-semibold py-2 rounded hover:bg-green-700 transition"
+            >
+              Pagar com Pix
+            </button>
           </div>
         </div>
       </GuestLayout>
