@@ -19,12 +19,39 @@ export default function GiftDetailPage() {
   const router = useRouter();
 
   const handlePixClick = () => {
+    if (!name.trim() || !message.trim()) {
+      alert("Por favor, preencha seu nome e uma mensagem.");
+      return;
+    }
+    if (!gift) return;
+
+    const contributionValue =
+      gift.paymentType === "partial" ? parseFloat(value) : gift.value;
+
+    if (gift.paymentType === "partial") {
+      if (isNaN(contributionValue)) {
+        alert("Informe o valor que deseja contribuir.");
+        return;
+      }
+      if (contributionValue < 0.5) {
+        alert("O valor mínimo para contribuição é R$ 0,50.");
+        return;
+      }
+      const remaining = gift.value - (gift.amountCollected || 0);
+      if (contributionValue > remaining) {
+        alert(`O valor máximo permitido é R$ ${remaining.toFixed(2)}.`);
+        return;
+      }
+    }
+
     router.push(
-      `/presentes/${id}/pix?name=${encodeURIComponent(
-        name
-      )}&message=${encodeURIComponent(message)}`
+      `/presentes/${id}/pix` +
+        `?name=${encodeURIComponent(name)}` +
+        `&message=${encodeURIComponent(message)}` +
+        `&value=${encodeURIComponent(contributionValue.toString())}`
     );
   };
+
   useEffect(() => {
     const fetchGift = async () => {
       const token = localStorage.getItem("guestToken");
@@ -102,7 +129,7 @@ export default function GiftDetailPage() {
   return (
     <GuestProtectedPage>
       <GuestLayout>
-        <div className="max-w-xl mx-auto p-4 space-y-4">
+        <main className="min-h-screen max-w-xl mx-auto p-4 space-y-4">
           <h1 className="text-2xl font-bold">{gift.title}</h1>
           {gift.image && (
             <Image
@@ -117,14 +144,6 @@ export default function GiftDetailPage() {
           <p>
             Valor: <strong>R$ {gift.value.toFixed(2)}</strong>
           </p>
-          {/* <p>
-            Já arrecadado:{" "}
-            <strong>R$ {(gift.amountCollected || 0).toFixed(2)}</strong>
-          </p>
-          <p>
-            Restante: <strong>R$ {remaining.toFixed(2)}</strong>
-          </p> */}
-
           <div className="space-y-2 pt-4">
             <input
               type="text"
@@ -166,7 +185,7 @@ export default function GiftDetailPage() {
               Pagar com Pix
             </button>
           </div>
-        </div>
+        </main>
       </GuestLayout>
     </GuestProtectedPage>
   );

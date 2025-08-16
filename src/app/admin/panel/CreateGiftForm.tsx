@@ -93,6 +93,11 @@ export default function CreateGiftForm() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
+    if (form.value < 0.5) {
+      alert("O valor do presente deve ser no mínimo R$ 0,50.");
+      return;
+    }
+
     if (!file) {
       alert("Por favor, selecione uma imagem.");
       return;
@@ -178,28 +183,27 @@ export default function CreateGiftForm() {
         )}
       </div>
 
-      <div>
-        <Label htmlFor="value" className="py-2">
-          Valor (R$)
-        </Label>
-        <Input
-          type="number"
-          name="value"
-          value={form.value}
-          onChange={handleChange}
-          required
-        />
-      </div>
+      <Input
+        type="number"
+        name="value"
+        value={form.value}
+        onChange={handleChange}
+        min={0.5}
+        step="0.01"
+        required
+      />
 
       <div>
-        <Label className="py-2">Opção de pagamento total ou parcial</Label>
+        <Label className="py-2">
+          Opção de valor fixo ou livre (permite que o usuário altere o valor)
+        </Label>
         <Select onValueChange={handleSelectChange} value={form.paymentType}>
           <SelectTrigger>
             <SelectValue placeholder="Selecione o tipo" />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="full">Valor completo</SelectItem>
-            <SelectItem value="partial">Pagamento parcial</SelectItem>
+            <SelectItem value="full">Valor fechado</SelectItem>
+            <SelectItem value="partial">Valor livre</SelectItem>
           </SelectContent>
         </Select>
       </div>
