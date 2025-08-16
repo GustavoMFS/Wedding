@@ -19,7 +19,6 @@ export default function AdminReceivedPage() {
 
   const fetchPurchases = useCallback(async () => {
     try {
-      // Pega o token do Clerk para backend
       const token = await getToken({ template: "backend-access" });
 
       const res = await fetch(

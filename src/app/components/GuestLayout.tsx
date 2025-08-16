@@ -15,12 +15,11 @@ export default function GuestLayout({ children }: { children: ReactNode }) {
   const pathname = usePathname();
   const { user } = useUser();
 
-  const isAdmin = user?.publicMetadata?.role === "admin"; // ou `user?.roles?.includes("admin")` se usar roles do Clerk padrão
+  const isAdmin = user?.publicMetadata?.role === "admin";
 
   return (
     <>
       <header className="bg-white shadow p-4 flex justify-between items-center">
-        {/* Título */}
         <h1
           onClick={() => router.push("/")}
           className="text-xl font-bold text-pink-600 cursor-pointer"
@@ -28,7 +27,6 @@ export default function GuestLayout({ children }: { children: ReactNode }) {
           Gustavo ❤️ Maria
         </h1>
 
-        {/* Navegação e botões */}
         <div className="flex items-center gap-4">
           {pathname !== "/home" && (
             <button
@@ -47,7 +45,6 @@ export default function GuestLayout({ children }: { children: ReactNode }) {
             </button>
           )}
 
-          {/* Botão Admin (se for admin) */}
           {isAdmin && (
             <button
               onClick={() => router.push("/admin")}
@@ -57,11 +54,10 @@ export default function GuestLayout({ children }: { children: ReactNode }) {
             </button>
           )}
 
-          {/* Autenticação */}
           <SignedOut>
             <SignInButton mode="modal" forceRedirectUrl="/login/sign-in">
               <button className="text-pink-500 font-semibold hover:underline">
-                Login
+                Login dos Noivos
               </button>
             </SignInButton>
           </SignedOut>

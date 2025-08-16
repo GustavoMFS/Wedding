@@ -14,11 +14,12 @@ export default function AdminPanel() {
   const [itemType, setItemType] = useState<"gift" | "link" | null>(null);
   const [isEditing, setIsEditing] = useState(false);
 
-  // Estados para edição (podem ser para Gift ou Link)
   const [editTitle, setEditTitle] = useState("");
-  const [editDescription, setEditDescription] = useState(""); // só para gift
-  const [editValue, setEditValue] = useState<number>(0); // só para gift
-  const [editUrl, setEditUrl] = useState(""); // só para link
+  const [editDescription, setEditDescription] = useState("");
+  const [editValue, setEditValue] = useState<number>(0);
+  const [editUrl, setEditUrl] = useState("");
+
+  const [confirmDelete, setConfirmDelete] = useState(false);
 
   const { getToken } = useAuth();
 
@@ -47,23 +48,19 @@ export default function AdminPanel() {
 
   const deleteGift = async (id: string) => {
     const token = await getToken({ template: "backend-access" });
-
     await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/gifts/${id}`, {
       method: "DELETE",
       headers: { Authorization: `Bearer ${token}` },
     });
-
     setGifts((prev) => prev.filter((gift) => gift._id !== id));
   };
 
   const deleteLink = async (id: string) => {
     const token = await getToken({ template: "backend-access" });
-
     await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/links/${id}`, {
       method: "DELETE",
       headers: { Authorization: `Bearer ${token}` },
     });
-
     setLinks((prev) => prev.filter((link) => link._id !== id));
   };
 
@@ -77,8 +74,6 @@ export default function AdminPanel() {
     setSelectedItem(item);
     setItemType(type);
     setIsEditing(true);
-
-    // Preenche os campos do formulário
     setEditTitle(item.title);
     if (type === "gift") {
       const gift = item as Gift;
@@ -94,6 +89,7 @@ export default function AdminPanel() {
     setSelectedItem(null);
     setItemType(null);
     setIsEditing(false);
+    setConfirmDelete(false);
   };
 
   const saveChanges = async () => {
@@ -108,10 +104,7 @@ export default function AdminPanel() {
         value: editValue,
       };
     } else {
-      body = {
-        title: editTitle,
-        url: editUrl,
-      };
+      body = { title: editTitle, url: editUrl };
     }
 
     const url =
@@ -134,7 +127,6 @@ export default function AdminPanel() {
     }
 
     const updatedItem = await res.json();
-
     if (itemType === "gift") {
       setGifts((prev) =>
         prev.map((g) => (g._id === updatedItem._id ? updatedItem : g))
@@ -150,91 +142,102 @@ export default function AdminPanel() {
 
   return (
     <AdminProtectedPage>
-      <div className="max-w-4xl mx-auto p-4">
-        <h1 className="text-2xl font-bold mb-4">Gerenciar Presentes e Links</h1>
+      <div className="max-w-5xl mx-auto p-6">
+        <h1 className="text-3xl font-bold mb-6 text-center">
+          🎁 Gerenciar Presentes e Links
+        </h1>
 
-        <section className="mb-8">
-          <h2 className="text-xl font-semibold mb-2">Presentes</h2>
+        <section className="mb-10">
+          <h2 className="text-2xl font-semibold mb-4">Presentes</h2>
           {gifts.length === 0 ? (
             <p className="text-gray-500">Nenhum presente cadastrado.</p>
           ) : (
-            <ul className="space-y-2">
+            <div className="grid md:grid-cols-2 gap-4">
               {gifts.map((gift) => (
-                <li
+                <div
                   key={gift._id}
-                  className="flex justify-between items-center border p-2 rounded"
+                  className="border rounded-lg shadow-md p-4 flex flex-col justify-between bg-white"
                 >
-                  <span>
-                    {gift.title} - R$ {gift.value.toFixed(2)}
-                  </span>
-                  <div className="flex gap-2">
+                  <h3 className="font-semibold text-lg">{gift.title}</h3>
+                  <p className="text-sm text-gray-500">
+                    R$ {gift.value.toFixed(2)}
+                  </p>
+                  <div className="flex justify-end gap-2 mt-4">
                     <button
                       onClick={() => openViewModal(gift, "gift")}
-                      className="text-green-600 hover:underline"
+                      className="px-3 py-1 text-green-700 border rounded hover:bg-green-50"
                     >
                       Visualizar
                     </button>
                     <button
                       onClick={() => openEditModal(gift, "gift")}
-                      className="text-blue-600 hover:underline"
+                      className="px-3 py-1 text-blue-700 border rounded hover:bg-blue-50"
                     >
                       Editar
                     </button>
                     <button
-                      onClick={() => deleteGift(gift._id)}
-                      className="text-red-600 hover:underline"
+                      onClick={() => {
+                        setSelectedItem(gift);
+                        setItemType("gift");
+                        setConfirmDelete(true);
+                      }}
+                      className="px-3 py-1 text-red-700 border rounded hover:bg-red-50"
                     >
                       Excluir
                     </button>
                   </div>
-                </li>
+                </div>
               ))}
-            </ul>
+            </div>
           )}
         </section>
 
         <section>
-          <h2 className="text-xl font-semibold mb-2">Links Externos</h2>
+          <h2 className="text-2xl font-semibold mb-4">Links Externos</h2>
           {links.length === 0 ? (
             <p className="text-gray-500">Nenhum link externo cadastrado.</p>
           ) : (
-            <ul className="space-y-2">
+            <div className="grid md:grid-cols-2 gap-4">
               {links.map((link) => (
-                <li
+                <div
                   key={link._id}
-                  className="flex justify-between items-center border p-2 rounded"
+                  className="border rounded-lg shadow-md p-4 flex flex-col justify-between bg-white"
                 >
-                  <span>{link.title}</span>
-                  <div className="flex gap-2">
+                  <h3 className="font-semibold text-lg">{link.title}</h3>
+                  <p className="text-sm text-gray-500">{link.url}</p>
+                  <div className="flex justify-end gap-2 mt-4">
                     <button
                       onClick={() => openViewModal(link, "link")}
-                      className="text-green-600 hover:underline"
+                      className="px-3 py-1 text-green-700 border rounded hover:bg-green-50"
                     >
                       Visualizar
                     </button>
                     <button
                       onClick={() => openEditModal(link, "link")}
-                      className="text-blue-600 hover:underline"
+                      className="px-3 py-1 text-blue-700 border rounded hover:bg-blue-50"
                     >
                       Editar
                     </button>
                     <button
-                      onClick={() => deleteLink(link._id)}
-                      className="text-red-600 hover:underline"
+                      onClick={() => {
+                        setSelectedItem(link);
+                        setItemType("link");
+                        setConfirmDelete(true);
+                      }}
+                      className="px-3 py-1 text-red-700 border rounded hover:bg-red-50"
                     >
                       Excluir
                     </button>
                   </div>
-                </li>
+                </div>
               ))}
-            </ul>
+            </div>
           )}
         </section>
 
-        {/* Modal */}
-        {selectedItem && (
+        {selectedItem && !confirmDelete && (
           <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
-            <div className="bg-white p-6 rounded shadow-lg max-w-md w-full max-h-[90vh] overflow-auto">
+            <div className="bg-white p-6 rounded-lg shadow-lg max-w-md w-full">
               <h3 className="text-xl font-bold mb-4">
                 {isEditing ? "Editar" : "Detalhes"}
               </h3>
@@ -259,15 +262,6 @@ export default function AdminPanel() {
                         {(selectedItem as Gift).amountCollected?.toFixed(2) ??
                           0}
                       </p>
-                      <p>
-                        <strong>Status:</strong>{" "}
-                        {(selectedItem as Gift).amountCollected === 0
-                          ? "Nenhum valor recebido"
-                          : (selectedItem as Gift).amountCollected! >=
-                            (selectedItem as Gift).value
-                          ? "Valor total arrecadado"
-                          : "Parcialmente pago"}
-                      </p>
                     </>
                   ) : (
                     <>
@@ -289,11 +283,8 @@ export default function AdminPanel() {
                   className="space-y-4"
                 >
                   <div>
-                    <label className="block font-semibold mb-1" htmlFor="title">
-                      Título
-                    </label>
+                    <label className="block font-semibold mb-1">Título</label>
                     <input
-                      id="title"
                       type="text"
                       value={editTitle}
                       onChange={(e) => setEditTitle(e.target.value)}
@@ -305,35 +296,26 @@ export default function AdminPanel() {
                   {itemType === "gift" && (
                     <>
                       <div>
-                        <label
-                          className="block font-semibold mb-1"
-                          htmlFor="description"
-                        >
+                        <label className="block font-semibold mb-1">
                           Descrição
                         </label>
                         <textarea
-                          id="description"
                           value={editDescription}
                           onChange={(e) => setEditDescription(e.target.value)}
                           className="w-full border rounded px-3 py-2"
                           rows={3}
                         />
                       </div>
-
                       <div>
-                        <label
-                          className="block font-semibold mb-1"
-                          htmlFor="value"
-                        >
+                        <label className="block font-semibold mb-1">
                           Valor
                         </label>
                         <input
-                          id="value"
                           type="number"
                           value={editValue}
                           onChange={(e) => setEditValue(Number(e.target.value))}
                           className="w-full border rounded px-3 py-2"
-                          min={0}
+                          min={0.5}
                           step={0.01}
                           required
                         />
@@ -343,11 +325,8 @@ export default function AdminPanel() {
 
                   {itemType === "link" && (
                     <div>
-                      <label className="block font-semibold mb-1" htmlFor="url">
-                        URL
-                      </label>
+                      <label className="block font-semibold mb-1">URL</label>
                       <input
-                        id="url"
                         type="url"
                         value={editUrl}
                         onChange={(e) => setEditUrl(e.target.value)}
@@ -390,20 +369,46 @@ export default function AdminPanel() {
                     Editar
                   </button>
                   <button
+                    onClick={() => setConfirmDelete(true)}
                     className="px-4 py-2 bg-red-600 text-white rounded"
-                    onClick={async () => {
-                      if (itemType === "gift") {
-                        await deleteGift(selectedItem._id);
-                      } else if (itemType === "link") {
-                        await deleteLink(selectedItem._id);
-                      }
-                      closeModal();
-                    }}
                   >
                     Excluir
                   </button>
                 </div>
               )}
+            </div>
+          </div>
+        )}
+        {confirmDelete && selectedItem && (
+          <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
+            <div className="bg-white p-6 rounded-lg shadow-lg max-w-sm w-full text-center">
+              <h3 className="text-lg font-bold mb-4 text-red-600">
+                Tem certeza que deseja excluir?
+              </h3>
+              <p className="mb-6 text-gray-600">
+                Essa ação não pode ser desfeita.
+              </p>
+              <div className="flex justify-center gap-4">
+                <button
+                  onClick={closeModal}
+                  className="px-4 py-2 border rounded"
+                >
+                  Cancelar
+                </button>
+                <button
+                  onClick={async () => {
+                    if (itemType === "gift") {
+                      await deleteGift(selectedItem._id);
+                    } else if (itemType === "link") {
+                      await deleteLink(selectedItem._id);
+                    }
+                    closeModal();
+                  }}
+                  className="px-4 py-2 bg-red-600 text-white rounded"
+                >
+                  Confirmar
+                </button>
+              </div>
             </div>
           </div>
         )}

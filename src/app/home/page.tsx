@@ -13,7 +13,6 @@ export default function HomePage() {
       <GuestLayout>
         <>
           <main className="bg-pink-50">
-            {/* Hero section */}
             <section className="text-center py-10" id="inicio">
               <figure>
                 <Image
@@ -28,7 +27,6 @@ export default function HomePage() {
               <h2 className="text-3xl font-bold mt-4">Gustavo & Maria</h2>
             </section>
 
-            {/* Introduction */}
             <section className="text-center px-6 max-w-2xl mx-auto">
               <p className="text-lg">
                 Estamos muito felizes em compartilhar este momento com você!
@@ -37,12 +35,10 @@ export default function HomePage() {
               </p>
             </section>
 
-            {/* Divider */}
             <div className="my-10 flex justify-center">
               <Image src="/divisor.png" alt="Divisor" width={400} height={40} />
             </div>
 
-            {/* Details */}
             <section
               className="text-center px-6"
               id="programacao"
@@ -52,6 +48,9 @@ export default function HomePage() {
                 Detalhes da festa
               </h3>
               <p>
+                <strong>Vestimenta:</strong> Esporte Fino
+              </p>
+              <p>
                 <strong>Data:</strong> 20 de Junho de 2026
               </p>
               <p>
@@ -59,12 +58,10 @@ export default function HomePage() {
               </p>
             </section>
 
-            {/* Divider */}
             <div className="my-10 flex justify-center">
               <Image src="/divisor.png" alt="Divisor" width={400} height={40} />
             </div>
 
-            {/* Location */}
             <section
               className="text-center px-6"
               id="local"
@@ -90,12 +87,10 @@ export default function HomePage() {
               </div>
             </section>
 
-            {/* Divider */}
             <div className="my-10 flex justify-center">
               <Image src="/divisor.png" alt="Divisor" width={400} height={40} />
             </div>
 
-            {/* Gift Section */}
             <section
               className="text-center px-6 pb-10"
               id="presentes"
