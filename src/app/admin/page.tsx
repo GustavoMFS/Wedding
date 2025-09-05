@@ -32,6 +32,18 @@ export default function AdminDashboardPage() {
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <Link
+              href="/admin/guestlist"
+              className="block border rounded-xl p-6 shadow hover:shadow-lg transition text-center"
+            >
+              <h2 className="text-xl font-semibold mb-2">
+                Lista de Convidados
+              </h2>
+              <p className="text-gray-600">
+                Adicionar e visualize seus convidados.
+              </p>
+            </Link>
+
+            <Link
               href="/admin/panel"
               className="block border rounded-xl p-6 shadow hover:shadow-lg transition text-center"
             >
