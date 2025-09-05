@@ -109,6 +109,23 @@ export default function HomePage() {
                 Ver Lista de Presentes 🎁
               </button>
             </section>
+
+            <div className="my-10 flex justify-center">
+              <Image src="/divisor.png" alt="Divisor" width={400} height={40} />
+            </div>
+
+            <section className="text-center px-6 pb-10">
+              <h3 className="text-2xl font-semibold mb-2">
+                Confirmação de Presença
+              </h3>
+              <p>Insira o PIN que você recebeu para confirmar sua presença.</p>
+              <button
+                onClick={() => router.push("/guest")}
+                className="mt-4 bg-pink-500 hover:bg-pink-600 text-white font-semibold px-6 py-2 rounded transition"
+              >
+                Confirmar Presença 📝
+              </button>
+            </section>
           </main>
         </>
       </GuestLayout>
