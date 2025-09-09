@@ -44,6 +44,14 @@ export default function GuestLayout({ children }: { children: ReactNode }) {
               Presentes
             </button>
           )}
+          {pathname !== "/guest" && (
+            <button
+              onClick={() => router.push("/guest")}
+              className="text-pink-500 font-semibold hover:underline"
+            >
+              Convidados
+            </button>
+          )}
 
           {isAdmin && (
             <button
