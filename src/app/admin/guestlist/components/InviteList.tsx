@@ -41,12 +41,15 @@ export const InviteList = ({ refresh }: Props) => {
         const invitesWithGuests: InviteWithGuests[] = await Promise.all(
           data.map(async (inv: Omit<InviteWithGuests, "guests">) => {
             const resG = await fetch(
-              `${process.env.NEXT_PUBLIC_API_URL}/api/invites/${inv._id}/guests`,
+              `${process.env.NEXT_PUBLIC_API_URL}/api/invites/${inv._id}/guestsAdmin`,
               { headers: { Authorization: `Bearer ${token}` } }
             );
 
             if (!resG.ok) return { ...inv, guests: [] };
-            const guests: Guest[] = await resG.json();
+
+            const data = await resG.json();
+            const guests: Guest[] = data.guests;
+
             return { ...inv, guests };
           })
         );

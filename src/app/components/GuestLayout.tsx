@@ -49,7 +49,7 @@ export default function GuestLayout({ children }: { children: ReactNode }) {
               onClick={() => router.push("/guest")}
               className="text-pink-500 font-semibold hover:underline"
             >
-              Convidados
+              Confirmar Presença
             </button>
           )}
 
