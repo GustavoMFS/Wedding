@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState, useRef } from "react";
+import { useRouter } from "next/navigation";
 
 interface CardPaymentFormProps {
   value: number;
@@ -35,6 +36,7 @@ interface CardFormData {
   paymentMethodId: string;
   token: string;
 }
+
 declare global {
   interface Window {
     MercadoPago: new (publicKey: string, options?: { locale?: string }) => {
@@ -42,7 +44,7 @@ declare global {
         amount: string;
         autoMount: boolean;
         form: {
-          id: string; // ✅ aqui é string
+          id: string;
           cardholderName: { id: string };
           cardholderEmail: { id: string };
           cardNumber: { id: string };
@@ -55,9 +57,7 @@ declare global {
         callbacks: {
           onSubmit: (event: Event) => void;
         };
-      }) => {
-        getCardFormData: () => CardFormData;
-      };
+      }) => { getCardFormData: () => CardFormData };
     };
   }
 }
@@ -69,6 +69,7 @@ export default function CardPaymentForm({
   message = "",
   onClose,
 }: CardPaymentFormProps) {
+  const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [paymentResult, setPaymentResult] = useState<PaymentResult | null>(
     null
@@ -91,6 +92,7 @@ export default function CardPaymentForm({
     const script = document.createElement("script");
     script.src = "https://sdk.mercadopago.com/js/v2";
     script.async = true;
+
     script.onload = () => {
       mpInstanceRef.current = new window.MercadoPago(
         process.env.NEXT_PUBLIC_MP_PUBLIC_KEY!,
@@ -98,7 +100,7 @@ export default function CardPaymentForm({
       );
 
       cardFormRef.current = mpInstanceRef.current.cardForm({
-        amount: value.toString(),
+        amount: value.toFixed(2),
         autoMount: true,
         form: {
           id: "form-checkout",
@@ -131,7 +133,7 @@ export default function CardPaymentForm({
               return;
             }
 
-            const [first_name, ...rest] = formData.cardholderName.split(" ");
+            const [first_name, ...rest] = name.trim().split(" ");
             const last_name = rest.join(" ");
 
             try {
@@ -169,6 +171,10 @@ export default function CardPaymentForm({
               const data: PaymentResult = await res.json();
               setPaymentResult(data);
 
+              if (data.status === "approved") {
+                router.push("/presentes/success");
+              }
+
               if (onClose) onClose();
             } catch (err) {
               console.error(err);
@@ -180,8 +186,9 @@ export default function CardPaymentForm({
         },
       });
     };
+
     document.body.appendChild(script);
-  }, [value, name, message, selectedInstallments, giftId, onClose]);
+  }, [value, name, message, selectedInstallments, giftId, onClose, router]);
 
   const handleCardNumberChange = async (
     e: React.ChangeEvent<HTMLInputElement>
@@ -260,7 +267,6 @@ export default function CardPaymentForm({
 
           <select id="form-checkout__issuer" hidden></select>
           <select id="form-checkout__identificationType" hidden></select>
-
           <input
             type="text"
             id="form-checkout__identificationNumber"
