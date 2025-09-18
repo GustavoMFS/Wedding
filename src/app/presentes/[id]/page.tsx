@@ -43,9 +43,42 @@ export default function GiftDetailPage() {
         return;
       }
     }
-
     router.push(
       `/presentes/${id}/pix` +
+        `?name=${encodeURIComponent(name)}` +
+        `&message=${encodeURIComponent(message)}` +
+        `&value=${encodeURIComponent(contributionValue.toString())}`
+    );
+  };
+
+  const handleCardClick = () => {
+    if (!name.trim() || !message.trim()) {
+      alert("Por favor, preencha seu nome e uma mensagem.");
+      return;
+    }
+    if (!gift) return;
+
+    const contributionValue =
+      gift.paymentType === "partial" ? parseFloat(value) : gift.value;
+
+    if (gift.paymentType === "partial") {
+      if (isNaN(contributionValue)) {
+        alert("Informe o valor que deseja contribuir.");
+        return;
+      }
+      if (contributionValue < 0.5) {
+        alert("O valor mínimo para contribuição é R$ 0,50.");
+        return;
+      }
+      const remaining = gift.value - (gift.amountCollected || 0);
+      if (contributionValue > remaining) {
+        alert(`O valor máximo permitido é R$ ${remaining.toFixed(2)}.`);
+        return;
+      }
+    }
+
+    router.push(
+      `/presentes/${id}/card` +
         `?name=${encodeURIComponent(name)}` +
         `&message=${encodeURIComponent(message)}` +
         `&value=${encodeURIComponent(contributionValue.toString())}`
@@ -175,7 +208,7 @@ export default function GiftDetailPage() {
               onClick={handleSubmit}
               className="w-full bg-purple-600 text-white font-semibold py-2 rounded hover:bg-purple-700 transition"
             >
-              Pagar com Cartão
+              Pagar com Cartão (Stripe)
             </button>
 
             <button
@@ -183,6 +216,13 @@ export default function GiftDetailPage() {
               className="w-full bg-green-600 text-white font-semibold py-2 rounded hover:bg-green-700 transition"
             >
               Pagar com Pix
+            </button>
+
+            <button
+              onClick={handleCardClick}
+              className="w-full bg-purple-600 text-white font-semibold py-2 rounded hover:bg-purple-700 transition"
+            >
+              Pagar com Cartão (Parcelado)
             </button>
           </div>
         </main>
