@@ -171,8 +171,10 @@ export default function CardPaymentForm({
               const data: PaymentResult = await res.json();
               setPaymentResult(data);
 
-              if (data.status === "approved") {
+              if (["approved", "in_process", "pending"].includes(data.status)) {
                 router.push("/presentes/success");
+              } else {
+                alert("Pagamento não aprovado. Status: " + data.status);
               }
 
               if (onClose) onClose();
