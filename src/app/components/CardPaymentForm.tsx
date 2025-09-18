@@ -23,10 +23,41 @@ type InstallmentOption = {
   total_amount: number;
 };
 
+interface CardFormData {
+  cardholderName: string;
+  cardholderEmail: string;
+  cardNumber: string;
+  expirationDate: string;
+  securityCode: string;
+  identificationType: string;
+  identificationNumber: string;
+  issuerId: string;
+  paymentMethodId: string;
+  token: string;
+}
 declare global {
   interface Window {
     MercadoPago: new (publicKey: string, options?: { locale?: string }) => {
-      cardForm: (options: any) => any;
+      cardForm: (options: {
+        amount: string;
+        autoMount: boolean;
+        form: {
+          id: string; // ✅ aqui é string
+          cardholderName: { id: string };
+          cardholderEmail: { id: string };
+          cardNumber: { id: string };
+          expirationDate: { id: string };
+          securityCode: { id: string };
+          identificationType: { id: string };
+          identificationNumber: { id: string };
+          issuer: { id: string };
+        };
+        callbacks: {
+          onSubmit: (event: Event) => void;
+        };
+      }) => {
+        getCardFormData: () => CardFormData;
+      };
     };
   }
 }
@@ -47,8 +78,12 @@ export default function CardPaymentForm({
   >([]);
   const [selectedInstallments, setSelectedInstallments] = useState<number>(1);
 
-  const cardFormRef = useRef<any>(null);
-  const mpInstanceRef = useRef<any>(null);
+  const cardFormRef = useRef<ReturnType<
+    Window["MercadoPago"]["prototype"]["cardForm"]
+  > | null>(null);
+  const mpInstanceRef = useRef<InstanceType<typeof window.MercadoPago> | null>(
+    null
+  );
 
   useEffect(() => {
     if (cardFormRef.current) return;
@@ -88,9 +123,8 @@ export default function CardPaymentForm({
               return;
             }
 
-            const formData = cardFormRef.current.getCardFormData();
+            const formData = cardFormRef.current!.getCardFormData();
 
-            // Usa name e message vindos do React, não do form
             if (!name.trim() || !message.trim()) {
               alert("Nome e mensagem são obrigatórios.");
               setLoading(false);
@@ -111,8 +145,8 @@ export default function CardPaymentForm({
                   },
                   body: JSON.stringify({
                     giftId,
-                    name, // ✅ aqui garantimos que vai enviar
-                    message, // ✅ aqui também
+                    name,
+                    message,
                     transaction_amount: value,
                     description: "Presente de casamento",
                     payment_method_id: formData.paymentMethodId,
@@ -149,7 +183,6 @@ export default function CardPaymentForm({
     document.body.appendChild(script);
   }, [value, name, message, selectedInstallments, giftId, onClose]);
 
-  // Atualiza dinamicamente parcelas
   const handleCardNumberChange = async (
     e: React.ChangeEvent<HTMLInputElement>
   ) => {
