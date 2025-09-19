@@ -97,103 +97,105 @@ function PresentesPage() {
   }
 
   return (
-    <GuestLayout>
-      <div className="min-h-screen bg-pink-100">
-        <main className="max-w-5xl mx-auto p-4 space-y-12">
-          {loading && <p className="text-center p-4">Carregando...</p>}
+    <GuestProtectedPage>
+      <GuestLayout>
+        <div className="min-h-screen bg-pink-100">
+          <main className="max-w-5xl mx-auto p-4 space-y-12">
+            {loading && <p className="text-center p-4">Carregando...</p>}
 
-          {!loading && links.length === 0 && gifts.length === 0 && (
-            <p className="text-center p-4 text-gray-500">
-              Ainda não há presentes ou links disponíveis.
-            </p>
-          )}
+            {!loading && links.length === 0 && gifts.length === 0 && (
+              <p className="text-center p-4 text-gray-500">
+                Ainda não há presentes ou links disponíveis.
+              </p>
+            )}
 
-          {!loading && gifts.length > 0 && (
-            <section>
-              <header>
-                <h2 className="text-2xl font-bold mb-4">
-                  Presentes para os noivos
-                </h2>
-              </header>
-              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-                {gifts.map((gift) => (
-                  <article
-                    key={gift._id}
-                    onClick={() => router.push(`/presentes/${gift._id}`)}
-                    className="cursor-pointer"
-                  >
-                    <Card className="rounded-xl shadow hover:shadow-lg transition h-full flex flex-col">
-                      <CardHeader>
-                        <CardTitle className="text-base">
-                          {gift.title}
-                        </CardTitle>
-                        <CardDescription className="text-sm">
-                          {gift.description}
-                        </CardDescription>
-                      </CardHeader>
-                      <CardContent className="flex-1">
-                        <Image
-                          src={gift.image}
-                          alt={gift.title}
-                          width={300}
-                          height={160}
-                          className="w-full h-40 object-cover rounded-lg"
-                        />
-                        <p className="mt-2 font-semibold text-sm">
-                          Valor: R$ {gift.value.toFixed(2)}
-                        </p>
-                      </CardContent>
-                    </Card>
-                  </article>
-                ))}
-              </div>
-            </section>
-          )}
-
-          {!loading && links.length > 0 && (
-            <section>
-              <header>
-                <h2 className="text-2xl font-bold mb-4">
-                  Outras opções de presente
-                </h2>
-              </header>
-              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-                {links.map((link) => (
-                  <article key={link._id}>
-                    <a
-                      href={
-                        link.url.startsWith("http")
-                          ? link.url
-                          : `https://${link.url}`
-                      }
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="block"
+            {!loading && gifts.length > 0 && (
+              <section>
+                <header>
+                  <h2 className="text-2xl font-bold mb-4">
+                    Presentes para os noivos
+                  </h2>
+                </header>
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+                  {gifts.map((gift) => (
+                    <article
+                      key={gift._id}
+                      onClick={() => router.push(`/presentes/${gift._id}`)}
+                      className="cursor-pointer"
                     >
                       <Card className="rounded-xl shadow hover:shadow-lg transition h-full flex flex-col">
                         <CardHeader>
                           <CardTitle className="text-base">
-                            {link.title}
+                            {gift.title}
                           </CardTitle>
+                          <CardDescription className="text-sm">
+                            {gift.description}
+                          </CardDescription>
                         </CardHeader>
                         <CardContent className="flex-1">
                           <Image
-                            src={link.image}
-                            alt={link.title}
+                            src={gift.image}
+                            alt={gift.title}
                             width={300}
                             height={160}
                             className="w-full h-40 object-cover rounded-lg"
                           />
+                          <p className="mt-2 font-semibold text-sm">
+                            Valor: R$ {gift.value.toFixed(2)}
+                          </p>
                         </CardContent>
                       </Card>
-                    </a>
-                  </article>
-                ))}
-              </div>
-            </section>
-          )}
-        </main>
-      </div>
-    </GuestLayout>
+                    </article>
+                  ))}
+                </div>
+              </section>
+            )}
+
+            {!loading && links.length > 0 && (
+              <section>
+                <header>
+                  <h2 className="text-2xl font-bold mb-4">
+                    Outras opções de presente
+                  </h2>
+                </header>
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+                  {links.map((link) => (
+                    <article key={link._id}>
+                      <a
+                        href={
+                          link.url.startsWith("http")
+                            ? link.url
+                            : `https://${link.url}`
+                        }
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="block"
+                      >
+                        <Card className="rounded-xl shadow hover:shadow-lg transition h-full flex flex-col">
+                          <CardHeader>
+                            <CardTitle className="text-base">
+                              {link.title}
+                            </CardTitle>
+                          </CardHeader>
+                          <CardContent className="flex-1">
+                            <Image
+                              src={link.image}
+                              alt={link.title}
+                              width={300}
+                              height={160}
+                              className="w-full h-40 object-cover rounded-lg"
+                            />
+                          </CardContent>
+                        </Card>
+                      </a>
+                    </article>
+                  ))}
+                </div>
+              </section>
+            )}
+          </main>
+        </div>
+      </GuestLayout>
+    </GuestProtectedPage>
   );
 }
