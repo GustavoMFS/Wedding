@@ -6,7 +6,7 @@ export default function Footer() {
   const year = new Date().getFullYear();
 
   return (
-    <footer className="w-full py-4 text-center border-t ">
+    <footer className="w-full py-4 text-center border-t bg-white">
       <p className="text-sm text-gray-500">
         © {year}{" "}
         <Link
