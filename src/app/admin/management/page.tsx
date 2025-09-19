@@ -27,10 +27,10 @@ export default function AdminPanel() {
     const token = await getToken({ template: "backend-access" });
 
     const [giftsRes, linksRes] = await Promise.all([
-      fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/gifts`, {
+      fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/gifts/admin`, {
         headers: { Authorization: `Bearer ${token}` },
       }),
-      fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/links`, {
+      fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/links/admin`, {
         headers: { Authorization: `Bearer ${token}` },
       }),
     ]);
@@ -48,7 +48,7 @@ export default function AdminPanel() {
 
   const deleteGift = async (id: string) => {
     const token = await getToken({ template: "backend-access" });
-    await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/gifts/${id}`, {
+    await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/gifts/admin/${id}`, {
       method: "DELETE",
       headers: { Authorization: `Bearer ${token}` },
     });
@@ -57,7 +57,7 @@ export default function AdminPanel() {
 
   const deleteLink = async (id: string) => {
     const token = await getToken({ template: "backend-access" });
-    await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/links/${id}`, {
+    await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/links/admin/${id}`, {
       method: "DELETE",
       headers: { Authorization: `Bearer ${token}` },
     });
@@ -109,8 +109,8 @@ export default function AdminPanel() {
 
     const url =
       itemType === "gift"
-        ? `${process.env.NEXT_PUBLIC_API_URL}/api/gifts/${selectedItem._id}`
-        : `${process.env.NEXT_PUBLIC_API_URL}/api/links/${selectedItem._id}`;
+        ? `${process.env.NEXT_PUBLIC_API_URL}/api/gifts/admin/${selectedItem._id}`
+        : `${process.env.NEXT_PUBLIC_API_URL}/api/links/admin/${selectedItem._id}`;
 
     const res = await fetch(url, {
       method: "PUT",
