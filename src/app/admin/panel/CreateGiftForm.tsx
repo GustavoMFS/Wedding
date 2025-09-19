@@ -108,14 +108,17 @@ export default function CreateGiftForm() {
 
     const token = await getToken({ template: "backend-access" });
 
-    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/gifts`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-      body: JSON.stringify({ ...form, image: imageUrl }),
-    });
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}/api/gifts/admin`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({ ...form, image: imageUrl }),
+      }
+    );
 
     if (res.ok) {
       alert("Presente criado com sucesso!");
