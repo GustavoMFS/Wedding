@@ -7,6 +7,7 @@ import { Gift } from "@/app/types";
 import { GuestProtectedPage } from "@/app/components/GuestProtectedPage";
 import GuestLayout from "@/app/components/GuestLayout";
 import { useRouter } from "next/navigation";
+import { motion, AnimatePresence } from "framer-motion";
 
 export default function GiftDetailPage() {
   const { id } = useParams();
@@ -15,6 +16,7 @@ export default function GiftDetailPage() {
   const [name, setName] = useState("");
   const [message, setMessage] = useState("");
   const [value, setValue] = useState("");
+  const [creditDropdownOpen, setCreditDropdownOpen] = useState(false);
 
   const router = useRouter();
 
@@ -99,7 +101,7 @@ export default function GiftDetailPage() {
 
       const data = await res.json();
       if (data.init_point) {
-        window.location.href = data.init_point; // redireciona para o checkout pro
+        window.location.href = data.init_point;
       } else {
         alert(data.message || "Erro ao iniciar pagamento Mercado Pago.");
       }
@@ -201,19 +203,20 @@ export default function GiftDetailPage() {
           <p>
             Valor: <strong>R$ {gift.value.toFixed(2)}</strong>
           </p>
+
           <div className="space-y-2 pt-4">
             <input
               type="text"
               placeholder="Seu nome"
               value={name}
               onChange={(e) => setName(e.target.value)}
-              className="w-full border p-2 rounded"
+              className="w-full border border-gray-300 rounded p-2 focus:outline-none focus:ring-2 focus:ring-indigo-300"
             />
             <textarea
               placeholder="Mensagem para os noivos"
               value={message}
               onChange={(e) => setMessage(e.target.value)}
-              className="w-full border p-2 rounded"
+              className="w-full border border-gray-300 rounded p-2 focus:outline-none focus:ring-2 focus:ring-indigo-300"
             />
             {gift.paymentType === "partial" && (
               <input
@@ -224,30 +227,58 @@ export default function GiftDetailPage() {
                 placeholder="Valor a contribuir (R$)"
                 value={value}
                 onChange={(e) => setValue(e.target.value)}
-                className="w-full border p-2 rounded"
+                className="w-full border border-gray-300 rounded p-2 focus:outline-none focus:ring-2 focus:ring-indigo-300"
               />
             )}
 
-            <button
-              onClick={handleSubmit}
-              className="w-full bg-purple-600 text-white font-semibold py-2 rounded hover:bg-purple-700 transition"
-            >
-              Pagar com Cartão
-            </button>
+            <div className="flex flex-col space-y-2">
+              <motion.button
+                onClick={() => setCreditDropdownOpen(!creditDropdownOpen)}
+                className="w-full bg-gradient-to-r from-purple-500 to-indigo-500 text-white font-semibold py-2 rounded shadow hover:from-purple-600 hover:to-indigo-600 transition"
+                whileHover={{ scale: 1.03 }}
+                whileTap={{ scale: 0.97 }}
+              >
+                Pagar no Crédito
+              </motion.button>
 
-            <button
-              onClick={handleMercadoPagoClick}
-              className="w-full bg-blue-600 text-white font-semibold py-2 rounded hover:bg-blue-700 transition"
-            >
-              Pagar Parcelado
-            </button>
+              <AnimatePresence>
+                {creditDropdownOpen && (
+                  <motion.div
+                    initial={{ opacity: 0, height: 0 }}
+                    animate={{ opacity: 1, height: "auto" }}
+                    exit={{ opacity: 0, height: 0 }}
+                    transition={{ duration: 0.3 }}
+                    className="flex flex-col space-y-2 mt-2"
+                  >
+                    <motion.button
+                      onClick={handleSubmit}
+                      className="w-full bg-gray-100 text-gray-800 font-medium py-2 rounded hover:bg-gray-200 transition"
+                      whileHover={{ scale: 1.02 }}
+                      whileTap={{ scale: 0.97 }}
+                    >
+                      Pagamento à vista
+                    </motion.button>
+                    <motion.button
+                      onClick={handleMercadoPagoClick}
+                      className="w-full bg-gray-100 text-gray-800 font-medium py-2 rounded hover:bg-gray-200 transition"
+                      whileHover={{ scale: 1.02 }}
+                      whileTap={{ scale: 0.97 }}
+                    >
+                      Pagamento parcelado (com juros)
+                    </motion.button>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
 
-            <button
+            <motion.button
               onClick={handlePixClick}
-              className="w-full bg-green-600 text-white font-semibold py-2 rounded hover:bg-green-700 transition"
+              className="w-full bg-gradient-to-r from-green-400 to-green-600 text-white font-semibold py-2 rounded shadow hover:from-green-500 hover:to-green-700 transition mt-2"
+              whileHover={{ scale: 1.03 }}
+              whileTap={{ scale: 0.97 }}
             >
               Pagar com Pix
-            </button>
+            </motion.button>
           </div>
         </main>
       </GuestLayout>

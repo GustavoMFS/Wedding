@@ -1,8 +1,12 @@
 "use client";
+
 import { useEffect, useMemo, useState } from "react";
 import Image from "next/image";
 import { useParams, useSearchParams, useRouter } from "next/navigation";
 import { Gift } from "@/app/types";
+import { motion } from "framer-motion";
+import { GuestProtectedPage } from "@/app/components/GuestProtectedPage";
+import GuestLayout from "@/app/components/GuestLayout";
 
 export default function PixCheckoutPage() {
   const { id } = useParams();
@@ -19,7 +23,6 @@ export default function PixCheckoutPage() {
   const message = searchParams.get("message") || "";
   const urlValue = searchParams.get("value");
 
-  // Valor vindo da URL (quando partial); pode ser NaN se não vier
   const userValue = useMemo(
     () => (urlValue ? parseFloat(urlValue) : NaN),
     [urlValue]
@@ -46,17 +49,14 @@ export default function PixCheckoutPage() {
     fetchGift();
   }, [id]);
 
-  // Gera o Pix automaticamente com o valor correto
   useEffect(() => {
     if (!gift) return;
 
-    // Decide o valor a pagar
     const contributionValue =
       gift.paymentType === "partial" && !isNaN(userValue)
         ? userValue
         : gift.value;
 
-    // Segurança extra: garante mínimo de 0,50
     if (contributionValue < 0.5) {
       alert("Valor inválido. O mínimo é R$ 0,50.");
       router.replace(`/presentes/${id}`);
@@ -138,65 +138,72 @@ export default function PixCheckoutPage() {
     }
   };
 
-  if (!gift) return <p>Carregando...</p>;
+  if (!gift) return <p className="text-center p-4">Carregando...</p>;
 
-  // Valor exibido na tela = o que será cobrado
   const displayValue =
     gift.paymentType === "partial" && !isNaN(userValue)
       ? userValue
       : gift.value;
 
   return (
-    <div className="max-w-xl mx-auto p-4 space-y-4 text-center">
-      <h1 className="text-2xl font-bold">{gift.title}</h1>
-      {gift.image && (
-        <Image
-          src={gift.image}
-          alt={gift.title}
-          width={600}
-          height={300}
-          className="w-full rounded"
-        />
-      )}
-      <p>{gift.description}</p>
-      <p>
-        Valor: <strong>R$ {displayValue.toFixed(2)}</strong>
-      </p>
+    <GuestProtectedPage>
+      <GuestLayout>
+        <div className="max-w-xl mx-auto p-4 space-y-4 text-center">
+          <h1 className="text-2xl font-bold">{gift.title}</h1>
+          {gift.image && (
+            <Image
+              src={gift.image}
+              alt={gift.title}
+              width={600}
+              height={300}
+              className="w-full rounded"
+            />
+          )}
+          <p className="text-gray-700">{gift.description}</p>
+          <p>
+            Valor: <strong>R$ {displayValue.toFixed(2)}</strong>
+          </p>
 
-      {loadingPayment && <p>Gerando QR Code Pix...</p>}
+          {loadingPayment && <p>Gerando QR Code Pix...</p>}
 
-      {qrCode && (
-        <div className="flex flex-col items-center space-y-4 mt-4">
-          <Image
-            src={`data:image/png;base64,${qrCode}`}
-            alt="QR Code Pix"
-            width={300}
-            height={300}
-            className="mx-auto"
-          />
+          {qrCode && (
+            <div className="flex flex-col items-center space-y-4 mt-4">
+              <Image
+                src={`data:image/png;base64,${qrCode}`}
+                alt="QR Code Pix"
+                width={300}
+                height={300}
+                className="mx-auto rounded shadow-md"
+              />
 
-          {pixCode && (
-            <div className="w-full max-w-xs flex flex-col items-center">
-              <p className="break-all bg-gray-100 p-2 rounded text-center w-full">
-                {pixCode}
-              </p>
-              <button
-                onClick={() => navigator.clipboard.writeText(pixCode)}
-                className="w-full bg-gray-600 text-white py-2 rounded hover:bg-gray-700 mt-2"
+              {pixCode && (
+                <div className="w-full max-w-xs flex flex-col items-center space-y-2">
+                  <p className="break-all bg-gray-100 p-3 rounded text-center w-full shadow-inner">
+                    {pixCode}
+                  </p>
+                  <motion.button
+                    onClick={() => navigator.clipboard.writeText(pixCode)}
+                    className="w-full bg-gradient-to-r from-green-400 to-green-600 text-white font-semibold py-2 rounded shadow hover:from-green-500 hover:to-green-700 transition"
+                    whileHover={{ scale: 1.03 }}
+                    whileTap={{ scale: 0.97 }}
+                  >
+                    Copiar código Pix
+                  </motion.button>
+                </div>
+              )}
+
+              <motion.button
+                onClick={verifyPayment}
+                className="w-full max-w-xs bg-gradient-to-r from-blue-500 to-indigo-600 text-white font-semibold py-2 rounded shadow hover:from-blue-600 hover:to-indigo-700 transition"
+                whileHover={{ scale: 1.03 }}
+                whileTap={{ scale: 0.97 }}
               >
-                Copiar código Pix
-              </button>
+                Já paguei
+              </motion.button>
             </div>
           )}
-
-          <button
-            onClick={verifyPayment}
-            className="w-full max-w-xs bg-blue-600 text-white py-2 rounded hover:bg-blue-700"
-          >
-            Já paguei
-          </button>
         </div>
-      )}
-    </div>
+      </GuestLayout>
+    </GuestProtectedPage>
   );
 }
