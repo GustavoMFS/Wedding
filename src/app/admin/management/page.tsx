@@ -4,6 +4,7 @@ import { useEffect, useState, useCallback } from "react";
 import { useAuth } from "@clerk/nextjs";
 import { Gift, LinkItem } from "../../types";
 import { AdminProtectedPage } from "../../components/AdminProtectedPage";
+import { motion, AnimatePresence } from "framer-motion";
 
 export default function AdminPanel() {
   const [gifts, setGifts] = useState<Gift[]>([]);
@@ -104,7 +105,13 @@ export default function AdminPanel() {
         value: editValue,
       };
     } else {
-      body = { title: editTitle, url: editUrl };
+      let normalizedUrl = editUrl.trim();
+
+      if (!/^https?:\/\//i.test(normalizedUrl)) {
+        normalizedUrl = "https://" + normalizedUrl;
+      }
+
+      body = { title: editTitle, url: normalizedUrl };
     }
 
     const url =
@@ -142,36 +149,44 @@ export default function AdminPanel() {
 
   return (
     <AdminProtectedPage>
-      <div className="max-w-5xl mx-auto p-6">
-        <h1 className="text-3xl font-bold mb-6 text-center">
-          🎁 Gerenciar Presentes e Links
+      <div className="max-w-6xl mx-auto p-6">
+        <h1 className="text-3xl font-bold mb-10 text-center text-gray-800">
+          🎁 Gerencie seus Presentes e Links
         </h1>
 
-        <section className="mb-10">
-          <h2 className="text-2xl font-semibold mb-4">Presentes</h2>
+        {/* Presentes */}
+        <section className="mb-12">
+          <h2 className="text-2xl font-semibold mb-6 text-gray-800">
+            Presentes
+          </h2>
           {gifts.length === 0 ? (
             <p className="text-gray-500">Nenhum presente cadastrado.</p>
           ) : (
-            <div className="grid md:grid-cols-2 gap-4">
+            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
               {gifts.map((gift) => (
-                <div
+                <motion.div
                   key={gift._id}
-                  className="border rounded-lg shadow-md p-4 flex flex-col justify-between bg-white"
+                  whileHover={{ scale: 1.02 }}
+                  className="bg-white rounded-xl shadow-md hover:shadow-lg transition p-5 flex flex-col justify-between"
                 >
-                  <h3 className="font-semibold text-lg">{gift.title}</h3>
-                  <p className="text-sm text-gray-500">
-                    R$ {gift.value.toFixed(2)}
-                  </p>
+                  <div>
+                    <h3 className="font-semibold text-lg text-gray-800 mb-2">
+                      {gift.title}
+                    </h3>
+                    <p className="text-sm text-gray-600">
+                      R$ {gift.value.toFixed(2)}
+                    </p>
+                  </div>
                   <div className="flex justify-end gap-2 mt-4">
                     <button
                       onClick={() => openViewModal(gift, "gift")}
-                      className="px-3 py-1 text-green-700 border rounded hover:bg-green-50"
+                      className="px-3 py-1 text-green-700 border border-green-300 rounded-lg hover:bg-green-50 transition"
                     >
                       Visualizar
                     </button>
                     <button
                       onClick={() => openEditModal(gift, "gift")}
-                      className="px-3 py-1 text-blue-700 border rounded hover:bg-blue-50"
+                      className="px-3 py-1 text-blue-700 border border-blue-300 rounded-lg hover:bg-blue-50 transition"
                     >
                       Editar
                     </button>
@@ -181,40 +196,48 @@ export default function AdminPanel() {
                         setItemType("gift");
                         setConfirmDelete(true);
                       }}
-                      className="px-3 py-1 text-red-700 border rounded hover:bg-red-50"
+                      className="px-3 py-1 text-red-700 border border-red-300 rounded-lg hover:bg-red-50 transition"
                     >
                       Excluir
                     </button>
                   </div>
-                </div>
+                </motion.div>
               ))}
             </div>
           )}
         </section>
 
+        {/* Links */}
         <section>
-          <h2 className="text-2xl font-semibold mb-4">Links Externos</h2>
+          <h2 className="text-2xl font-semibold mb-6 text-gray-800">
+            Links Externos
+          </h2>
           {links.length === 0 ? (
             <p className="text-gray-500">Nenhum link externo cadastrado.</p>
           ) : (
-            <div className="grid md:grid-cols-2 gap-4">
+            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
               {links.map((link) => (
-                <div
+                <motion.div
                   key={link._id}
-                  className="border rounded-lg shadow-md p-4 flex flex-col justify-between bg-white"
+                  whileHover={{ scale: 1.02 }}
+                  className="bg-white rounded-xl shadow-md hover:shadow-lg transition p-5 flex flex-col justify-between"
                 >
-                  <h3 className="font-semibold text-lg">{link.title}</h3>
-                  <p className="text-sm text-gray-500">{link.url}</p>
+                  <div>
+                    <h3 className="font-semibold text-lg text-gray-800 mb-2">
+                      {link.title}
+                    </h3>
+                    <p className="text-sm text-blue-600 truncate">{link.url}</p>
+                  </div>
                   <div className="flex justify-end gap-2 mt-4">
                     <button
                       onClick={() => openViewModal(link, "link")}
-                      className="px-3 py-1 text-green-700 border rounded hover:bg-green-50"
+                      className="px-3 py-1 text-green-700 border border-green-300 rounded-lg hover:bg-green-50 transition"
                     >
                       Visualizar
                     </button>
                     <button
                       onClick={() => openEditModal(link, "link")}
-                      className="px-3 py-1 text-blue-700 border rounded hover:bg-blue-50"
+                      className="px-3 py-1 text-blue-700 border border-blue-300 rounded-lg hover:bg-blue-50 transition"
                     >
                       Editar
                     </button>
@@ -224,194 +247,218 @@ export default function AdminPanel() {
                         setItemType("link");
                         setConfirmDelete(true);
                       }}
-                      className="px-3 py-1 text-red-700 border rounded hover:bg-red-50"
+                      className="px-3 py-1 text-red-700 border border-red-300 rounded-lg hover:bg-red-50 transition"
                     >
                       Excluir
                     </button>
                   </div>
-                </div>
+                </motion.div>
               ))}
             </div>
           )}
         </section>
 
-        {selectedItem && !confirmDelete && (
-          <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
-            <div className="bg-white p-6 rounded-lg shadow-lg max-w-md w-full">
-              <h3 className="text-xl font-bold mb-4">
-                {isEditing ? "Editar" : "Detalhes"}
-              </h3>
+        <AnimatePresence>
+          {selectedItem && !confirmDelete && (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="fixed inset-0 bg-black/40 backdrop-blur-sm flex justify-center items-center z-50"
+            >
+              <motion.div
+                initial={{ scale: 0.9, opacity: 0 }}
+                animate={{ scale: 1, opacity: 1 }}
+                exit={{ scale: 0.9, opacity: 0 }}
+                transition={{ duration: 0.3 }}
+                className="bg-white rounded-xl shadow-2xl max-w-md w-full p-6"
+              >
+                <h3 className="text-xl font-bold mb-4 text-gray-800">
+                  {isEditing ? "Editar" : "Detalhes"}
+                </h3>
 
-              {!isEditing ? (
-                <>
-                  {itemType === "gift" ? (
-                    <>
-                      <p>
-                        <strong>Título:</strong> {selectedItem.title}
-                      </p>
-                      <p>
-                        <strong>Descrição:</strong>{" "}
-                        {(selectedItem as Gift).description}
-                      </p>
-                      <p>
-                        <strong>Valor:</strong> R${" "}
-                        {(selectedItem as Gift).value.toFixed(2)}
-                      </p>
-                      <p>
-                        <strong>Arrecadado:</strong> R${" "}
-                        {(selectedItem as Gift).amountCollected?.toFixed(2) ??
-                          0}
-                      </p>
-                    </>
-                  ) : (
-                    <>
-                      <p>
-                        <strong>Título:</strong> {selectedItem.title}
-                      </p>
-                      <p>
-                        <strong>URL:</strong> {(selectedItem as LinkItem).url}
-                      </p>
-                    </>
-                  )}
-                </>
-              ) : (
-                <form
-                  onSubmit={(e) => {
-                    e.preventDefault();
-                    saveChanges();
-                  }}
-                  className="space-y-4"
-                >
-                  <div>
-                    <label className="block font-semibold mb-1">Título</label>
-                    <input
-                      type="text"
-                      value={editTitle}
-                      onChange={(e) => setEditTitle(e.target.value)}
-                      className="w-full border rounded px-3 py-2"
-                      required
-                    />
-                  </div>
-
-                  {itemType === "gift" && (
-                    <>
-                      <div>
-                        <label className="block font-semibold mb-1">
-                          Descrição
-                        </label>
-                        <textarea
-                          value={editDescription}
-                          onChange={(e) => setEditDescription(e.target.value)}
-                          className="w-full border rounded px-3 py-2"
-                          rows={3}
-                        />
+                {!isEditing ? (
+                  <>
+                    {itemType === "gift" ? (
+                      <div className="space-y-2 text-gray-700">
+                        <p>
+                          <strong>Título:</strong> {selectedItem.title}
+                        </p>
+                        <p>
+                          <strong>Descrição:</strong>{" "}
+                          {(selectedItem as Gift).description}
+                        </p>
+                        <p>
+                          <strong>Valor:</strong> R${" "}
+                          {(selectedItem as Gift).value.toFixed(2)}
+                        </p>
                       </div>
-                      <div>
-                        <label className="block font-semibold mb-1">
-                          Valor
-                        </label>
-                        <input
-                          type="number"
-                          value={editValue}
-                          onChange={(e) => setEditValue(Number(e.target.value))}
-                          className="w-full border rounded px-3 py-2"
-                          min={0.5}
-                          step={0.01}
-                          required
-                        />
+                    ) : (
+                      <div className="space-y-2 text-gray-700">
+                        <p>
+                          <strong>Título:</strong> {selectedItem.title}
+                        </p>
+                        <p>
+                          <strong>URL:</strong> {(selectedItem as LinkItem).url}
+                        </p>
                       </div>
-                    </>
-                  )}
-
-                  {itemType === "link" && (
+                    )}
+                  </>
+                ) : (
+                  <form
+                    onSubmit={(e) => {
+                      e.preventDefault();
+                      saveChanges();
+                    }}
+                    className="space-y-4"
+                  >
                     <div>
-                      <label className="block font-semibold mb-1">URL</label>
+                      <label className="block font-semibold mb-1">Título</label>
                       <input
-                        type="url"
-                        value={editUrl}
-                        onChange={(e) => setEditUrl(e.target.value)}
-                        className="w-full border rounded px-3 py-2"
+                        type="text"
+                        value={editTitle}
+                        onChange={(e) => setEditTitle(e.target.value)}
+                        className="w-full border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-400"
                         required
                       />
                     </div>
-                  )}
 
-                  <div className="flex justify-end gap-2">
+                    {itemType === "gift" && (
+                      <>
+                        <div>
+                          <label className="block font-semibold mb-1">
+                            Descrição
+                          </label>
+                          <textarea
+                            value={editDescription}
+                            onChange={(e) => setEditDescription(e.target.value)}
+                            className="w-full border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-400"
+                            rows={3}
+                          />
+                        </div>
+                        <div>
+                          <label className="block font-semibold mb-1">
+                            Valor
+                          </label>
+                          <input
+                            type="number"
+                            value={editValue}
+                            onChange={(e) =>
+                              setEditValue(Number(e.target.value))
+                            }
+                            className="w-full border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-400"
+                            min={0.5}
+                            step={0.01}
+                            required
+                          />
+                        </div>
+                      </>
+                    )}
+
+                    {itemType === "link" && (
+                      <div>
+                        <label className="block font-semibold mb-1">URL</label>
+                        <input
+                          type="text"
+                          value={editUrl}
+                          onChange={(e) => setEditUrl(e.target.value)}
+                          placeholder="https://..."
+                          className="w-full border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-400"
+                          required
+                        />
+                      </div>
+                    )}
+
+                    <div className="flex justify-end gap-2 pt-2">
+                      <button
+                        type="button"
+                        onClick={closeModal}
+                        className="px-4 py-2 border rounded-lg hover:bg-gray-100 transition"
+                      >
+                        Cancelar
+                      </button>
+                      <button
+                        type="submit"
+                        className="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition"
+                      >
+                        Salvar
+                      </button>
+                    </div>
+                  </form>
+                )}
+
+                {!isEditing && (
+                  <div className="mt-6 flex justify-end gap-2">
                     <button
-                      type="button"
                       onClick={closeModal}
-                      className="px-4 py-2 border rounded"
+                      className="px-4 py-2 border rounded-lg hover:bg-gray-100 transition"
                     >
-                      Cancelar
+                      Fechar
                     </button>
                     <button
-                      type="submit"
-                      className="px-4 py-2 bg-blue-600 text-white rounded"
+                      onClick={() => setIsEditing(true)}
+                      className="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition"
                     >
-                      Salvar
+                      Editar
+                    </button>
+                    <button
+                      onClick={() => setConfirmDelete(true)}
+                      className="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition"
+                    >
+                      Excluir
                     </button>
                   </div>
-                </form>
-              )}
-
-              {!isEditing && (
-                <div className="mt-4 flex justify-end gap-2">
+                )}
+              </motion.div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+        <AnimatePresence>
+          {confirmDelete && selectedItem && (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="fixed inset-0 bg-black/40 backdrop-blur-sm flex justify-center items-center z-50"
+            >
+              <motion.div
+                initial={{ scale: 0.9, opacity: 0 }}
+                animate={{ scale: 1, opacity: 1 }}
+                exit={{ scale: 0.9, opacity: 0 }}
+                transition={{ duration: 0.3 }}
+                className="bg-white p-6 rounded-xl shadow-2xl max-w-sm w-full text-center"
+              >
+                <h3 className="text-lg font-bold mb-4 text-red-600">
+                  Tem certeza que deseja excluir?
+                </h3>
+                <p className="mb-6 text-gray-600">
+                  Essa ação não pode ser desfeita.
+                </p>
+                <div className="flex justify-center gap-4">
                   <button
                     onClick={closeModal}
-                    className="px-4 py-2 border rounded"
+                    className="px-4 py-2 border rounded-lg hover:bg-gray-100 transition"
                   >
-                    Fechar
+                    Cancelar
                   </button>
                   <button
-                    onClick={() => setIsEditing(true)}
-                    className="px-4 py-2 bg-blue-600 text-white rounded"
+                    onClick={async () => {
+                      if (itemType === "gift") {
+                        await deleteGift(selectedItem._id);
+                      } else if (itemType === "link") {
+                        await deleteLink(selectedItem._id);
+                      }
+                      closeModal();
+                    }}
+                    className="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition"
                   >
-                    Editar
-                  </button>
-                  <button
-                    onClick={() => setConfirmDelete(true)}
-                    className="px-4 py-2 bg-red-600 text-white rounded"
-                  >
-                    Excluir
+                    Confirmar
                   </button>
                 </div>
-              )}
-            </div>
-          </div>
-        )}
-        {confirmDelete && selectedItem && (
-          <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
-            <div className="bg-white p-6 rounded-lg shadow-lg max-w-sm w-full text-center">
-              <h3 className="text-lg font-bold mb-4 text-red-600">
-                Tem certeza que deseja excluir?
-              </h3>
-              <p className="mb-6 text-gray-600">
-                Essa ação não pode ser desfeita.
-              </p>
-              <div className="flex justify-center gap-4">
-                <button
-                  onClick={closeModal}
-                  className="px-4 py-2 border rounded"
-                >
-                  Cancelar
-                </button>
-                <button
-                  onClick={async () => {
-                    if (itemType === "gift") {
-                      await deleteGift(selectedItem._id);
-                    } else if (itemType === "link") {
-                      await deleteLink(selectedItem._id);
-                    }
-                    closeModal();
-                  }}
-                  className="px-4 py-2 bg-red-600 text-white rounded"
-                >
-                  Confirmar
-                </button>
-              </div>
-            </div>
-          </div>
-        )}
+              </motion.div>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </div>
     </AdminProtectedPage>
   );
