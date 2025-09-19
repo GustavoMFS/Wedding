@@ -1,6 +1,5 @@
 "use client";
 
-import { UserButton, SignedIn, SignedOut, SignInButton } from "@clerk/nextjs";
 import CreateGiftForm from "./CreateGiftForm";
 import CreateExternalLinkForm from "./CreateExternalLinkForm";
 import { AdminProtectedPage } from "../../components/AdminProtectedPage";
@@ -12,45 +11,36 @@ export default function AdminPanel() {
         <header className="flex justify-between items-center">
           <div>
             <h1 className="text-3xl font-bold text-gray-800">
-              Painel de Administração
+              Criação de Presentes e Links
             </h1>
             <p className="text-gray-600 mt-1">
-              Gerencie os presentes e os links exibidos no site.
+              Cadastre novos presentes e links para exibir no site.
             </p>
-          </div>
-
-          <div>
-            <SignedOut>
-              <SignInButton>
-                <button className="text-sm text-purple-700 underline hover:text-purple-900">
-                  Login
-                </button>
-              </SignInButton>
-            </SignedOut>
-
-            <SignedIn>
-              <UserButton afterSignOutUrl="/presentes" />
-            </SignedIn>
           </div>
         </header>
 
-        <SignedIn>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
-            <section className="bg-white shadow-lg rounded-2xl p-8 border border-gray-200">
-              <h2 className="text-xl font-bold text-purple-700 mb-4">
-                Criar Presente
-              </h2>
-              <CreateGiftForm />
-            </section>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
+          <section className="bg-white shadow-lg rounded-xl p-8 border border-gray-200">
+            <h2 className="text-xl font-semibold text-indigo-600 mb-4">
+              Criar Presente
+            </h2>
+            <p className="text-gray-500 text-sm mb-6">
+              Adicione um novo presente à lista, com título, descrição, valor e
+              imagem.
+            </p>
+            <CreateGiftForm />
+          </section>
 
-            <section className="bg-white shadow-lg rounded-2xl p-8 border border-gray-200">
-              <h2 className="text-xl font-bold text-purple-700 mb-4">
-                Adicionar Link Externo
-              </h2>
-              <CreateExternalLinkForm />
-            </section>
-          </div>
-        </SignedIn>
+          <section className="bg-white shadow-lg rounded-xl p-8 border border-gray-200">
+            <h2 className="text-xl font-semibold text-indigo-600 mb-4">
+              Adicionar Link Externo
+            </h2>
+            <p className="text-gray-500 text-sm mb-6">
+              Inclua links para listas externas, como Amazon ou outros sites.
+            </p>
+            <CreateExternalLinkForm />
+          </section>
+        </div>
       </main>
     </AdminProtectedPage>
   );
