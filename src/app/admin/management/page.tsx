@@ -166,7 +166,7 @@ export default function AdminPanel() {
                 <motion.div
                   key={gift._id}
                   whileHover={{ scale: 1.02 }}
-                  className="bg-white rounded-xl shadow-md hover:shadow-lg transition p-5 flex flex-col justify-between"
+                  className="bg-white rounded-xl shadow-2xl max-w-md w-full max-h-[90vh] overflow-y-auto p-6"
                 >
                   <div>
                     <h3 className="font-semibold text-lg text-gray-800 mb-2">
@@ -218,7 +218,7 @@ export default function AdminPanel() {
                 <motion.div
                   key={link._id}
                   whileHover={{ scale: 1.02 }}
-                  className="bg-white rounded-xl shadow-md hover:shadow-lg transition p-5 flex flex-col justify-between"
+                  className="bg-white rounded-xl shadow-2xl max-w-md w-full max-h-[90vh] overflow-y-auto p-6"
                 >
                   <div>
                     <h3 className="font-semibold text-lg text-gray-800 mb-2">
