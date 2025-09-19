@@ -1,21 +1,21 @@
 "use client";
-
-import GuestLayout from "@/app/components/GuestLayout";
-import { GuestProtectedPage } from "@/app/components/GuestProtectedPage";
+import Link from "next/link";
 import { motion } from "framer-motion";
+import { GuestProtectedPage } from "@/app/components/GuestProtectedPage";
+import GuestLayout from "@/app/components/GuestLayout";
 
-export default function PaymentSuccessPage() {
+export default function PaymentPendingPage() {
   return (
     <GuestProtectedPage>
       <GuestLayout>
         <div className="max-w-xl mx-auto p-8 text-center space-y-6">
           <motion.h1
-            className="text-3xl font-bold text-green-600"
+            className="text-3xl font-bold text-yellow-500"
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
           >
-            Pagamento concluído!
+            Pagamento pendente
           </motion.h1>
 
           <motion.p
@@ -24,22 +24,22 @@ export default function PaymentSuccessPage() {
             animate={{ opacity: 1 }}
             transition={{ duration: 0.7 }}
           >
-            Obrigado pela sua contribuição 💖
+            Seu pagamento ainda não foi confirmado. Assim que for aprovado, a
+            contribuição será registrada.
           </motion.p>
 
           <motion.div
+            className="space-y-2"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.9 }}
           >
-            <motion.a
+            <Link
               href="/presentes"
               className="inline-block bg-gradient-to-r from-purple-500 to-indigo-600 text-white font-semibold px-6 py-3 rounded shadow-lg hover:from-purple-600 hover:to-indigo-700 transition"
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.97 }}
             >
-              Voltar para lista de presentes
-            </motion.a>
+              Voltar à lista de presentes
+            </Link>
           </motion.div>
         </div>
       </GuestLayout>

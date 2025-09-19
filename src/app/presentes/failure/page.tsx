@@ -1,21 +1,20 @@
 "use client";
-
 import GuestLayout from "@/app/components/GuestLayout";
 import { GuestProtectedPage } from "@/app/components/GuestProtectedPage";
 import { motion } from "framer-motion";
 
-export default function PaymentSuccessPage() {
+export default function PaymentFailurePage() {
   return (
     <GuestProtectedPage>
       <GuestLayout>
         <div className="max-w-xl mx-auto p-8 text-center space-y-6">
           <motion.h1
-            className="text-3xl font-bold text-green-600"
+            className="text-3xl font-bold text-red-600"
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
           >
-            Pagamento concluído!
+            Pagamento não realizado
           </motion.h1>
 
           <motion.p
@@ -24,10 +23,11 @@ export default function PaymentSuccessPage() {
             animate={{ opacity: 1 }}
             transition={{ duration: 0.7 }}
           >
-            Obrigado pela sua contribuição 💖
+            Infelizmente seu pagamento não foi concluído.
           </motion.p>
 
           <motion.div
+            className="space-y-2"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.9 }}
@@ -38,7 +38,7 @@ export default function PaymentSuccessPage() {
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.97 }}
             >
-              Voltar para lista de presentes
+              Voltar à página de presentes
             </motion.a>
           </motion.div>
         </div>
