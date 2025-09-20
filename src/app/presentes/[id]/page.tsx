@@ -7,7 +7,7 @@ import { Gift } from "@/app/types";
 import { GuestProtectedPage } from "@/app/components/GuestProtectedPage";
 import GuestLayout from "@/app/components/GuestLayout";
 import { useRouter } from "next/navigation";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 
 export default function GiftDetailPage() {
   const { id } = useParams();
@@ -16,7 +16,7 @@ export default function GiftDetailPage() {
   const [name, setName] = useState("");
   const [message, setMessage] = useState("");
   const [value, setValue] = useState("");
-  const [creditDropdownOpen, setCreditDropdownOpen] = useState(false);
+  // const [creditDropdownOpen, setCreditDropdownOpen] = useState(false);
 
   const router = useRouter();
 
@@ -140,42 +140,42 @@ export default function GiftDetailPage() {
     fetchGift();
   }, [id]);
 
-  const handleSubmit = async () => {
-    const token = localStorage.getItem("guestToken");
-    if (!token || !gift) return;
+  // const handleSubmit = async () => {
+  //   const token = localStorage.getItem("guestToken");
+  //   if (!token || !gift) return;
 
-    const contributionValue =
-      gift.paymentType === "full" ? gift.value : parseFloat(value);
+  //   const contributionValue =
+  //     gift.paymentType === "full" ? gift.value : parseFloat(value);
 
-    try {
-      const res = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}/api/gifts/${gift._id}/create-checkout-session`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-          body: JSON.stringify({
-            name,
-            message,
-            value: contributionValue,
-          }),
-        }
-      );
+  //   try {
+  //     const res = await fetch(
+  //       `${process.env.NEXT_PUBLIC_API_URL}/api/gifts/${gift._id}/create-checkout-session`,
+  //       {
+  //         method: "POST",
+  //         headers: {
+  //           "Content-Type": "application/json",
+  //           Authorization: `Bearer ${token}`,
+  //         },
+  //         body: JSON.stringify({
+  //           name,
+  //           message,
+  //           value: contributionValue,
+  //         }),
+  //       }
+  //     );
 
-      const data = await res.json();
+  //     const data = await res.json();
 
-      if (data.url) {
-        window.location.href = data.url;
-      } else {
-        alert(data.message || "Erro ao iniciar pagamento.");
-      }
-    } catch (err) {
-      console.error(err);
-      alert("Erro ao processar pagamento.");
-    }
-  };
+  //     if (data.url) {
+  //       window.location.href = data.url;
+  //     } else {
+  //       alert(data.message || "Erro ao iniciar pagamento.");
+  //     }
+  //   } catch (err) {
+  //     console.error(err);
+  //     alert("Erro ao processar pagamento.");
+  //   }
+  // };
 
   if (loading) return <p className="text-center p-4">Carregando...</p>;
   if (!gift)
@@ -233,6 +233,18 @@ export default function GiftDetailPage() {
 
             <div className="flex flex-col space-y-2">
               <motion.button
+                onClick={handleMercadoPagoClick}
+                className="w-full bg-gradient-to-r from-purple-500 to-indigo-500 text-white font-semibold py-2 rounded shadow hover:from-purple-600 hover:to-indigo-600 transition"
+                whileHover={{ scale: 1.03 }}
+                whileTap={{ scale: 0.97 }}
+              >
+                Pagar no Crédito
+              </motion.button>
+            </div>
+
+            {/* outras opções de pagamento, só descomentar */}
+            {/* <div className="flex flex-col space-y-2">
+              <motion.button
                 onClick={() => setCreditDropdownOpen(!creditDropdownOpen)}
                 className="w-full bg-gradient-to-r from-purple-500 to-indigo-500 text-white font-semibold py-2 rounded shadow hover:from-purple-600 hover:to-indigo-600 transition"
                 whileHover={{ scale: 1.03 }}
@@ -240,7 +252,7 @@ export default function GiftDetailPage() {
               >
                 Pagar no Crédito
               </motion.button>
-
+            
               <AnimatePresence>
                 {creditDropdownOpen && (
                   <motion.div
@@ -269,7 +281,7 @@ export default function GiftDetailPage() {
                   </motion.div>
                 )}
               </AnimatePresence>
-            </div>
+            </div> */}
 
             <motion.button
               onClick={handlePixClick}
