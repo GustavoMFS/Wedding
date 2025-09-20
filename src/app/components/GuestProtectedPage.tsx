@@ -2,6 +2,12 @@
 
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+import { jwtDecode } from "jwt-decode";
+
+type JwtPayload = {
+  exp: number;
+  role: string;
+};
 
 export function GuestProtectedPage({
   children,
@@ -16,8 +22,29 @@ export function GuestProtectedPage({
 
     if (!token) {
       router.replace("/login");
-    } else {
+      return;
+    }
+
+    try {
+      const decoded = jwtDecode<JwtPayload>(token);
+
+      if (decoded.exp * 1000 < Date.now()) {
+        localStorage.removeItem("guestToken");
+        router.replace("/login");
+        return;
+      }
+
+      if (decoded.role !== "guest") {
+        localStorage.removeItem("guestToken");
+        router.replace("/login");
+        return;
+      }
+
       setChecking(false);
+    } catch (err) {
+      console.error("Erro ao decodificar token:", err);
+      localStorage.removeItem("guestToken");
+      router.replace("/login");
     }
   }, [router]);
 

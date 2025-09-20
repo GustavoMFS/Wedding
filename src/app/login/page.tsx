@@ -32,7 +32,7 @@ export default function LoginPage() {
       }
 
       const data = await response.json();
-      localStorage.setItem("guestToken", data.token); // SALVAR TOKEN
+      localStorage.setItem("guestToken", data.token);
       router.push("/home");
     } catch (err) {
       console.error("Erro ao fazer login:", err);
@@ -53,7 +53,6 @@ export default function LoginPage() {
             Bem-vindo ao nosso casamento!
           </h1>
           <input
-            // type="password"
             placeholder="Digite a senha do convite"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
