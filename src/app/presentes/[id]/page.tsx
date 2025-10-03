@@ -8,6 +8,7 @@ import { GuestProtectedPage } from "@/app/components/GuestProtectedPage";
 import GuestLayout from "@/app/components/GuestLayout";
 import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
+import { useLanguage } from "@/app/contexts/LanguageContext";
 
 export default function GiftDetailPage() {
   const { id } = useParams();
@@ -16,13 +17,14 @@ export default function GiftDetailPage() {
   const [name, setName] = useState("");
   const [message, setMessage] = useState("");
   const [value, setValue] = useState("");
-  // const [creditDropdownOpen, setCreditDropdownOpen] = useState(false);
 
   const router = useRouter();
+  const { getMessages } = useLanguage();
+  const messages = getMessages("giftDetail");
 
   const handlePixClick = () => {
     if (!name.trim() || !message.trim()) {
-      alert("Por favor, preencha seu nome e uma mensagem.");
+      alert(messages.alertFillFields);
       return;
     }
     if (!gift) return;
@@ -32,16 +34,18 @@ export default function GiftDetailPage() {
 
     if (gift.paymentType === "partial") {
       if (isNaN(contributionValue)) {
-        alert("Informe o valor que deseja contribuir.");
+        alert(messages.alertInvalidValue);
         return;
       }
       if (contributionValue < 0.5) {
-        alert("O valor mínimo para contribuição é R$ 0,50.");
+        alert(messages.alertMinValue);
         return;
       }
       const remaining = gift.value - (gift.amountCollected || 0);
       if (contributionValue > remaining) {
-        alert(`O valor máximo permitido é R$ ${remaining.toFixed(2)}.`);
+        alert(
+          messages.alertMaxValue.replace("{{remaining}}", remaining.toFixed(2))
+        );
         return;
       }
     }
@@ -56,7 +60,7 @@ export default function GiftDetailPage() {
 
   const handleMercadoPagoClick = async () => {
     if (!name.trim() || !message.trim()) {
-      alert("Por favor, preencha seu nome e uma mensagem.");
+      alert(messages.alertFillFields);
       return;
     }
     if (!gift) return;
@@ -66,16 +70,18 @@ export default function GiftDetailPage() {
 
     if (gift.paymentType === "partial") {
       if (isNaN(contributionValue)) {
-        alert("Informe o valor que deseja contribuir.");
+        alert(messages.alertInvalidValue);
         return;
       }
       if (contributionValue < 0.5) {
-        alert("O valor mínimo para contribuição é R$ 0,50.");
+        alert(messages.alertMinValue);
         return;
       }
       const remaining = gift.value - (gift.amountCollected || 0);
       if (contributionValue > remaining) {
-        alert(`O valor máximo permitido é R$ ${remaining.toFixed(2)}.`);
+        alert(
+          messages.alertMaxValue.replace("{{remaining}}", remaining.toFixed(2))
+        );
         return;
       }
     }
@@ -103,11 +109,11 @@ export default function GiftDetailPage() {
       if (data.init_point) {
         window.location.href = data.init_point;
       } else {
-        alert(data.message || "Erro ao iniciar pagamento Mercado Pago.");
+        alert(data.message || messages.alertMercadoPago);
       }
     } catch (err) {
       console.error(err);
-      alert("Erro ao processar pagamento no Mercado Pago.");
+      alert(messages.alertMercadoPago);
     }
   };
 
@@ -179,9 +185,7 @@ export default function GiftDetailPage() {
 
   if (loading) return <p className="text-center p-4">Carregando...</p>;
   if (!gift)
-    return (
-      <p className="text-center p-4 text-red-500">Presente não encontrado</p>
-    );
+    return <p className="text-center p-4 text-red-500">{messages.notFound}</p>;
 
   const remaining = gift.value - (gift.amountCollected || 0);
 
@@ -201,19 +205,19 @@ export default function GiftDetailPage() {
           )}
           <p className="text-gray-700">{gift.description}</p>
           <p>
-            Valor: <strong>R$ {gift.value.toFixed(2)}</strong>
+            {messages.valueLabel} <strong>R$ {gift.value.toFixed(2)}</strong>
           </p>
 
           <div className="space-y-2 pt-4">
             <input
               type="text"
-              placeholder="Seu nome"
+              placeholder={messages.placeholderName}
               value={name}
               onChange={(e) => setName(e.target.value)}
               className="w-full border border-gray-300 rounded p-2 focus:outline-none focus:ring-2 focus:ring-indigo-300"
             />
             <textarea
-              placeholder="Mensagem para os noivos"
+              placeholder={messages.placeholderMessage}
               value={message}
               onChange={(e) => setMessage(e.target.value)}
               className="w-full border border-gray-300 rounded p-2 focus:outline-none focus:ring-2 focus:ring-indigo-300"
@@ -238,7 +242,7 @@ export default function GiftDetailPage() {
                 whileHover={{ scale: 1.03 }}
                 whileTap={{ scale: 0.97 }}
               >
-                Pagar no Crédito
+                {messages.creditButton}
               </motion.button>
             </div>
 
@@ -289,7 +293,7 @@ export default function GiftDetailPage() {
               whileHover={{ scale: 1.03 }}
               whileTap={{ scale: 0.97 }}
             >
-              Pagar com Pix
+              {messages.pixButton}
             </motion.button>
           </div>
         </main>

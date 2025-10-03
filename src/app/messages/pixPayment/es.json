@@ -1,0 +1,13 @@
+{
+  "fetchError": "Error al obtener el regalo",
+  "minValueError": "Valor inválido. El mínimo es R$ 0,50.",
+  "pixGenerationError": "Error al generar el Pix",
+  "verifyPixError": "Error al verificar el pago.",
+  "paymentPending": "Pago aún no aprobado. Estado:",
+  "loading": "Cargando...",
+  "value": "Valor",
+  "generatingQr": "Generando código QR Pix...",
+  "qrAlt": "Código QR Pix",
+  "copyCode": "Copiar código Pix",
+  "iPaid": "Ya pagué"
+}

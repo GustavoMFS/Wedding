@@ -7,6 +7,7 @@ import { Gift } from "@/app/types";
 import { motion } from "framer-motion";
 import { GuestProtectedPage } from "@/app/components/GuestProtectedPage";
 import GuestLayout from "@/app/components/GuestLayout";
+import { useLanguage } from "@/app/contexts/LanguageContext";
 
 export default function PixCheckoutPage() {
   const { id } = useParams();
@@ -23,6 +24,9 @@ export default function PixCheckoutPage() {
   const message = searchParams.get("message") || "";
   const urlValue = searchParams.get("value");
 
+  const { getMessages } = useLanguage();
+  const messages = getMessages("pixPayment");
+
   const userValue = useMemo(
     () => (urlValue ? parseFloat(urlValue) : NaN),
     [urlValue]
@@ -38,7 +42,7 @@ export default function PixCheckoutPage() {
           `${process.env.NEXT_PUBLIC_API_URL}/api/gifts/${id}`,
           { headers: { Authorization: `Bearer ${token}` } }
         );
-        if (!res.ok) throw new Error("Erro ao buscar presente");
+        if (!res.ok) throw new Error(messages.fetchError);
         const data: Gift = await res.json();
         setGift(data);
       } catch (err) {
@@ -47,7 +51,7 @@ export default function PixCheckoutPage() {
     };
 
     fetchGift();
-  }, [id]);
+  }, [id, messages.fetchError]);
 
   useEffect(() => {
     if (!gift) return;
@@ -58,7 +62,7 @@ export default function PixCheckoutPage() {
         : gift.value;
 
     if (contributionValue < 0.5) {
-      alert("Valor inválido. O mínimo é R$ 0,50.");
+      alert(messages.minValueError);
       router.replace(`/presentes/${id}`);
       return;
     }
@@ -89,14 +93,23 @@ export default function PixCheckoutPage() {
         setPixCode(data.qr_code);
         setPaymentId(data.paymentId || data.id);
       } catch (err) {
-        console.error("Erro ao gerar Pix:", err);
+        console.error(messages.pixGenerationError, err);
       } finally {
         setLoadingPayment(false);
       }
     };
 
     startPix();
-  }, [gift, name, message, userValue, id, router]);
+  }, [
+    gift,
+    name,
+    message,
+    userValue,
+    id,
+    router,
+    messages.minValueError,
+    messages.pixGenerationError,
+  ]);
 
   const verifyPayment = async () => {
     if (!gift || !paymentId) return;
@@ -130,11 +143,11 @@ export default function PixCheckoutPage() {
       if (data.paid) {
         router.push("/presentes/success");
       } else {
-        alert(`Pagamento ainda não aprovado. Status: ${data.status}`);
+        alert(`${messages.paymentPending} ${data.status}`);
       }
     } catch (err) {
-      console.error("Erro ao verificar Pix:", err);
-      alert("Erro ao verificar pagamento.");
+      console.error(messages.verifyPixError, err);
+      alert(messages.verifyPixError);
     }
   };
 
@@ -161,10 +174,10 @@ export default function PixCheckoutPage() {
           )}
           <p className="text-gray-700">{gift.description}</p>
           <p>
-            Valor: <strong>R$ {displayValue.toFixed(2)}</strong>
+            {messages.value}: <strong>R$ {displayValue.toFixed(2)}</strong>
           </p>
 
-          {loadingPayment && <p>Gerando QR Code Pix...</p>}
+          {loadingPayment && <p>{messages.generatingQr}</p>}
 
           {qrCode && (
             <div className="flex flex-col items-center space-y-4 mt-4">
@@ -187,7 +200,7 @@ export default function PixCheckoutPage() {
                     whileHover={{ scale: 1.03 }}
                     whileTap={{ scale: 0.97 }}
                   >
-                    Copiar código Pix
+                    {messages.copyCode}
                   </motion.button>
                 </div>
               )}
@@ -198,7 +211,7 @@ export default function PixCheckoutPage() {
                 whileHover={{ scale: 1.03 }}
                 whileTap={{ scale: 0.97 }}
               >
-                Já paguei
+                {messages.iPaid}
               </motion.button>
             </div>
           )}

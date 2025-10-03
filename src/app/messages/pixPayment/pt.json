@@ -1,0 +1,13 @@
+{
+  "fetchError": "Erro ao buscar presente",
+  "minValueError": "Valor inválido. O mínimo é R$ 0,50.",
+  "pixGenerationError": "Erro ao gerar Pix",
+  "verifyPixError": "Erro ao verificar pagamento.",
+  "paymentPending": "Pagamento ainda não aprovado. Status:",
+  "loading": "Carregando...",
+  "value": "Valor",
+  "generatingQr": "Gerando QR Code Pix...",
+  "qrAlt": "QR Code Pix",
+  "copyCode": "Copiar código Pix",
+  "iPaid": "Já paguei"
+}

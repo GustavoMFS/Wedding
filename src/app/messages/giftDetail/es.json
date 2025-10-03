@@ -1,0 +1,16 @@
+{
+  "loading": "Cargando...",
+  "notFound": "Regalo no encontrado",
+  "placeholderName": "Tu nombre",
+  "placeholderMessage": "Mensaje para los novios",
+  "placeholderValue": "Valor a contribuir (R$)",
+  "alertFillFields": "Por favor, completa tu nombre y un mensaje.",
+  "alertInvalidValue": "Indica el valor que deseas contribuir.",
+  "alertMinValue": "El valor mínimo para contribuir es R$ 0,50.",
+  "alertMaxValue": "El valor máximo permitido es R$ {{remaining}}.",
+  "alertMercadoPago": "Error al iniciar el pago con Mercado Pago.",
+  "alertPix": "Error al procesar el pago con Pix.",
+  "creditButton": "Pagar con tarjeta",
+  "pixButton": "Pagar con Pix",
+  "valueLabel": "Valor:"
+}

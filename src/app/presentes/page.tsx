@@ -12,6 +12,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { useLanguage } from "../contexts/LanguageContext"; // 👈 importamos
 
 type ExternalLink = {
   _id: string;
@@ -43,6 +44,9 @@ function PresentesPage() {
   const [links, setLinks] = useState<ExternalLink[]>([]);
   const [gifts, setGifts] = useState<Gift[]>([]);
   const [loading, setLoading] = useState(true);
+
+  const { getMessages } = useLanguage();
+  const messages = getMessages("gifts");
 
   useEffect(() => {
     const fetchData = async () => {
@@ -90,7 +94,7 @@ function PresentesPage() {
     return (
       <GuestLayout>
         <main className="min-h-screen bg-pink-100 flex items-center justify-center">
-          <p className="text-center p-4">Carregando...</p>
+          <p className="text-center p-4">{messages.loading}</p>
         </main>
       </GuestLayout>
     );
@@ -101,11 +105,11 @@ function PresentesPage() {
       <GuestLayout>
         <div className="min-h-screen bg-pink-100">
           <main className="max-w-5xl mx-auto p-4 space-y-12">
-            {loading && <p className="text-center p-4">Carregando...</p>}
+            {loading && <p className="text-center p-4">{messages.loading}</p>}
 
             {!loading && links.length === 0 && gifts.length === 0 && (
               <p className="text-center p-4 text-gray-500">
-                Ainda não há presentes ou links disponíveis.
+                {messages.noGifts}
               </p>
             )}
 
@@ -113,7 +117,7 @@ function PresentesPage() {
               <section>
                 <header>
                   <h2 className="text-2xl font-bold mb-4">
-                    Presentes para os noivos
+                    {messages.giftsSection}
                   </h2>
                 </header>
                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
@@ -141,7 +145,7 @@ function PresentesPage() {
                             className="w-full h-40 object-cover rounded-lg"
                           />
                           <p className="mt-2 font-semibold text-sm">
-                            Valor: R$ {gift.value.toFixed(2)}
+                            {messages.value}: R$ {gift.value.toFixed(2)}
                           </p>
                         </CardContent>
                       </Card>
@@ -155,7 +159,7 @@ function PresentesPage() {
               <section>
                 <header>
                   <h2 className="text-2xl font-bold mb-4">
-                    Outras opções de presente
+                    {messages.otherOptions}
                   </h2>
                 </header>
                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
