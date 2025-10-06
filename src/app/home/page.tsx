@@ -45,6 +45,9 @@ export default function HomePage() {
               <strong>{messages.dressCode}</strong>
             </p>
             <p className="py-1">
+              <strong>{messages.recomendations}</strong>
+            </p>
+            <p className="py-1">
               <strong>{messages.date}</strong>
             </p>
             <p className="py-1">
