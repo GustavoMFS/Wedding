@@ -83,9 +83,7 @@ export const AddInviteModal = ({ onClose, onCreated }: Props) => {
             },
             body: JSON.stringify({
               name: guest.name,
-              tags: guest.tags
-                ? guest.tags.split(",").map((t) => t.trim())
-                : [],
+              tags: guest.tags ? [guest.tags] : [],
               isAdult: guest.isAdult,
             }),
           }
@@ -245,14 +243,18 @@ export const AddInviteModal = ({ onClose, onCreated }: Props) => {
                       htmlFor={`guest-tags-${idx}`}
                       className="block font-medium mb-1"
                     >
-                      Tags (separadas por vírgula)
+                      Lado (opcional)
                     </label>
-                    <Input
+                    <select
                       id={`guest-tags-${idx}`}
                       {...register(`guests.${idx}.tags`)}
                       disabled={loading}
-                      className="pt-2"
-                    />
+                      className="w-full rounded-md border border-gray-300 p-2 text-base focus:border-gray-500 focus:ring-gray-300"
+                    >
+                      <option value="">Nenhum</option>
+                      <option value="noiva">Noiva</option>
+                      <option value="noivo">Noivo</option>
+                    </select>
                   </div>
 
                   <div className="flex items-center space-x-2 pt-2">

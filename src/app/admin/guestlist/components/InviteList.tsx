@@ -18,6 +18,13 @@ export const InviteList = ({ refresh }: Props) => {
   );
   const [modalKey, setModalKey] = useState(0);
 
+  type TagFilter = "" | "noiva" | "noivo";
+  type StatusFilter = "" | "confirmed" | "declined" | "pending";
+
+  const [filterTag, setFilterTag] = useState<TagFilter>("");
+  const [filterStatus, setFilterStatus] = useState<StatusFilter>("");
+  const [filterName, setFilterName] = useState<string>("");
+
   useEffect(() => {
     (async () => {
       setError(null);
@@ -74,11 +81,68 @@ export const InviteList = ({ refresh }: Props) => {
     }
   };
 
+  const filteredInvites = invites
+    .map((invite) => ({
+      ...invite,
+      guests: invite.guests.filter((guest) => {
+        const tagMatch = !filterTag || guest.tags?.[0] === filterTag;
+        const statusMatch = !filterStatus || guest.status === filterStatus;
+        const nameMatch =
+          !filterName ||
+          guest.name.toLowerCase().includes(filterName.toLowerCase());
+        return tagMatch && statusMatch && nameMatch;
+      }),
+    }))
+    .filter((invite) => invite.guests.length > 0);
+
   return (
     <div className="space-y-4">
       {error && <div className="text-red-600 font-semibold mb-4">{error}</div>}
+      <div className="bg-white p-4 rounded-lg shadow-md flex flex-col md:flex-row gap-4 mb-6">
+        <div className="flex-1">
+          <label className="block font-medium mb-1">Lado</label>
+          <select
+            value={filterTag}
+            onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
+              setFilterTag(e.target.value as TagFilter)
+            }
+            className="w-full rounded-md border border-gray-300 p-2"
+          >
+            <option value="">Todos</option>
+            <option value="noiva">Noiva</option>
+            <option value="noivo">Noivo</option>
+          </select>
+        </div>
 
-      {invites.map((invite) => (
+        <div className="flex-1">
+          <label className="block font-medium mb-1">Status</label>
+          <select
+            value={filterStatus}
+            onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
+              setFilterStatus(e.target.value as StatusFilter)
+            }
+            className="w-full rounded-md border border-gray-300 p-2"
+          >
+            <option value="">Todos</option>
+            <option value="confirmed">Confirmado</option>
+            <option value="declined">Não confirmado</option>
+            <option value="pending">Sem resposta</option>
+          </select>
+        </div>
+
+        <div className="flex-1">
+          <label className="block font-medium mb-1">Buscar por nome</label>
+          <input
+            type="text"
+            value={filterName}
+            onChange={(e) => setFilterName(e.target.value)}
+            placeholder="Digite o nome..."
+            className="w-full rounded-md border border-gray-300 p-2"
+          />
+        </div>
+      </div>
+
+      {filteredInvites.map((invite) => (
         <div
           key={invite._id}
           className="border border-gray-200 rounded-lg p-4 shadow-sm bg-gray-100"

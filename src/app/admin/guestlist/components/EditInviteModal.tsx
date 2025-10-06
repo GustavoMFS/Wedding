@@ -285,20 +285,23 @@ export const EditInviteModal = ({
 
                     <fieldset className="space-y-2">
                       <label className="block font-medium">
-                        Tags (separadas por vírgula)
+                        Lado (opcional)
                       </label>
-                      <input
-                        type="text"
-                        value={(guest.tags || []).join(", ")}
+                      <select
+                        value={guest.tags?.[0] || ""}
                         onChange={(e) =>
                           handleGuestChange(
                             index,
                             "tags",
-                            e.target.value.split(",").map((t) => t.trim())
+                            e.target.value ? [e.target.value] : []
                           )
                         }
                         className="w-full rounded-md border border-gray-300 p-2 text-base focus:border-gray-500 focus:ring-gray-300"
-                      />
+                      >
+                        <option value="">Nenhum</option>
+                        <option value="noiva">Noiva</option>
+                        <option value="noivo">Noivo</option>
+                      </select>
                     </fieldset>
 
                     <div className="flex items-center gap-4">
