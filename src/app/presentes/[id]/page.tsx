@@ -132,7 +132,7 @@ export default function GiftDetailPage() {
           }
         );
 
-        if (!res.ok) throw new Error("Erro ao buscar presente");
+        if (!res.ok) throw new Error(messages.giftFetchError);
 
         const data = await res.json();
         setGift(data);
@@ -144,7 +144,7 @@ export default function GiftDetailPage() {
     };
 
     fetchGift();
-  }, [id]);
+  }, [id, messages.giftFetchError]);
 
   // const handleSubmit = async () => {
   //   const token = localStorage.getItem("guestToken");

@@ -1,3 +1,17 @@
 {
-  "loading": "Carregando..."
+  "loading": "Carregando...",
+  "notFound": "Presente não encontrado",
+  "giftFetchError": "Erro ao buscar presente",
+  "placeholderName": "Seu nome",
+  "placeholderMessage": "Mensagem para os noivos",
+  "placeholderValue": "Valor a contribuir (R$)",
+  "alertFillFields": "Por favor, preencha seu nome e uma mensagem.",
+  "alertInvalidValue": "Informe o valor que deseja contribuir.",
+  "alertMinValue": "O valor mínimo para contribuição é R$ 0,50.",
+  "alertMaxValue": "O valor máximo permitido é R$ {{remaining}}.",
+  "alertMercadoPago": "Erro ao iniciar pagamento Mercado Pago.",
+  "alertPix": "Erro ao processar pagamento no Pix.",
+  "creditButton": "Pagar no Crédito",
+  "pixButton": "Pagar com Pix",
+  "valueLabel": "Valor:"
 }

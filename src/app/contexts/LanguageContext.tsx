@@ -13,6 +13,14 @@ import ptPixPayment from "../messages/pixPayment/pt.json";
 import esPixPayment from "../messages/pixPayment/es.json";
 import ptGuestConfirmation from "../messages/guestConfirmation/pt.json";
 import esGuestConfirmation from "../messages/guestConfirmation/es.json";
+import ptFailureScreen from "../messages/afterPaymentPages/failure/pt.json";
+import esFailureScreen from "../messages/afterPaymentPages/failure/es.json";
+import ptPendingScreen from "../messages/afterPaymentPages/pending/pt.json";
+import esPendingScreen from "../messages/afterPaymentPages/pending/es.json";
+import ptSuccessScreen from "../messages/afterPaymentPages/success/pt.json";
+import esSuccessScreen from "../messages/afterPaymentPages/success/es.json";
+import ptGuestQuestions from "../messages/guestConfirmation/guestQuestions/pt.json";
+import esGuestQuestions from "../messages/guestConfirmation/guestQuestions/es.json";
 
 type Language = "pt" | "es";
 type Module =
@@ -21,7 +29,11 @@ type Module =
   | "gifts"
   | "giftDetail"
   | "pixPayment"
-  | "guestConfirmation";
+  | "guestConfirmation"
+  | "failureScreen"
+  | "pendingScreen"
+  | "successScreen"
+  | "guestQuestions";
 
 type MessagesMap = {
   [key in Module]: Record<string, string>;
@@ -54,6 +66,10 @@ export const LanguageProvider = ({ children }: { children: ReactNode }) => {
       giftDetail: ptGiftDetail,
       pixPayment: ptPixPayment,
       guestConfirmation: ptGuestConfirmation,
+      failureScreen: ptFailureScreen,
+      pendingScreen: ptPendingScreen,
+      successScreen: ptSuccessScreen,
+      guestQuestions: ptGuestQuestions,
     },
     es: {
       home: esHome,
@@ -62,6 +78,10 @@ export const LanguageProvider = ({ children }: { children: ReactNode }) => {
       giftDetail: esGiftDetail,
       pixPayment: esPixPayment,
       guestConfirmation: esGuestConfirmation,
+      failureScreen: esFailureScreen,
+      pendingScreen: esPendingScreen,
+      successScreen: esSuccessScreen,
+      guestQuestions: esGuestQuestions,
     },
   };
 

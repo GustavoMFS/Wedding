@@ -1,6 +1,7 @@
 {
   "loading": "Cargando...",
   "notFound": "Regalo no encontrado",
+  "giftFetchError": "Error al buscar regalo",
   "placeholderName": "Tu nombre",
   "placeholderMessage": "Mensaje para los novios",
   "placeholderValue": "Valor a contribuir (R$)",

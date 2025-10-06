@@ -12,7 +12,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { useLanguage } from "../contexts/LanguageContext"; // 👈 importamos
+import { useLanguage } from "../contexts/LanguageContext";
 
 type ExternalLink = {
   _id: string;

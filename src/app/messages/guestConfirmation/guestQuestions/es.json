@@ -1,0 +1,20 @@
+{
+  "guestsLoadError": "Error al cargar invitados",
+  "guestsConfirmationTitle": "¿Quién va al evento?",
+  "guestsConfirmationSubTitle": "Esto ayudará a los novios a organizar mejor el evento. Podrás cambiar tu respuesta cuando quieras.",
+  "confirm": "Asistirá",
+  "notConfirm": "No asistirá",
+  "guestsNotFound": "No se han encontrado invitados para esta invitación.",
+  "continue": "Seguir",
+  "inviteLoadError": "Error al buscar invitación",
+  "updateFail": "Error al actualizar contacto",
+  "thanksTitle": "¡Gracias por sus respuestas!",
+  "thanksSubTitle": "Aprovecha que estás por aquí y echa un vistazo a los regalos disponibles para los novios.",
+  "giftsButton": "Ver regalos",
+  "homeButton": "Volver al inicio",
+  "contactTitle": "Por favor, proporcione un número de teléfono y/o correo electrónico de contacto.",
+  "contactSubTitle": "Los novios pueden enviar información sobre el evento a su número.",
+  "send": "Enviar",
+  "phone": "Teléfono (Opcional)",
+  "email": "Correo electrónico (Opcional)"
+}

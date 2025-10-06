@@ -2,8 +2,12 @@
 import GuestLayout from "@/app/components/GuestLayout";
 import { GuestProtectedPage } from "@/app/components/GuestProtectedPage";
 import { motion } from "framer-motion";
+import { useLanguage } from "../../contexts/LanguageContext";
 
 export default function PaymentFailurePage() {
+  const { getMessages } = useLanguage();
+  const messages = getMessages("failureScreen");
+
   return (
     <GuestProtectedPage>
       <GuestLayout>
@@ -14,7 +18,7 @@ export default function PaymentFailurePage() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
           >
-            Pagamento não realizado
+            {messages.title}
           </motion.h1>
 
           <motion.p
@@ -23,7 +27,7 @@ export default function PaymentFailurePage() {
             animate={{ opacity: 1 }}
             transition={{ duration: 0.7 }}
           >
-            Infelizmente seu pagamento não foi concluído.
+            {messages.text}
           </motion.p>
 
           <motion.div
@@ -38,7 +42,7 @@ export default function PaymentFailurePage() {
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.97 }}
             >
-              Voltar à página de presentes
+              {messages.button}
             </motion.a>
           </motion.div>
         </div>

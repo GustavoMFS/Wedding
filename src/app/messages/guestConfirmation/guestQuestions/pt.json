@@ -1,0 +1,20 @@
+{
+  "guestsLoadError": "Falha ao carregar convidados",
+  "guestsConfirmationTitle": "Quem vai para o evento?",
+  "guestsConfirmationSubTitle": "Isso ajudará os noivos a organizar melhor o evento. Você poderá mudar a resposta quando quiser.",
+  "confirm": "Irá comparecer",
+  "notConfirm": "Não irá comparecer",
+  "guestsNotFound": "Nenhum convidado encontrado para este convite.",
+  "continue": "Continuar",
+  "inviteLoadError": "Erro ao buscar convite",
+  "updateFail": "Falha ao atualizar contato",
+  "thanksTitle": "Obrigado pelas respostas!",
+  "thanksSubTitle": "Aproveite que está por aqui e veja os presentes disponíveis para os noivos!",
+  "giftsButton": "Ver presentes",
+  "homeButton": "Voltar para o início",
+  "contactTitle": "Deixe um telefone e/ou email para contato",
+  "contactSubTitle": "Os noivos poderão enviar informações sobre o evento para o seu número",
+  "send": "Enviar",
+  "phone": "Telefone (Opcional)",
+  "email": "Email (Opcional)"
+}

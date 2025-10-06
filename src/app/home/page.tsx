@@ -18,7 +18,7 @@ export default function HomePage() {
           <section className="text-center py-10" id="inicio">
             <figure>
               <Image
-                src="/couple.jpg"
+                src="/couple2.jpg"
                 alt={messages.title}
                 width={300}
                 height={300}
@@ -41,14 +41,17 @@ export default function HomePage() {
             <h3 className="text-2xl font-semibold mb-2">
               {messages.detailsHeading}
             </h3>
-            <p>
+            <p className="py-1">
               <strong>{messages.dressCode}</strong>
             </p>
-            <p>
+            <p className="py-1">
               <strong>{messages.date}</strong>
             </p>
-            <p>
+            <p className="py-1">
               <strong>{messages.time}</strong>
+            </p>
+            <p className="py-1">
+              <strong>{messages.partyTime}</strong>
             </p>
           </section>
 

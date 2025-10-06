@@ -3,8 +3,12 @@
 import GuestLayout from "@/app/components/GuestLayout";
 import { GuestProtectedPage } from "@/app/components/GuestProtectedPage";
 import { motion } from "framer-motion";
+import { useLanguage } from "../../contexts/LanguageContext";
 
 export default function PaymentSuccessPage() {
+  const { getMessages } = useLanguage();
+  const messages = getMessages("successScreen");
+
   return (
     <GuestProtectedPage>
       <GuestLayout>
@@ -15,7 +19,7 @@ export default function PaymentSuccessPage() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
           >
-            Pagamento concluído!
+            {messages.title}
           </motion.h1>
 
           <motion.p
@@ -24,7 +28,7 @@ export default function PaymentSuccessPage() {
             animate={{ opacity: 1 }}
             transition={{ duration: 0.7 }}
           >
-            Obrigado pela sua contribuição 💖
+            {messages.text}
           </motion.p>
 
           <motion.div
@@ -38,7 +42,7 @@ export default function PaymentSuccessPage() {
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.97 }}
             >
-              Voltar para lista de presentes
+              {messages.button}
             </motion.a>
           </motion.div>
         </div>

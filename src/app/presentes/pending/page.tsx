@@ -3,8 +3,12 @@ import Link from "next/link";
 import { motion } from "framer-motion";
 import { GuestProtectedPage } from "@/app/components/GuestProtectedPage";
 import GuestLayout from "@/app/components/GuestLayout";
+import { useLanguage } from "../../contexts/LanguageContext";
 
 export default function PaymentPendingPage() {
+  const { getMessages } = useLanguage();
+  const messages = getMessages("pendingScreen");
+
   return (
     <GuestProtectedPage>
       <GuestLayout>
@@ -15,7 +19,7 @@ export default function PaymentPendingPage() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
           >
-            Pagamento pendente
+            {messages.title}
           </motion.h1>
 
           <motion.p
@@ -24,8 +28,7 @@ export default function PaymentPendingPage() {
             animate={{ opacity: 1 }}
             transition={{ duration: 0.7 }}
           >
-            Seu pagamento ainda não foi confirmado. Assim que for aprovado, a
-            contribuição será registrada.
+            {messages.text}
           </motion.p>
 
           <motion.div
@@ -38,7 +41,7 @@ export default function PaymentPendingPage() {
               href="/presentes"
               className="inline-block bg-gradient-to-r from-purple-500 to-indigo-600 text-white font-semibold px-6 py-3 rounded shadow-lg hover:from-purple-600 hover:to-indigo-700 transition"
             >
-              Voltar à lista de presentes
+              {messages.button}
             </Link>
           </motion.div>
         </div>

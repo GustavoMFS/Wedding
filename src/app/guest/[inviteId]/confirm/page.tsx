@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import GuestLayout from "@/app/components/GuestLayout";
+import { useLanguage } from "../../../contexts/LanguageContext";
 
 type Guest = {
   _id: string;
@@ -18,6 +19,9 @@ export default function GuestConfirmPage() {
   const router = useRouter();
   const [guests, setGuests] = useState<Guest[]>([]);
   const [loading, setLoading] = useState(true);
+
+  const { getMessages } = useLanguage();
+  const messages = getMessages("guestQuestions");
 
   useEffect(() => {
     const fetchGuests = async () => {
@@ -38,7 +42,7 @@ export default function GuestConfirmPage() {
         );
 
         if (!res.ok) {
-          throw new Error("Falha ao carregar convidados");
+          throw new Error(messages.guestsLoadError);
         }
 
         const data = await res.json();
@@ -51,7 +55,7 @@ export default function GuestConfirmPage() {
       }
     };
     fetchGuests();
-  }, [inviteId, router]);
+  }, [inviteId, router, messages.guestsLoadError]);
 
   const updateStatus = (guestId: string, status: Guest["status"]) => {
     setGuests((prev) =>
@@ -89,11 +93,10 @@ export default function GuestConfirmPage() {
     <GuestLayout>
       <main className="max-w-2xl mx-auto px-6 py-10">
         <h2 className="text-2xl font-bold mb-6 text-center">
-          Quem vai para o evento?
+          {messages.guestsConfirmationTitle}
         </h2>
         <h3 className="text-1xl font-bold mb-6 text-center text-gray-600">
-          Isso ajudará os noivos a organizar melhor o evento. Você poderá mudar
-          a resposta quando quiser.
+          {messages.guestsConfirmationSubTitle}
         </h3>
         {guests.length > 0 ? (
           guests.map((guest) => (
@@ -111,7 +114,6 @@ export default function GuestConfirmPage() {
                       : "bg-gray-300 text-black hover:bg-gray-400"
                   }`}
                 >
-                  {/* Ícone de verificado */}
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     fill="none"
@@ -126,7 +128,7 @@ export default function GuestConfirmPage() {
                       d="M5 13l4 4L19 7"
                     />
                   </svg>
-                  Irá comparecer
+                  {messages.confirm}
                 </Button>
                 <Button
                   onClick={() => updateStatus(guest._id, "declined")}
@@ -136,7 +138,6 @@ export default function GuestConfirmPage() {
                       : "bg-gray-300 text-black hover:bg-gray-400"
                   }`}
                 >
-                  {/* Ícone de negativo */}
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     fill="none"
@@ -151,22 +152,20 @@ export default function GuestConfirmPage() {
                       d="M6 18L18 6M6 6l12 12"
                     />
                   </svg>
-                  Não irá comparecer
+                  {messages.notConfirm}
                 </Button>
               </div>
             </div>
           ))
         ) : (
-          <p className="text-gray-500 text-center">
-            Nenhum convidado encontrado para este convite.
-          </p>
+          <p className="text-gray-500 text-center">{messages.guestsNotFound}</p>
         )}
         <div className="mt-6 text-center">
           <Button
             onClick={handleSubmit}
             className="bg-pink-600 hover:bg-pink-700"
           >
-            Continuar
+            {messages.continue}
           </Button>
         </div>
       </main>
