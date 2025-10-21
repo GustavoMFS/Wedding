@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import Image from "next/image";
 import GuestLayout from "../components/GuestLayout";
 import { useLanguage } from "../contexts/LanguageContext";
+import "../fonts.css";
 
 export default function HomePage() {
   const router = useRouter();
@@ -16,17 +17,23 @@ export default function HomePage() {
       <GuestLayout>
         <main className="bg-pink-50">
           <section className="text-center py-10" id="inicio">
-            <figure>
+            <figure className="flex justify-center px-4 sm:px-0">
               <Image
                 src="/couple2.jpg"
                 alt={messages.title}
-                width={300}
-                height={300}
-                className="mx-auto rounded-2xl shadow-md object-cover"
+                width={600}
+                height={600}
+                className="w-full max-w-[500px] sm:max-w-[600px] h-auto rounded-2xl shadow-md object-cover"
               />
               <figcaption className="sr-only">{messages.title}</figcaption>
             </figure>
-            <h2 className="text-3xl font-bold mt-4">{messages.title}</h2>
+
+            <h2
+              style={{ fontFamily: "handwriting" }}
+              className="text-9xl  mt-6"
+            >
+              {messages.title}
+            </h2>
           </section>
 
           <section className="text-center px-6 max-w-2xl mx-auto">
@@ -38,24 +45,26 @@ export default function HomePage() {
           </div>
 
           <section className="text-center px-6" id="programacao">
-            <h3 className="text-2xl font-semibold mb-2">
+            <h3 className="text-2xl font-semibold mb-5">
               {messages.detailsHeading}
             </h3>
-            <p className="py-1">
-              <strong>{messages.dressCode}</strong>
-            </p>
-            <p className="py-1">
-              <strong>{messages.recomendations}</strong>
-            </p>
-            <p className="py-1">
-              <strong>{messages.date}</strong>
-            </p>
-            <p className="py-1">
-              <strong>{messages.time}</strong>
-            </p>
-            <p className="py-1">
-              <strong>{messages.partyTime}</strong>
-            </p>
+            <p className="py-1">{messages.dressCode}</p>
+            <p className="py-1">{messages.recomendations}</p>
+            <p className="py-1">{messages.date}</p>
+            <p className="py-1">{messages.time}</p>
+            <p className="py-1">{messages.partyTime}</p>
+          </section>
+
+          <div className="my-10 flex justify-center">
+            <Image src="/divisor.png" alt="Divisor" width={400} height={40} />
+          </div>
+
+          <section className="text-center px-6" id="regras">
+            <h3 className="text-2xl font-semibold mb-5">
+              {messages.rulesHeading}
+            </h3>
+            <p className="py-1">{messages.rulesDressing}</p>
+            <p className="py-1">{messages.rulesCerimony}</p>
           </section>
 
           <div className="my-10 flex justify-center">
@@ -63,7 +72,7 @@ export default function HomePage() {
           </div>
 
           <section className="text-center px-6" id="local">
-            <h3 className="text-2xl font-semibold mb-2">
+            <h3 className="text-2xl font-semibold mb-5">
               {messages.eventHeading}
             </h3>
             <p>
@@ -89,7 +98,7 @@ export default function HomePage() {
           </div>
 
           <section className="text-center px-6" id="local">
-            <h3 className="text-2xl font-semibold mb-2">
+            <h3 className="text-2xl font-semibold mb-5">
               {messages.partyHeading}
             </h3>
             <p>
@@ -114,7 +123,7 @@ export default function HomePage() {
           </div>
 
           <section className="text-center px-6 pb-10" id="presentes">
-            <h3 className="text-2xl font-semibold mb-2">
+            <h3 className="text-2xl font-semibold mb-5">
               {messages.giftsHeading}
             </h3>
             <p>{messages.giftsMessage}</p>
@@ -131,7 +140,7 @@ export default function HomePage() {
           </div>
 
           <section className="text-center px-6 pb-10">
-            <h3 className="text-2xl font-semibold mb-2">
+            <h3 className="text-2xl font-semibold mb-5">
               {messages.rsvpHeading}
             </h3>
             <p>{messages.rsvpMessage}</p>
