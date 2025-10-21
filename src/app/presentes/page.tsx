@@ -128,26 +128,28 @@ function PresentesPage() {
                       className="cursor-pointer"
                     >
                       <Card className="rounded-xl shadow hover:shadow-lg transition h-full flex flex-col">
-                        <CardHeader>
-                          <CardTitle className="text-base">
+                        <CardContent className="px-4 pt-4 pb-0">
+                          <div className="w-full aspect-[4/3] relative rounded-lg overflow-hidden bg-white">
+                            <Image
+                              src={gift.image}
+                              alt={gift.title}
+                              fill
+                              className="object-contain sm:object-cover w-full h-full rounded-lg"
+                            />
+                          </div>
+                        </CardContent>
+
+                        <CardHeader className="text-center px-4 py-3">
+                          <CardTitle className="text-base font-semibold">
                             {gift.title}
                           </CardTitle>
                           <CardDescription className="text-sm">
                             {gift.description}
                           </CardDescription>
-                        </CardHeader>
-                        <CardContent className="flex-1">
-                          <Image
-                            src={gift.image}
-                            alt={gift.title}
-                            width={300}
-                            height={160}
-                            className="w-full h-40 object-cover rounded-lg"
-                          />
                           <p className="mt-2 font-semibold text-sm">
                             {messages.value}: R$ {gift.value.toFixed(2)}
                           </p>
-                        </CardContent>
+                        </CardHeader>
                       </Card>
                     </article>
                   ))}
@@ -176,20 +178,22 @@ function PresentesPage() {
                         className="block"
                       >
                         <Card className="rounded-xl shadow hover:shadow-lg transition h-full flex flex-col">
-                          <CardHeader>
-                            <CardTitle className="text-base">
+                          <CardContent className="px-4 pt-4 pb-0">
+                            <div className="w-full aspect-[4/3] relative rounded-lg overflow-hidden bg-white">
+                              <Image
+                                src={link.image}
+                                alt={link.title}
+                                fill
+                                className="object-contain sm:object-cover w-full h-full rounded-lg"
+                              />
+                            </div>
+                          </CardContent>
+
+                          <CardHeader className="text-center px-4 py-3">
+                            <CardTitle className="text-base font-semibold">
                               {link.title}
                             </CardTitle>
                           </CardHeader>
-                          <CardContent className="flex-1">
-                            <Image
-                              src={link.image}
-                              alt={link.title}
-                              width={300}
-                              height={160}
-                              className="w-full h-40 object-cover rounded-lg"
-                            />
-                          </CardContent>
                         </Card>
                       </a>
                     </article>
