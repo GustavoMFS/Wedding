@@ -11,6 +11,7 @@ import {
 } from "@clerk/nextjs";
 import { HiMenu, HiX } from "react-icons/hi";
 import { useLanguage } from "../contexts/LanguageContext";
+import "../fonts.css";
 
 export default function GuestLayout({ children }: { children: ReactNode }) {
   const router = useRouter();
@@ -19,7 +20,7 @@ export default function GuestLayout({ children }: { children: ReactNode }) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   const { language, setLanguage, getMessages } = useLanguage();
-  const messages = getMessages("menu"); // 👈 pegamos as traduções do menu
+  const messages = getMessages("menu");
 
   const isAdmin = user?.publicMetadata?.role === "admin";
 
@@ -46,12 +47,13 @@ export default function GuestLayout({ children }: { children: ReactNode }) {
 
   return (
     <>
-      <header className="bg-white shadow-md px-6 py-4 flex justify-between items-center relative">
+      <header className="bg-pink-50 shadow-md px-6 py-4 flex justify-between items-center relative">
         <h1
           onClick={() => router.push("/")}
-          className="text-2xl font-bold text-gray-800 cursor-pointer hover:opacity-80 transition"
+          style={{ fontFamily: "handwriting", letterSpacing: "0.5em" }}
+          className="text-3xl font-bold text-gray-800 cursor-pointer hover:opacity-80 transition"
         >
-          Gustavo ❤️ Maria
+          G M
         </h1>
 
         <nav className="hidden sm:flex items-center gap-6">
