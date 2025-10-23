@@ -1,6 +1,6 @@
 {
   "title": "Gustavo & Maria",
-  "welcomeMessage": "Estamos muito felizes em compartilhar este momento com você! Esperamos que possa estar presente para comemorar este dia tão especial.",
+  "welcomeMessage": "Estamos muito felizes em compartilhar este momento com você! Esperamos que possa estar presente para comemorar este dia tão especial",
   "detailsHeading": "Detalhes do evento",
   "dressCode": "Vestimenta: Passeio Completo",
   "recomendations": "Evitar trajes brancos",
@@ -9,13 +9,13 @@
   "partyTime": "Horário da festa: 18:00",
   "rulesHeading": "Regras para o evento",
   "rulesDressing": "Vestimentas: Evitar vestidos e ternos brancos",
-  "rulesCerimony": "No local da cerimonia religiosa não é permitido fogos deartifício, utilizar bolhas de sabão ou jogar qualquer outro objetocomo arroz ou confetis",
+  "rulesCerimony": "No local da cerimonia religiosa não é permitido fogos de artifício, utilizar bolhas de sabão ou jogar qualquer outro objeto como arroz ou confetis",
   "eventHeading": "Local da Cerimônia",
   "partyHeading": "Local do Evento",
   "giftsHeading": "Lista de Presentes",
-  "giftsMessage": "Você pode escolher um presente ou contribuir com qualquer valor.",
+  "giftsMessage": "Você pode escolher um presente ou contribuir com qualquer valor",
   "seeGifts": "Ver Lista de Presentes 🎁",
   "rsvpHeading": "Confirmação de Presença",
-  "rsvpMessage": "Insira o PIN que você recebeu para confirmar sua presença.",
+  "rsvpMessage": "Insira o PIN que você recebeu para confirmar sua presença",
   "confirmPresence": "Confirmar Presença 📝"
 }

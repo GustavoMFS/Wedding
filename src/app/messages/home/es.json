@@ -1,6 +1,6 @@
 {
   "title": "Gustavo & Maria",
-  "welcomeMessage": "¡Estamos muy felices de compartir este momento contigo! Esperamos que puedas estar presente para celebrar este día tan especial.",
+  "welcomeMessage": "¡Estamos muy felices de compartir este momento contigo! Esperamos que puedas estar presente para celebrar este día tan especial",
   "detailsHeading": "Detalles del evento",
   "dressCode": "Vestimenta: Traje Formal",
   "recomendations": "Evitar los trajes blancos",
@@ -13,9 +13,9 @@
   "eventHeading": "Lugar de la Ceremonia",
   "partyHeading": "Lugar del Evento",
   "giftsHeading": "Lista de Regalos",
-  "giftsMessage": "Puedes elegir un regalo o contribuir con cualquier cantidad.",
+  "giftsMessage": "Puedes elegir un regalo o contribuir con cualquier cantidad",
   "seeGifts": "Ver Lista de Regalos 🎁",
   "rsvpHeading": "Confirmación de Asistencia",
-  "rsvpMessage": "Ingresa el PIN que recibiste para confirmar tu asistencia.",
+  "rsvpMessage": "Ingresa el PIN que recibiste para confirmar tu asistencia",
   "confirmPresence": "Confirmar Asistencia 📝"
 }
