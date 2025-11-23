@@ -4,3 +4,45 @@
   font-weight: 400;
   font-style: normal;
 }
+
+@font-face {
+  font-family: "hacky";
+  src: url("/font/Hacky.ttf") format("opentype");
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "fortalesiap";
+  src: url("/font/FortalesiaPlain.otf") format("opentype");
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "fortalesias";
+  src: url("/font/FortalesiaScript.otf") format("opentype");
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "birds";
+  src: url("/font/BirdsofParadise.ttf") format("opentype");
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "cinzel";
+  src: url("/font/Cinzel-Regular.otf") format("opentype");
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "cinzelb";
+  src: url("/font/Cinzel-Bold.otf") format("opentype");
+  font-weight: 400;
+  font-style: normal;
+}
