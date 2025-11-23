@@ -162,7 +162,9 @@ export default function PixCheckoutPage() {
     <GuestProtectedPage>
       <GuestLayout>
         <div className="max-w-xl mx-auto p-4 space-y-4 text-center">
-          <h1 className="text-2xl font-bold">{gift.title}</h1>
+          <h1 className="text-2xl font-[cinzel] text-[#385e85] font-bold">
+            {gift.title}
+          </h1>
           {gift.image && (
             <Image
               src={gift.image}
@@ -172,8 +174,10 @@ export default function PixCheckoutPage() {
               className="w-full rounded"
             />
           )}
-          <p className="text-gray-700">{gift.description}</p>
-          <p>
+          <p className="font-[cinzel] text-[#385e85] font-semibold">
+            {gift.description}
+          </p>
+          <p className="font-[cinzel] text-[#385e85]">
             {messages.value}: <strong>R$ {displayValue.toFixed(2)}</strong>
           </p>
 
@@ -191,12 +195,12 @@ export default function PixCheckoutPage() {
 
               {pixCode && (
                 <div className="w-full max-w-xs flex flex-col items-center space-y-2">
-                  <p className="break-all bg-gray-100 p-3 rounded text-center w-full shadow-inner">
+                  <p className="break-all bg-gray-100  p-3 rounded text-center w-full shadow-inner">
                     {pixCode}
                   </p>
                   <motion.button
                     onClick={() => navigator.clipboard.writeText(pixCode)}
-                    className="w-full bg-gradient-to-r from-green-400 to-green-600 text-white font-semibold py-2 rounded shadow hover:from-green-500 hover:to-green-700 transition"
+                    className="w-full bg-gradient-to-r font-[cinzel] from-green-400 to-green-600 text-white font-semibold py-2 rounded shadow hover:from-green-500 hover:to-green-700 transition"
                     whileHover={{ scale: 1.03 }}
                     whileTap={{ scale: 0.97 }}
                   >
@@ -207,7 +211,7 @@ export default function PixCheckoutPage() {
 
               <motion.button
                 onClick={verifyPayment}
-                className="w-full max-w-xs bg-gradient-to-r from-blue-500 to-indigo-600 text-white font-semibold py-2 rounded shadow hover:from-blue-600 hover:to-indigo-700 transition"
+                className="w-full max-w-xs bg-gradient-to-r font-[cinzel] from-blue-500 to-indigo-600 text-white font-semibold py-2 rounded shadow hover:from-blue-600 hover:to-indigo-700 transition"
                 whileHover={{ scale: 1.03 }}
                 whileTap={{ scale: 0.97 }}
               >

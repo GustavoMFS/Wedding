@@ -47,11 +47,11 @@ export default function GuestLayout({ children }: { children: ReactNode }) {
 
   return (
     <>
-      <header className="bg-pink-50 shadow-md px-6 py-4 flex justify-between items-center relative">
+      <header className="bg-[#ffffff] shadow-md px-6 py-4 flex justify-between items-center border-b border-[#dbe6f0]">
         <h1
           onClick={() => router.push("/")}
           style={{ fontFamily: "handwriting", letterSpacing: "0.5em" }}
-          className="text-3xl font-bold text-gray-800 cursor-pointer hover:opacity-80 transition"
+          className="text-3xl font-bold text-[#385e85] cursor-pointer hover:bg- transition"
         >
           G M
         </h1>
@@ -63,7 +63,15 @@ export default function GuestLayout({ children }: { children: ReactNode }) {
                 <button
                   key={item.path}
                   onClick={() => handleNavigate(item.path)}
-                  className="text-gray-700 font-medium px-3 py-2 rounded-md hover:bg-gray-100 transition"
+                  className="
+    text-[#385e85]
+    font-medium 
+    font-[cinzel]
+    px-3 py-2 
+    rounded-md 
+    hover:bg-[#e8f0f8]
+    transition
+  "
                 >
                   {item.label}
                 </button>
@@ -72,7 +80,17 @@ export default function GuestLayout({ children }: { children: ReactNode }) {
 
           <SignedOut>
             <SignInButton mode="modal" forceRedirectUrl="/login/sign-in">
-              <button className="text-gray-700 font-medium px-3 py-2 rounded-md hover:bg-gray-100 transition">
+              <button
+                className="
+    text-[#385e85]
+    font-medium 
+    font-[cinzel]
+    px-3 py-2 
+    rounded-md 
+    hover:bg-[#e8f0f8]
+    transition
+  "
+              >
                 {messages.login}
               </button>
             </SignInButton>
@@ -87,8 +105,8 @@ export default function GuestLayout({ children }: { children: ReactNode }) {
               onClick={() => setLanguage("pt")}
               className={`px-3 py-1 text-sm rounded-md transition ${
                 language === "pt"
-                  ? "bg-gray-900 text-white"
-                  : "bg-gray-100 text-gray-700 hover:bg-gray-200"
+                  ? "bg-[#385e85] text-white"
+                  : "bg-[#f2f6fa] text-[#385e85] hover:bg-[#e8f0f8]"
               }`}
             >
               PT
@@ -97,8 +115,8 @@ export default function GuestLayout({ children }: { children: ReactNode }) {
               onClick={() => setLanguage("es")}
               className={`px-3 py-1 text-sm rounded-md transition ${
                 language === "es"
-                  ? "bg-gray-900 text-white"
-                  : "bg-gray-100 text-gray-700 hover:bg-gray-200"
+                  ? "bg-[#385e85] text-white"
+                  : "bg-[#f2f6fa] text-[#385e85] hover:bg-[#e8f0f8]"
               }`}
             >
               ES
@@ -107,7 +125,7 @@ export default function GuestLayout({ children }: { children: ReactNode }) {
         </nav>
 
         <button
-          className="sm:hidden text-gray-800 text-3xl"
+          className="sm:hidden text-[#385e85] text-3xl"
           onClick={() => setSidebarOpen(true)}
         >
           <HiMenu />
@@ -120,12 +138,12 @@ export default function GuestLayout({ children }: { children: ReactNode }) {
         }`}
       >
         <div className="flex justify-between items-center p-4 border-b border-gray-200">
-          <h2 className="text-xl font-bold text-gray-800">
+          <h2 className="text-xl font-bold text-[#385e85]">
             {messages.menuTitle}
           </h2>
           <button
             onClick={() => setSidebarOpen(false)}
-            className="text-2xl text-gray-800"
+            className="text-2xl text-[#385e85]"
           >
             <HiX />
           </button>
@@ -136,8 +154,8 @@ export default function GuestLayout({ children }: { children: ReactNode }) {
             onClick={() => setLanguage("pt")}
             className={`px-4 py-1 rounded-md text-sm ${
               language === "pt"
-                ? "bg-gray-900 text-white"
-                : "bg-gray-100 text-gray-700 hover:bg-gray-200"
+                ? "bg-[#385e85] text-white"
+                : "bg-[#f2f6fa] text-[#385e85] hover:bg-[#e8f0f8]"
             }`}
           >
             PT
@@ -146,8 +164,8 @@ export default function GuestLayout({ children }: { children: ReactNode }) {
             onClick={() => setLanguage("es")}
             className={`px-4 py-1 rounded-md text-sm ${
               language === "es"
-                ? "bg-gray-900 text-white"
-                : "bg-gray-100 text-gray-700 hover:bg-gray-200"
+                ? "bg-[#385e85] text-white"
+                : "bg-[#f2f6fa] text-[#385e85] hover:bg-[#e8f0f8]"
             }`}
           >
             ES
@@ -161,7 +179,9 @@ export default function GuestLayout({ children }: { children: ReactNode }) {
                 <button
                   key={item.path}
                   onClick={() => handleNavigate(item.path)}
-                  className="text-left text-gray-800 font-medium px-2 py-2 rounded hover:bg-gray-100 transition"
+                  className="text-left     text-[#385e85]
+    font-medium 
+    font-[cinzel] px-2 py-2 rounded hover:bg-gray-100 transition"
                 >
                   {item.label}
                 </button>
@@ -170,7 +190,11 @@ export default function GuestLayout({ children }: { children: ReactNode }) {
 
           <SignedOut>
             <SignInButton mode="modal" forceRedirectUrl="/login/sign-in">
-              <button className="text-left text-gray-800 font-medium px-2 py-2 rounded hover:bg-gray-100 transition">
+              <button
+                className="text-left     text-[#385e85]
+    font-medium 
+    font-[cinzel] px-2 py-2 rounded hover:bg-gray-100 transition"
+              >
                 {messages.login}
               </button>
             </SignInButton>

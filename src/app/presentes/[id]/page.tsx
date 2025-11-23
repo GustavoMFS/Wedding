@@ -192,62 +192,73 @@ export default function GiftDetailPage() {
   return (
     <GuestProtectedPage>
       <GuestLayout>
-        <main className="min-h-screen max-w-xl mx-auto p-4 space-y-4">
-          <h1 className="text-2xl font-bold">{gift.title}</h1>
-          {gift.image && (
-            <Image
-              src={gift.image}
-              alt={gift.title}
-              width={600}
-              height={300}
-              className="w-full rounded"
-            />
-          )}
-          <p className="text-gray-700">{gift.description}</p>
-          <p>
-            {messages.valueLabel} <strong>R$ {gift.value.toFixed(2)}</strong>
-          </p>
-
-          <div className="space-y-2 pt-4">
-            <input
-              type="text"
-              placeholder={messages.placeholderName}
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              className="w-full border border-gray-300 rounded p-2 focus:outline-none focus:ring-2 focus:ring-indigo-300"
-            />
-            <textarea
-              placeholder={messages.placeholderMessage}
-              value={message}
-              onChange={(e) => setMessage(e.target.value)}
-              className="w-full border border-gray-300 rounded p-2 focus:outline-none focus:ring-2 focus:ring-indigo-300"
-            />
-            {gift.paymentType === "partial" && (
-              <input
-                type="number"
-                step="0.01"
-                min="1"
-                max={remaining}
-                placeholder="Valor a contribuir (R$)"
-                value={value}
-                onChange={(e) => setValue(e.target.value)}
-                className="w-full border border-gray-300 rounded p-2 focus:outline-none focus:ring-2 focus:ring-indigo-300"
+        <div
+          className="bg-[#ffffff] bg-absolute bg-cover z-0"
+          style={{
+            backgroundImage: "url('/paper1.jpg')",
+            backgroundBlendMode: "multiply",
+          }}
+        >
+          <main className="min-h-screen max-w-xl mx-auto p-4 space-y-4 bg-[#ffffff]">
+            <h1 className="text-2xl font-[cinzel] text-[#385e85] font-bold">
+              {gift.title}
+            </h1>
+            {gift.image && (
+              <Image
+                src={gift.image}
+                alt={gift.title}
+                width={600}
+                height={300}
+                className="w-full rounded"
               />
             )}
+            <p className="text-lg font-[cinzel] text-[#385e85] font-semibold">
+              {gift.description}
+            </p>
+            <p className=" font-[cinzel] text-[#0d2946]">
+              {messages.valueLabel} <strong>R$ {gift.value.toFixed(2)}</strong>
+            </p>
 
-            <div className="flex flex-col space-y-2">
-              <motion.button
-                onClick={handleMercadoPagoClick}
-                className="w-full bg-gradient-to-r from-purple-500 to-indigo-500 text-white font-semibold py-2 rounded shadow hover:from-purple-600 hover:to-indigo-600 transition"
-                whileHover={{ scale: 1.03 }}
-                whileTap={{ scale: 0.97 }}
-              >
-                {messages.creditButton}
-              </motion.button>
-            </div>
+            <div className="space-y-2 pt-4">
+              <input
+                type="text"
+                placeholder={messages.placeholderName}
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                className="w-full border font-[cinzel] border-gray-300 rounded p-2 focus:outline-none focus:ring-2 focus:ring-indigo-300"
+              />
+              <textarea
+                placeholder={messages.placeholderMessage}
+                value={message}
+                onChange={(e) => setMessage(e.target.value)}
+                className="w-full border font-[cinzel] border-gray-300 rounded p-2 focus:outline-none focus:ring-2 focus:ring-indigo-300"
+              />
+              {gift.paymentType === "partial" && (
+                <input
+                  type="number"
+                  step="0.01"
+                  min="1"
+                  max={remaining}
+                  placeholder="Valor a contribuir (R$)"
+                  value={value}
+                  onChange={(e) => setValue(e.target.value)}
+                  className="w-full border font-[cinzel] border-gray-300 rounded p-2 focus:outline-none focus:ring-2 focus:ring-indigo-300"
+                />
+              )}
 
-            {/* outras opções de pagamento, só descomentar */}
-            {/* <div className="flex flex-col space-y-2">
+              <div className="flex flex-col space-y-2">
+                <motion.button
+                  onClick={handleMercadoPagoClick}
+                  className="w-full font-[cinzel] bg-gradient-to-r from-purple-500 to-indigo-500 text-white font-semibold py-2 rounded shadow hover:from-purple-600 hover:to-indigo-600 transition"
+                  whileHover={{ scale: 1.03 }}
+                  whileTap={{ scale: 0.97 }}
+                >
+                  {messages.creditButton}
+                </motion.button>
+              </div>
+
+              {/* outras opções de pagamento, só descomentar */}
+              {/* <div className="flex flex-col space-y-2">
               <motion.button
                 onClick={() => setCreditDropdownOpen(!creditDropdownOpen)}
                 className="w-full bg-gradient-to-r from-purple-500 to-indigo-500 text-white font-semibold py-2 rounded shadow hover:from-purple-600 hover:to-indigo-600 transition"
@@ -287,16 +298,17 @@ export default function GiftDetailPage() {
               </AnimatePresence>
             </div> */}
 
-            <motion.button
-              onClick={handlePixClick}
-              className="w-full bg-gradient-to-r from-green-400 to-green-600 text-white font-semibold py-2 rounded shadow hover:from-green-500 hover:to-green-700 transition mt-2"
-              whileHover={{ scale: 1.03 }}
-              whileTap={{ scale: 0.97 }}
-            >
-              {messages.pixButton}
-            </motion.button>
-          </div>
-        </main>
+              <motion.button
+                onClick={handlePixClick}
+                className="w-full bg-gradient-to-r font-[cinzel] from-green-400 to-green-600 text-white font-semibold py-2 rounded shadow hover:from-green-500 hover:to-green-700 transition mt-2"
+                whileHover={{ scale: 1.03 }}
+                whileTap={{ scale: 0.97 }}
+              >
+                {messages.pixButton}
+              </motion.button>
+            </div>
+          </main>
+        </div>
       </GuestLayout>
     </GuestProtectedPage>
   );

@@ -15,7 +15,58 @@ export default function HomePage() {
   return (
     <GuestProtectedPage>
       <GuestLayout>
-        <main className="bg-pink-50">
+        <main
+          className="relative min-h-screen bg-[#ffffff] bg-absolute bg-cover text-[#385e85] z-0"
+          style={{
+            backgroundImage: "url('/paper1.jpg')",
+            backgroundBlendMode: "multiply",
+          }}
+        >
+          <Image
+            src="/flower.png"
+            alt=""
+            width={600}
+            height={600}
+            className="
+    hidden md:block
+    pointer-events-none select-none absolute
+    top-0 right-0
+    mix-blend-normal
+    -z-10
+    w-[120px] sm:w-[180px] md:w-[260px] lg:w-[320px]
+  "
+          />
+
+          <Image
+            src="/flower2.png"
+            alt=""
+            width={600}
+            height={600}
+            className="
+    hidden md:block
+    pointer-events-none select-none absolute
+    top-1/3 left-0
+    mix-blend-normal
+    -z-10
+    w-[100px] sm:w-[160px] md:w-[220px] lg:w-[280px]
+  "
+          />
+
+          <Image
+            src="/flower.png"
+            alt=""
+            width={600}
+            height={600}
+            className="
+    hidden md:block
+    pointer-events-none select-none absolute
+    bottom-0 right-0
+    mix-blend-normal
+    -z-10
+    w-[140px] sm:w-[200px] md:w-[280px] lg:w-[350px]
+  "
+          />
+
           <section className="text-center py-10" id="inicio">
             <figure className="flex justify-center px-4 sm:px-0">
               <Image
@@ -37,45 +88,75 @@ export default function HomePage() {
           </section>
 
           <section className="text-center px-6 max-w-2xl mx-auto">
-            <p className="text-lg">{messages.welcomeMessage}</p>
+            <p className="text-base font-[cinzelb]">
+              {messages.welcomeMessage}
+            </p>
           </section>
 
           <div className="my-10 flex justify-center">
-            <Image src="/divisor.png" alt="Divisor" width={400} height={40} />
+            <Image
+              src="/divisorblue.png"
+              alt="Divisor"
+              width={400}
+              height={40}
+            />
           </div>
 
-          <section className="text-center px-6" id="programacao">
-            <h3 className="text-2xl font-semibold mb-5">
+          <section
+            className="text-center px-6 max-w-2xl mx-auto"
+            id="programacao"
+          >
+            <h3 className="text-2xl font-[cinzelb] mb-5">
               {messages.detailsHeading}
             </h3>
-            <p className="py-1">{messages.dressCode}</p>
-            <p className="py-1">{messages.recomendations}</p>
-            <p className="py-1">{messages.date}</p>
-            <p className="py-1">{messages.time}</p>
-            <p className="py-1">{messages.partyTime}</p>
+            <p className="py-1 text-base font-[cinzelb]">
+              {messages.dressCode}
+            </p>
+            <p className="py-1 text-base font-[cinzelb]">
+              {messages.recomendations}
+            </p>
+            <p className="py-1 text-base font-[cinzelb]">{messages.date}</p>
+            <p className="py-1 text-base font-[cinzelb]">{messages.time}</p>
+            <p className="py-1 text-base font-[cinzelb]">
+              {messages.partyTime}
+            </p>
           </section>
 
           <div className="my-10 flex justify-center">
-            <Image src="/divisor.png" alt="Divisor" width={400} height={40} />
+            <Image
+              src="/divisorblue.png"
+              alt="Divisor"
+              width={400}
+              height={40}
+            />
           </div>
 
-          <section className="text-center px-6" id="regras">
-            <h3 className="text-2xl font-semibold mb-5">
+          <section className="text-center px-6 max-w-2xl mx-auto" id="regras">
+            <h3 className="text-2xl font-[cinzelb] mb-5">
               {messages.rulesHeading}
             </h3>
-            <p className="py-1">{messages.rulesDressing}</p>
-            <p className="py-1">{messages.rulesCerimony}</p>
+            <p className="py-1 text-base font-[cinzelb]">
+              {messages.rulesDressing}
+            </p>
+            <p className="py-1 text-base font-[cinzelb]">
+              {messages.rulesCerimony}
+            </p>
           </section>
 
           <div className="my-10 flex justify-center">
-            <Image src="/divisor.png" alt="Divisor" width={400} height={40} />
+            <Image
+              src="/divisorblue.png"
+              alt="Divisor"
+              width={400}
+              height={40}
+            />
           </div>
 
-          <section className="text-center px-6" id="local">
-            <h3 className="text-2xl font-semibold mb-5">
+          <section className="text-center px-6 max-w-2xl mx-auto" id="local">
+            <h3 className="text-2xl font-[cinzelb] mb-5">
               {messages.eventHeading}
             </h3>
-            <p>
+            <p className=" text-base font-[cinzelb]">
               Nossa Senhora da Salette - Rua Lange de Morretes, 533 - Jardim
               Social, Curitiba - PR
             </p>
@@ -94,14 +175,19 @@ export default function HomePage() {
           </section>
 
           <div className="my-10 flex justify-center">
-            <Image src="/divisor.png" alt="Divisor" width={400} height={40} />
+            <Image
+              src="/divisorblue.png"
+              alt="Divisor"
+              width={400}
+              height={40}
+            />
           </div>
 
-          <section className="text-center px-6" id="local">
-            <h3 className="text-2xl font-semibold mb-5">
+          <section className="text-center px-6 max-w-2xl mx-auto" id="local">
+            <h3 className="text-2xl font-[cinzelb] mb-5">
               {messages.partyHeading}
             </h3>
-            <p>
+            <p className="text-base font-[cinzelb]">
               Quintana Gastronomia - Av. do Batel, 1440 - Batel, Curitiba - PR
             </p>
             <div className="mt-4 flex justify-center">
@@ -119,34 +205,51 @@ export default function HomePage() {
           </section>
 
           <div className="my-10 flex justify-center">
-            <Image src="/divisor.png" alt="Divisor" width={400} height={40} />
+            <Image
+              src="/divisorblue.png"
+              alt="Divisor"
+              width={400}
+              height={40}
+            />
           </div>
 
-          <section className="text-center px-6 pb-10" id="presentes">
-            <h3 className="text-2xl font-semibold mb-5">
+          <section
+            className="text-center px-6 pb-10 max-w-2xl mx-auto"
+            id="presentes"
+          >
+            <h3 className="text-2xl font-[cinzelb] mb-5">
               {messages.giftsHeading}
             </h3>
-            <p>{messages.giftsMessage}</p>
+            <p className="text-base font-[cinzelb] max-w-xl mx-auto">
+              {messages.giftsMessage}
+            </p>
             <button
               onClick={() => router.push("/presentes")}
-              className="mt-6 bg-pink-500 hover:bg-pink-600 text-white font-semibold px-6 py-2 rounded"
+              className="mt-6 bg-[#385e85] hover:bg-[#0d2946] text-white font-semibold px-6 py-2 rounded"
             >
               {messages.seeGifts}
             </button>
           </section>
 
           <div className="my-10 flex justify-center">
-            <Image src="/divisor.png" alt="Divisor" width={400} height={40} />
+            <Image
+              src="/divisorblue.png"
+              alt="Divisor"
+              width={400}
+              height={40}
+            />
           </div>
 
-          <section className="text-center px-6 pb-10">
-            <h3 className="text-2xl font-semibold mb-5">
+          <section className="text-center px-6 pb-10 max-w-2xl mx-auto">
+            <h3 className="text-2xl font-[cinzelb] mb-5">
               {messages.rsvpHeading}
             </h3>
-            <p>{messages.rsvpMessage}</p>
+            <p className="text-base font-[cinzelb] max-w-lg mx-auto">
+              {messages.rsvpMessage}
+            </p>
             <button
               onClick={() => router.push("/guest")}
-              className="mt-4 bg-pink-500 hover:bg-pink-600 text-white font-semibold px-6 py-2 rounded transition"
+              className="mt-4 bg-[#385e85] hover:bg-[#0d2946] text-white font-semibold px-6 py-2 rounded transition"
             >
               {messages.confirmPresence}
             </button>
