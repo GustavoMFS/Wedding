@@ -93,7 +93,7 @@ function PresentesPage() {
   if (loading) {
     return (
       <GuestLayout>
-        <main className="min-h-screen bg-pink-100 flex items-center justify-center">
+        <main className="min-h-screen bg-[#ffffff] flex items-center justify-center">
           <p className="text-center p-4">{messages.loading}</p>
         </main>
       </GuestLayout>
