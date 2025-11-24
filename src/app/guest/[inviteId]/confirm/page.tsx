@@ -92,10 +92,10 @@ export default function GuestConfirmPage() {
   return (
     <GuestLayout>
       <main className="max-w-2xl mx-auto px-6 py-10">
-        <h2 className="text-2xl font-bold mb-6 text-center">
+        <h2 className="text-2xl font-[cinzelb] mb-6 text-center">
           {messages.guestsConfirmationTitle}
         </h2>
-        <h3 className="text-1xl font-bold mb-6 text-center text-gray-600">
+        <h3 className="text-1xl font-[cinzelb] mb-6 text-center text-gray-600">
           {messages.guestsConfirmationSubTitle}
         </h3>
         {guests.length > 0 ? (
@@ -163,7 +163,7 @@ export default function GuestConfirmPage() {
         <div className="mt-6 text-center">
           <Button
             onClick={handleSubmit}
-            className="bg-pink-600 hover:bg-pink-700"
+            className="bg-[#385e85] hover:bg-[#0d2946] font-[cinzelb] text-white"
           >
             {messages.continue}
           </Button>

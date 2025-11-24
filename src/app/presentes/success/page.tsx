@@ -14,7 +14,7 @@ export default function PaymentSuccessPage() {
       <GuestLayout>
         <div className="max-w-xl mx-auto p-8 text-center space-y-6">
           <motion.h1
-            className="text-3xl font-bold text-green-600"
+            className="text-3xl font-[cinzelb] text-green-600"
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
@@ -23,7 +23,7 @@ export default function PaymentSuccessPage() {
           </motion.h1>
 
           <motion.p
-            className="mt-4 text-lg text-gray-700"
+            className="mt-4 text-lg font-[cinzelb]  text-gray-700"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.7 }}
@@ -38,7 +38,7 @@ export default function PaymentSuccessPage() {
           >
             <motion.a
               href="/presentes"
-              className="inline-block bg-gradient-to-r from-purple-500 to-indigo-600 text-white font-semibold px-6 py-3 rounded shadow-lg hover:from-purple-600 hover:to-indigo-700 transition"
+              className="inline-block bg-gradient-to-r font-[cinzel]  from-purple-500 to-indigo-600 text-white font-semibold px-6 py-3 rounded shadow-lg hover:from-purple-600 hover:to-indigo-700 transition"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.97 }}
             >

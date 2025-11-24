@@ -69,7 +69,7 @@ export default function GuestQuestionsPage() {
         ))}
         <div className="mt-6 text-center">
           <button
-            className="bg-pink-600 hover:bg-pink-700 text-white py-2 px-4 rounded"
+            className="bg-[#385e85] hover:bg-[#0d2946] font-[cinzelb] text-white py-2 px-4 rounded"
             onClick={() => router.push(`/guest/${inviteId}/contact`)}
           >
             Continuar

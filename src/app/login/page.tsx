@@ -44,12 +44,18 @@ export default function LoginPage() {
 
   return (
     <PublicOnlyPage>
-      <main className="flex min-h-screen items-center justify-center bg-pink-100">
+      <main
+        className="flex min-h-screen items-center justify-center bg-[#ffffff] bg-absolute bg-cover text-[#385e85] z-0"
+        style={{
+          backgroundImage: "url('/paper1.jpg')",
+          backgroundBlendMode: "multiply",
+        }}
+      >
         <form
           onSubmit={handleSubmit}
-          className="bg-white p-6 rounded shadow-md"
+          className="bg-[#ffffff] p-6 rounded shadow-md"
         >
-          <h1 className="text-xl font-bold mb-4">
+          <h1 className="text-xl font-bold mb-4 font-[cinzelb]">
             Bem-vindo ao nosso casamento!
           </h1>
           <input
@@ -61,7 +67,7 @@ export default function LoginPage() {
           <button
             type="submit"
             disabled={loading}
-            className="bg-pink-500 text-white px-4 py-2 rounded w-full"
+            className="bg-[#e5c986] text-[#385e85] font-[cinzelb] font-bold px-4 py-2 rounded w-full"
           >
             {loading ? "Entrando..." : "Entrar"}
           </button>

@@ -86,18 +86,20 @@ export default function GuestContactPage() {
     return (
       <GuestLayout>
         <main className="max-w-2xl mx-auto px-6 py-10 text-center">
-          <h2 className="text-3xl font-bold mb-6">{messages.thanksTitle}</h2>
-          <p className="mb-6">{messages.thanksTitle}</p>
+          <h2 className="text-3xl font-[cinzelb] mb-6">
+            {messages.thanksTitle}
+          </h2>
+          <p className="mb-6 font-[cinzelb]">{messages.thanksSubTitle}</p>
           <div className="flex flex-col md:flex-row justify-center gap-4">
             <button
               onClick={() => router.push(`/presentes`)}
-              className="bg-pink-600 hover:bg-pink-700 text-white py-2 px-4 rounded"
+              className="bg-[#385e85] hover:bg-[#0d2946] font-[cinzel] text-white py-2 px-4 rounded"
             >
               {messages.giftsButton}
             </button>
             <button
               onClick={() => router.push("/")}
-              className="bg-gray-300 hover:bg-gray-400 text-gray-800 py-2 px-4 rounded"
+              className="bg-gray-300 hover:bg-gray-400 font-[cinzel] text-gray-800 py-2 px-4 rounded"
             >
               {messages.homeButton}
             </button>
@@ -109,10 +111,10 @@ export default function GuestContactPage() {
   return (
     <GuestLayout>
       <main className="max-w-2xl mx-auto px-6 py-10">
-        <h2 className="text-2xl font-bold mb-6 text-center">
+        <h2 className="text-2xl font-[cinzelb] mb-6 text-center">
           {messages.contactTitle}
         </h2>
-        <h3 className="text-1xl font-bold mb-6 text-center text-gray-600">
+        <h3 className="text-1xl font-[cinzelb] mb-6 text-center text-gray-600">
           {messages.contactSubTitle}
         </h3>
 
@@ -133,7 +135,7 @@ export default function GuestContactPage() {
           />
           <button
             type="submit"
-            className="bg-pink-600 hover:bg-pink-700 text-white py-2 px-4 rounded w-full"
+            className="bg-[#385e85] hover:bg-[#0d2946] font-[cinzelb] text-white py-2 px-4 rounded w-full"
           >
             {messages.send}
           </button>
