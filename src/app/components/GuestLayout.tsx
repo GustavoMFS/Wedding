@@ -2,27 +2,29 @@
 
 import { useRouter, usePathname } from "next/navigation";
 import { ReactNode, useState, useEffect } from "react";
-import {
-  SignedIn,
-  SignedOut,
-  SignInButton,
-  UserButton,
-  useUser,
-} from "@clerk/nextjs";
 import { HiMenu, HiX } from "react-icons/hi";
 import { useLanguage } from "../contexts/LanguageContext";
 import "../fonts.css";
+import AdminAccess from "../components/AdminAcess";
 
 export default function GuestLayout({ children }: { children: ReactNode }) {
   const router = useRouter();
   const pathname = usePathname();
-  const { user } = useUser();
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   const { language, setLanguage, getMessages } = useLanguage();
   const messages = getMessages("menu");
 
-  const isAdmin = user?.publicMetadata?.role === "admin";
+  const menuItems = [
+    { label: messages.home, path: "/home" },
+    { label: messages.gifts, path: "/presentes" },
+    { label: messages.confirmPresence, path: "/guest" },
+  ];
+
+  const handleNavigate = (path: string) => {
+    setSidebarOpen(false);
+    router.push(path);
+  };
 
   useEffect(() => {
     if (language) {
@@ -33,25 +35,13 @@ export default function GuestLayout({ children }: { children: ReactNode }) {
     }
   }, [language]);
 
-  const menuItems = [
-    { label: messages.home, path: "/home" },
-    { label: messages.gifts, path: "/presentes" },
-    { label: messages.confirmPresence, path: "/guest" },
-    ...(isAdmin ? [{ label: messages.admin, path: "/admin" }] : []),
-  ];
-
-  const handleNavigate = (path: string) => {
-    setSidebarOpen(false);
-    router.push(path);
-  };
-
   return (
     <>
       <header className="bg-[#ffffff] shadow-md px-6 py-4 flex justify-between items-center border-b border-[#dbe6f0]">
         <h1
           onClick={() => router.push("/")}
           style={{ fontFamily: "handwriting", letterSpacing: "0.5em" }}
-          className="text-3xl font-bold text-[#385e85] cursor-pointer hover:bg- transition"
+          className="text-3xl font-bold text-[#385e85] cursor-pointer"
         >
           G M
         </h1>
@@ -63,42 +53,16 @@ export default function GuestLayout({ children }: { children: ReactNode }) {
                 <button
                   key={item.path}
                   onClick={() => handleNavigate(item.path)}
-                  className="
-    text-[#385e85]
-    font-medium 
-    font-[cinzel]
-    px-3 py-2 
-    rounded-md 
-    hover:bg-[#e8f0f8]
-    transition
-  "
+                  className="text-[#385e85] font-medium font-[cinzel] px-3 py-2 rounded-md hover:bg-[#e8f0f8] transition"
                 >
                   {item.label}
                 </button>
               )
           )}
 
-          <SignedOut>
-            <SignInButton mode="modal" forceRedirectUrl="/login/sign-in">
-              <button
-                className="
-    text-[#385e85]
-    font-medium 
-    font-[cinzel]
-    px-3 py-2 
-    rounded-md 
-    hover:bg-[#e8f0f8]
-    transition
-  "
-              >
-                {messages.login}
-              </button>
-            </SignInButton>
-          </SignedOut>
-
-          <SignedIn>
-            <UserButton afterSignOutUrl="/home" />
-          </SignedIn>
+          <AdminAccess
+            messages={{ admin: messages.admin, login: messages.login }}
+          />
 
           <div className="flex items-center gap-2 border-l border-gray-200 pl-4">
             <button
@@ -179,26 +143,16 @@ export default function GuestLayout({ children }: { children: ReactNode }) {
                 <button
                   key={item.path}
                   onClick={() => handleNavigate(item.path)}
-                  className="text-left     text-[#385e85]
-    font-medium 
-    font-[cinzel] px-2 py-2 rounded hover:bg-gray-100 transition"
+                  className="text-left text-[#385e85] font-medium font-[cinzel] px-2 py-2 rounded hover:bg-gray-100 transition"
                 >
                   {item.label}
                 </button>
               )
           )}
 
-          <SignedOut>
-            <SignInButton mode="modal" forceRedirectUrl="/login/sign-in">
-              <button
-                className="text-left     text-[#385e85]
-    font-medium 
-    font-[cinzel] px-2 py-2 rounded hover:bg-gray-100 transition"
-              >
-                {messages.login}
-              </button>
-            </SignInButton>
-          </SignedOut>
+          <AdminAccess
+            messages={{ admin: messages.admin, login: messages.login }}
+          />
         </div>
       </div>
 
@@ -206,7 +160,7 @@ export default function GuestLayout({ children }: { children: ReactNode }) {
         <div
           className="fixed inset-0 bg-black/30 backdrop-blur-sm z-40"
           onClick={() => setSidebarOpen(false)}
-        ></div>
+        />
       )}
 
       <main className="bg-gray-50 min-h-[calc(100vh-4rem)]">{children}</main>

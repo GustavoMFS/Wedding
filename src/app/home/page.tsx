@@ -12,6 +12,23 @@ export default function HomePage() {
   const { getMessages } = useLanguage();
   const messages = getMessages("home");
 
+  const locations = [
+    {
+      title: messages.eventHeading,
+      address:
+        "Nossa Senhora da Salette - Rua Lange de Morretes, 533 - Jardim Social, Curitiba - PR",
+      mapUrl:
+        "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1071.4061103248766!2d-49.233046367195776!3d-25.41263956011415!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x94dce5c5ddef6aff%3A0xeef36102f4ee864!2sInstituto%20Salette!5e0!3m2!1spt-BR!2sbr!4v1759517078514!5m2!1spt-BR!2sbr",
+    },
+    {
+      title: messages.partyHeading,
+      address:
+        "Quintana Gastronomia - Av. do Batel, 1440 - Batel, Curitiba - PR",
+      mapUrl:
+        "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3602.8932263635243!2d-49.287054!3d-25.441833!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x94dce3890b564277%3A0x75157260ead42611!2sQuintana%20Gastronomia!5e0!3m2!1spt-BR!2sbr!4v1753971338189!5m2!1spt-BR!2sbr",
+    },
+  ];
+
   return (
     <GuestProtectedPage>
       <GuestLayout>
@@ -27,14 +44,7 @@ export default function HomePage() {
             alt=""
             width={600}
             height={600}
-            className="
-    hidden md:block
-    pointer-events-none select-none absolute
-    top-0 right-0
-    mix-blend-normal
-    -z-10
-    w-[120px] sm:w-[180px] md:w-[260px] lg:w-[320px]
-  "
+            className="hidden md:block pointer-events-none select-none absolute top-0 right-0 mix-blend-normal -z-10 w-[120px] sm:w-[180px] md:w-[260px] lg:w-[320px]"
           />
 
           <Image
@@ -42,14 +52,7 @@ export default function HomePage() {
             alt=""
             width={600}
             height={600}
-            className="
-    hidden md:block
-    pointer-events-none select-none absolute
-    top-1/3 left-0
-    mix-blend-normal
-    -z-10
-    w-[100px] sm:w-[160px] md:w-[220px] lg:w-[280px]
-  "
+            className="hidden md:block pointer-events-none select-none absolute top-1/3 left-0 mix-blend-normal -z-10 w-[100px] sm:w-[160px] md:w-[220px] lg:w-[280px]"
           />
 
           <Image
@@ -57,14 +60,7 @@ export default function HomePage() {
             alt=""
             width={600}
             height={600}
-            className="
-    hidden md:block
-    pointer-events-none select-none absolute
-    bottom-0 right-0
-    mix-blend-normal
-    -z-10
-    w-[140px] sm:w-[200px] md:w-[280px] lg:w-[350px]
-  "
+            className="hidden md:block pointer-events-none select-none absolute bottom-0 right-0 mix-blend-normal -z-10 w-[140px] sm:w-[200px] md:w-[280px] lg:w-[350px]"
           />
 
           <section className="text-center py-10" id="inicio">
@@ -76,13 +72,9 @@ export default function HomePage() {
                 height={600}
                 className="w-full max-w-[500px] sm:max-w-[600px] h-auto rounded-2xl shadow-md object-cover"
               />
-              <figcaption className="sr-only">{messages.title}</figcaption>
             </figure>
 
-            <h2
-              style={{ fontFamily: "handwriting" }}
-              className="text-9xl  mt-6"
-            >
+            <h2 style={{ fontFamily: "handwriting" }} className="text-9xl mt-6">
               {messages.title}
             </h2>
           </section>
@@ -152,66 +144,39 @@ export default function HomePage() {
             />
           </div>
 
-          <section className="text-center px-6 max-w-2xl mx-auto" id="local">
-            <h3 className="text-2xl font-[cinzelb] mb-5">
-              {messages.eventHeading}
-            </h3>
-            <p className=" text-base font-[cinzelb]">
-              Nossa Senhora da Salette - Rua Lange de Morretes, 533 - Jardim
-              Social, Curitiba - PR
-            </p>
-            <div className="mt-4 flex justify-center">
-              <iframe
-                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1071.4061103248766!2d-49.233046367195776!3d-25.41263956011415!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x94dce5c5ddef6aff%3A0xeef36102f4ee864!2sInstituto%20Salette!5e0!3m2!1spt-BR!2sbr!4v1759517078514!5m2!1spt-BR!2sbr"
-                width="600"
-                height="450"
-                style={{ border: 0 }}
-                allowFullScreen
-                loading="lazy"
-                referrerPolicy="no-referrer-when-downgrade"
-                className="w-full max-w-2xl h-[300px] rounded-lg shadow"
-              ></iframe>
-            </div>
-          </section>
+          {locations.map((loc, index) => (
+            <section
+              key={index}
+              className="text-center px-6 max-w-2xl mx-auto"
+              id={index === 0 ? "local" : "festa"}
+            >
+              <h3 className="text-2xl font-[cinzelb] mb-5">{loc.title}</h3>
 
-          <div className="my-10 flex justify-center">
-            <Image
-              src="/divisorblue.png"
-              alt="Divisor"
-              width={400}
-              height={40}
-            />
-          </div>
+              <p className="text-base font-[cinzelb]">{loc.address}</p>
 
-          <section className="text-center px-6 max-w-2xl mx-auto" id="local">
-            <h3 className="text-2xl font-[cinzelb] mb-5">
-              {messages.partyHeading}
-            </h3>
-            <p className="text-base font-[cinzelb]">
-              Quintana Gastronomia - Av. do Batel, 1440 - Batel, Curitiba - PR
-            </p>
-            <div className="mt-4 flex justify-center">
-              <iframe
-                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3602.8932263635243!2d-49.287054!3d-25.441833!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x94dce3890b564277%3A0x75157260ead42611!2sQuintana%20Gastronomia!5e0!3m2!1spt-BR!2sbr!4v1753971338189!5m2!1spt-BR!2sbr"
-                width="600"
-                height="450"
-                style={{ border: 0 }}
-                allowFullScreen
-                loading="lazy"
-                referrerPolicy="no-referrer-when-downgrade"
-                className="w-full max-w-2xl h-[300px] rounded-lg shadow"
-              ></iframe>
-            </div>
-          </section>
+              <div className="mt-4 flex justify-center">
+                <iframe
+                  src={loc.mapUrl}
+                  width="600"
+                  height="450"
+                  style={{ border: 0 }}
+                  allowFullScreen
+                  loading="lazy"
+                  referrerPolicy="no-referrer-when-downgrade"
+                  className="w-full max-w-2xl h-[300px] rounded-lg shadow"
+                ></iframe>
+              </div>
 
-          <div className="my-10 flex justify-center">
-            <Image
-              src="/divisorblue.png"
-              alt="Divisor"
-              width={400}
-              height={40}
-            />
-          </div>
+              <div className="my-10 flex justify-center">
+                <Image
+                  src="/divisorblue.png"
+                  alt="Divisor"
+                  width={400}
+                  height={40}
+                />
+              </div>
+            </section>
+          ))}
 
           <section
             className="text-center px-6 pb-10 max-w-2xl mx-auto"
