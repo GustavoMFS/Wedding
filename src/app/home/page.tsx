@@ -6,6 +6,7 @@ import Image from "next/image";
 import GuestLayout from "../components/GuestLayout";
 import { useLanguage } from "../contexts/LanguageContext";
 import "../fonts.css";
+import Countdown from "../components/Countdown";
 
 export default function HomePage() {
   const router = useRouter();
@@ -83,6 +84,10 @@ export default function HomePage() {
             <p className="text-base font-[cinzelb]">
               {messages.welcomeMessage}
             </p>
+          </section>
+
+          <section className="mt-6">
+            <Countdown />
           </section>
 
           <div className="my-10 flex justify-center">
