@@ -21,6 +21,8 @@ import ptSuccessScreen from "../messages/afterPaymentPages/success/pt.json";
 import esSuccessScreen from "../messages/afterPaymentPages/success/es.json";
 import ptGuestQuestions from "../messages/guestConfirmation/guestQuestions/pt.json";
 import esGuestQuestions from "../messages/guestConfirmation/guestQuestions/es.json";
+import ptCountdown from "../messages/countdown/pt.json";
+import esCountdown from "../messages/countdown/es.json";
 
 type Language = "pt" | "es";
 type Module =
@@ -33,7 +35,8 @@ type Module =
   | "failureScreen"
   | "pendingScreen"
   | "successScreen"
-  | "guestQuestions";
+  | "guestQuestions"
+  | "countdown";
 
 type MessagesMap = {
   [key in Module]: Record<string, string>;
@@ -70,6 +73,7 @@ export const LanguageProvider = ({ children }: { children: ReactNode }) => {
       pendingScreen: ptPendingScreen,
       successScreen: ptSuccessScreen,
       guestQuestions: ptGuestQuestions,
+      countdown: ptCountdown,
     },
     es: {
       home: esHome,
@@ -82,6 +86,7 @@ export const LanguageProvider = ({ children }: { children: ReactNode }) => {
       pendingScreen: esPendingScreen,
       successScreen: esSuccessScreen,
       guestQuestions: esGuestQuestions,
+      countdown: esCountdown,
     },
   };
 
