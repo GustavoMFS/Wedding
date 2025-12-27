@@ -28,3 +28,17 @@
   font-style: normal;
   font-display: swap;
 }
+@font-face {
+  font-family: "MonetaBold";
+  src: url("/font/MonetaBold.ttf") format("opentype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "MonetaBlack";
+  src: url("/font/MonetaBlack.ttf") format("opentype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
