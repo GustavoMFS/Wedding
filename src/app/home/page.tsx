@@ -81,7 +81,7 @@ export default function HomePage() {
           </section>
 
           <section className="text-center px-6 max-w-2xl mx-auto">
-            <p className="text-base font-[cinzelb]">
+            <p className="text-base font-[cinzelb] text-[#000000]">
               {messages.welcomeMessage}
             </p>
           </section>
@@ -106,16 +106,35 @@ export default function HomePage() {
             <h3 className="text-2xl font-[cinzelb] mb-5">
               {messages.detailsHeading}
             </h3>
-            <p className="py-1 text-base font-[cinzelb]">
+            <p className="py-1 text-base font-[cinzelb] text-[#000000]">
+              {messages.date}
+            </p>
+            <p className="py-1 text-base font-[cinzelb] text-[#000000]">
+              {messages.time}
+            </p>
+            <p className="py-1 text-base font-[cinzelb] text-[#000000]">
+              {messages.partyTime}
+            </p>
+          </section>
+
+          <div className="my-10 flex justify-center">
+            <Image
+              src="/divisorblue.png"
+              alt="Divisor"
+              width={400}
+              height={40}
+            />
+          </div>
+
+          <section className="text-center px-6 max-w-2xl mx-auto" id="regras">
+            <h3 className="text-2xl font-[cinzelb] mb-5">
+              {messages.dressCodeTitle}
+            </h3>
+            <p className="py-1 text-base font-[cinzelb] text-[#000000]">
               {messages.dressCode}
             </p>
-            <p className="py-1 text-base font-[cinzelb]">
-              {messages.recomendations}
-            </p>
-            <p className="py-1 text-base font-[cinzelb]">{messages.date}</p>
-            <p className="py-1 text-base font-[cinzelb]">{messages.time}</p>
-            <p className="py-1 text-base font-[cinzelb]">
-              {messages.partyTime}
+            <p className="py-1 text-base font-[cinzelb] text-[#000000]">
+              {messages.rulesDressing}
             </p>
           </section>
 
@@ -132,10 +151,13 @@ export default function HomePage() {
             <h3 className="text-2xl font-[cinzelb] mb-5">
               {messages.rulesHeading}
             </h3>
-            <p className="py-1 text-base font-[cinzelb]">
+            <p className="py-1 text-base font-[cinzelb] text-[#000000]">
               {messages.rulesDressing}
             </p>
-            <p className="py-1 text-base font-[cinzelb]">
+            <p className="py-2 text-base font-[cinzelb] text-[#000000]">
+              {messages.rulesPhotos}
+            </p>
+            <p className="py-1 text-base font-[cinzelb] text-[#000000]">
               {messages.rulesCerimony}
             </p>
           </section>
@@ -157,7 +179,9 @@ export default function HomePage() {
             >
               <h3 className="text-2xl font-[cinzelb] mb-5">{loc.title}</h3>
 
-              <p className="text-base font-[cinzelb]">{loc.address}</p>
+              <p className="text-base font-[cinzelb] text-[#000000]">
+                {loc.address}
+              </p>
 
               <div className="mt-4 flex justify-center">
                 <iframe
@@ -190,7 +214,7 @@ export default function HomePage() {
             <h3 className="text-2xl font-[cinzelb] mb-5">
               {messages.giftsHeading}
             </h3>
-            <p className="text-base font-[cinzelb] max-w-xl mx-auto">
+            <p className="text-base font-[cinzelb] max-w-xl mx-auto text-[#000000]">
               {messages.giftsMessage}
             </p>
             <button
@@ -214,7 +238,7 @@ export default function HomePage() {
             <h3 className="text-2xl font-[cinzelb] mb-5">
               {messages.rsvpHeading}
             </h3>
-            <p className="text-base font-[cinzelb] max-w-lg mx-auto">
+            <p className="text-base font-[cinzelb] max-w-lg mx-auto text-[#000000]">
               {messages.rsvpMessage}
             </p>
             <button
