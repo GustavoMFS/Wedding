@@ -151,9 +151,6 @@ export default function HomePage() {
             <h3 className="text-2xl font-[cinzelb] mb-5">
               {messages.rulesHeading}
             </h3>
-            <p className="py-1 text-base font-[cinzelb] text-[#000000]">
-              {messages.rulesDressing}
-            </p>
             <p className="py-2 text-base font-[cinzelb] text-[#000000]">
               {messages.rulesPhotos}
             </p>
