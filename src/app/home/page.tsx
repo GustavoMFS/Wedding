@@ -81,7 +81,7 @@ export default function HomePage() {
           </section>
 
           <section className="text-center px-6 max-w-2xl mx-auto">
-            <p className="text-xl font-[SilkSerifRegular] text-[#000000]">
+            <p className="text-2xl font-[MonetaRegular] text-[#000000]">
               {messages.welcomeMessage}
             </p>
           </section>
@@ -106,13 +106,13 @@ export default function HomePage() {
             <h3 className="text-2xl font-[cinzelb] mb-5">
               {messages.detailsHeading}
             </h3>
-            <p className="py-1 text-xl font-[SilkSerifRegular] text-[#000000]">
+            <p className="py-1 text-2xl font-[MonetaRegular] text-[#000000]">
               {messages.date}
             </p>
-            <p className="py-1 text-xl font-[SilkSerifRegular] text-[#000000]">
+            <p className="py-1 text-2xl font-[MonetaRegular] text-[#000000]">
               {messages.time}
             </p>
-            <p className="py-1 text-xl font-[SilkSerifRegular] text-[#000000]">
+            <p className="py-1 text-2xl font-[MonetaRegular] text-[#000000]">
               {messages.partyTime}
             </p>
           </section>
@@ -130,10 +130,10 @@ export default function HomePage() {
             <h3 className="text-2xl font-[cinzelb] mb-5">
               {messages.dressCodeTitle}
             </h3>
-            <p className="py-1 text-xl font-[SilkSerifRegular] text-[#000000]">
+            <p className="py-1 text-2xl font-[MonetaRegular] text-[#000000]">
               {messages.dressCode}
             </p>
-            <p className="py-1 text-xl font-[SilkSerifRegular] text-[#000000]">
+            <p className="py-1 text-2xl font-[MonetaRegular] text-[#000000]">
               {messages.rulesDressing}
             </p>
           </section>
@@ -151,10 +151,10 @@ export default function HomePage() {
             <h3 className="text-2xl font-[cinzelb] mb-5">
               {messages.rulesHeading}
             </h3>
-            <p className="py-2 text-xl font-[SilkSerifRegular] text-[#000000]">
+            <p className="py-2 text-2xl font-[MonetaRegular] text-[#000000]">
               {messages.rulesPhotos}
             </p>
-            <p className="py-1 text-xl font-[SilkSerifRegular] text-[#000000]">
+            <p className="py-1 text-2xl font-[MonetaRegular] text-[#000000]">
               {messages.rulesCerimony}
             </p>
           </section>
@@ -176,7 +176,7 @@ export default function HomePage() {
             >
               <h3 className="text-2xl font-[cinzelb] mb-5">{loc.title}</h3>
 
-              <p className="text-xl font-[SilkSerifRegular] text-[#000000]">
+              <p className="text-2xl font-[MonetaRegular] text-[#000000]">
                 {loc.address}
               </p>
 
@@ -211,7 +211,7 @@ export default function HomePage() {
             <h3 className="text-2xl font-[cinzelb] mb-5">
               {messages.giftsHeading}
             </h3>
-            <p className="text-xl font-[SilkSerifRegular] max-w-xl mx-auto text-[#000000]">
+            <p className="text-2xl font-[MonetaRegular] max-w-xl mx-auto text-[#000000]">
               {messages.giftsMessage}
             </p>
             <button
@@ -235,7 +235,7 @@ export default function HomePage() {
             <h3 className="text-2xl font-[cinzelb] mb-5">
               {messages.rsvpHeading}
             </h3>
-            <p className="text-xl font-[SilkSerifRegular] max-w-lg mx-auto text-[#000000]">
+            <p className="text-2xl font-[MonetaRegular] max-w-lg mx-auto text-[#000000]">
               {messages.rsvpMessage}
             </p>
             <button
