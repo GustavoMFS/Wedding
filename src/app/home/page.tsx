@@ -91,12 +91,7 @@ export default function HomePage() {
           </section>
 
           <div className="my-10 flex justify-center">
-            <Image
-              src="/divisorblue.png"
-              alt="Divisor"
-              width={400}
-              height={40}
-            />
+            <Image src="/divisor1.png" alt="Divisor" width={250} height={40} />
           </div>
 
           <section
@@ -118,12 +113,7 @@ export default function HomePage() {
           </section>
 
           <div className="my-10 flex justify-center">
-            <Image
-              src="/divisorblue.png"
-              alt="Divisor"
-              width={400}
-              height={40}
-            />
+            <Image src="/divisor1.png" alt="Divisor" width={250} height={40} />
           </div>
 
           <section className="text-center px-6 max-w-2xl mx-auto" id="regras">
@@ -136,15 +126,32 @@ export default function HomePage() {
             <p className="py-1 text-xl font-[MonetaBold] text-[#000000]">
               {messages.rulesDressing}
             </p>
+            <p className="py-1 text-xl font-[MonetaBold] text-[#000000]">
+              {messages.exempleFeminine}{" "}
+              <a
+                href="https://pin.it/1EJZwjhLT"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="underline text-blue-600 hover:text-blue-800"
+              >
+                clique aqui
+              </a>
+            </p>
+            <p className="py-1 text-xl font-[MonetaBold] text-[#000000]">
+              {messages.exempleMasculine}{" "}
+              <a
+                href="https://pin.it/qga16EuVb"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="underline text-blue-600 hover:text-blue-800"
+              >
+                clique aqui
+              </a>
+            </p>
           </section>
 
           <div className="my-10 flex justify-center">
-            <Image
-              src="/divisorblue.png"
-              alt="Divisor"
-              width={400}
-              height={40}
-            />
+            <Image src="/divisor1.png" alt="Divisor" width={250} height={40} />
           </div>
 
           <section className="text-center px-6 max-w-2xl mx-auto" id="regras">
@@ -160,12 +167,7 @@ export default function HomePage() {
           </section>
 
           <div className="my-10 flex justify-center">
-            <Image
-              src="/divisorblue.png"
-              alt="Divisor"
-              width={400}
-              height={40}
-            />
+            <Image src="/divisor1.png" alt="Divisor" width={250} height={40} />
           </div>
 
           {locations.map((loc, index) => (
@@ -195,9 +197,9 @@ export default function HomePage() {
 
               <div className="my-10 flex justify-center">
                 <Image
-                  src="/divisorblue.png"
+                  src="/divisor1.png"
                   alt="Divisor"
-                  width={400}
+                  width={250}
                   height={40}
                 />
               </div>
@@ -223,12 +225,7 @@ export default function HomePage() {
           </section>
 
           <div className="my-10 flex justify-center">
-            <Image
-              src="/divisorblue.png"
-              alt="Divisor"
-              width={400}
-              height={40}
-            />
+            <Image src="/divisor1.png" alt="Divisor" width={250} height={40} />
           </div>
 
           <section className="text-center px-6 pb-10 max-w-2xl mx-auto">
