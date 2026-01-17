@@ -48,6 +48,16 @@ function PresentesPage() {
   const { getMessages } = useLanguage();
   const messages = getMessages("gifts");
 
+  const ITEMS_PER_PAGE = 9;
+  const [currentPage, setCurrentPage] = useState(1);
+
+  const totalPages = Math.ceil(gifts.length / ITEMS_PER_PAGE);
+
+  const paginatedGifts = gifts.slice(
+    (currentPage - 1) * ITEMS_PER_PAGE,
+    currentPage * ITEMS_PER_PAGE,
+  );
+
   useEffect(() => {
     const fetchData = async () => {
       const token = localStorage.getItem("guestToken");
@@ -127,7 +137,7 @@ function PresentesPage() {
                   </h2>
                 </header>
                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-                  {gifts.map((gift) => (
+                  {paginatedGifts.map((gift) => (
                     <article
                       key={gift._id}
                       onClick={() => router.push(`/presentes/${gift._id}`)}
@@ -161,6 +171,43 @@ function PresentesPage() {
                   ))}
                 </div>
               </section>
+            )}
+
+            {totalPages > 1 && (
+              <div className="flex justify-center items-center gap-2 mt-8">
+                <button
+                  disabled={currentPage === 1}
+                  onClick={() => setCurrentPage((p) => p - 1)}
+                  className="px-3 py-1 rounded border disabled:opacity-40"
+                >
+                  ‹
+                </button>
+
+                {Array.from({ length: totalPages }).map((_, index) => {
+                  const page = index + 1;
+                  return (
+                    <button
+                      key={page}
+                      onClick={() => setCurrentPage(page)}
+                      className={`px-3 py-1 rounded border ${
+                        page === currentPage
+                          ? "bg-[#385e85] text-white"
+                          : "bg-white"
+                      }`}
+                    >
+                      {page}
+                    </button>
+                  );
+                })}
+
+                <button
+                  disabled={currentPage === totalPages}
+                  onClick={() => setCurrentPage((p) => p + 1)}
+                  className="px-3 py-1 rounded border disabled:opacity-40"
+                >
+                  ›
+                </button>
+              </div>
             )}
 
             {!loading && links.length > 0 && (
