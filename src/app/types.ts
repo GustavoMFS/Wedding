@@ -43,3 +43,8 @@ export interface Guest {
 export interface InviteWithGuests extends Invite {
   guests: Guest[];
 }
+
+export type GuestForm = Omit<Guest, "inviteId"> & {
+  inviteId?: ObjectIdString;
+  isNew?: boolean;
+};
