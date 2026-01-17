@@ -38,7 +38,7 @@ export default function GuestConfirmPage() {
             headers: {
               Authorization: `Bearer ${token}`,
             },
-          }
+          },
         );
 
         if (!res.ok) {
@@ -59,7 +59,7 @@ export default function GuestConfirmPage() {
 
   const updateStatus = (guestId: string, status: Guest["status"]) => {
     setGuests((prev) =>
-      prev.map((g) => (g._id === guestId ? { ...g, status } : g))
+      prev.map((g) => (g._id === guestId ? { ...g, status } : g)),
     );
   };
 
@@ -81,7 +81,7 @@ export default function GuestConfirmPage() {
             status: g.status,
           })),
         }),
-      }
+      },
     );
 
     router.push(`/guest/${inviteId}/questions`);
@@ -102,10 +102,18 @@ export default function GuestConfirmPage() {
           guests.map((guest) => (
             <div
               key={guest._id}
-              className="flex justify-between items-center border p-3 mb-3 rounded-lg bg-gray-100"
+              className="flex flex-col gap-3
+      sm:flex-row sm:items-center sm:justify-between
+      border p-3 mb-3 rounded-lg bg-gray-100"
             >
-              <span className="font-bold">{guest.name}</span>
-              <div className="flex gap-2">
+              <span
+                className="font-bold
+        break-words
+        sm:max-w-[60%]"
+              >
+                {guest.name}
+              </span>
+              <div className="flex gap-2 sm:shrink-0">
                 <Button
                   onClick={() => updateStatus(guest._id, "confirmed")}
                   className={`flex items-center gap-1 ${
