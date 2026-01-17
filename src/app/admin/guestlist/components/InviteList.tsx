@@ -1,9 +1,10 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useAuth } from "@clerk/nextjs";
 import { EditInviteModal } from "./EditInviteModal";
 import { InviteWithGuests, Guest } from "../../../types";
+import { GuestStatsSummary } from "./GuestStatsSummary";
 
 interface Props {
   refresh: number;
@@ -13,8 +14,9 @@ export const InviteList = ({ refresh }: Props) => {
   const [invites, setInvites] = useState<InviteWithGuests[]>([]);
   const [error, setError] = useState<string | null>(null);
   const { getToken } = useAuth();
+
   const [selectedInvite, setSelectedInvite] = useState<InviteWithGuests | null>(
-    null
+    null,
   );
   const [modalKey, setModalKey] = useState(0);
 
@@ -34,7 +36,7 @@ export const InviteList = ({ refresh }: Props) => {
           `${process.env.NEXT_PUBLIC_API_URL}/api/invites`,
           {
             headers: { Authorization: `Bearer ${token}` },
-          }
+          },
         );
 
         if (!res.ok) {
@@ -49,7 +51,7 @@ export const InviteList = ({ refresh }: Props) => {
           data.map(async (inv: Omit<InviteWithGuests, "guests">) => {
             const resG = await fetch(
               `${process.env.NEXT_PUBLIC_API_URL}/api/invites/${inv._id}/guestsAdmin`,
-              { headers: { Authorization: `Bearer ${token}` } }
+              { headers: { Authorization: `Bearer ${token}` } },
             );
 
             if (!resG.ok) return { ...inv, guests: [] };
@@ -58,7 +60,7 @@ export const InviteList = ({ refresh }: Props) => {
             const guests: Guest[] = data.guests;
 
             return { ...inv, guests };
-          })
+          }),
         );
 
         setInvites(invitesWithGuests);
@@ -69,6 +71,11 @@ export const InviteList = ({ refresh }: Props) => {
       }
     })();
   }, [refresh, getToken]);
+
+  const allGuests = useMemo(
+    () => invites.flatMap((inv) => inv.guests),
+    [invites],
+  );
 
   const statusColor = (status?: string) => {
     switch (status) {
@@ -98,6 +105,7 @@ export const InviteList = ({ refresh }: Props) => {
   return (
     <div className="space-y-4">
       {error && <div className="text-red-600 font-semibold mb-4">{error}</div>}
+      <GuestStatsSummary guests={allGuests} />
       <div className="bg-white p-4 rounded-lg shadow-md flex flex-col md:flex-row gap-4 mb-6">
         <div className="flex-1">
           <label className="block font-medium mb-1">Lado</label>
@@ -171,7 +179,7 @@ export const InviteList = ({ refresh }: Props) => {
                 <div className="flex items-center gap-2 text-base">
                   <span
                     className={`inline-block w-3 h-3 rounded-full ${statusColor(
-                      g.status
+                      g.status,
                     )}`}
                   />
                   {g.name}
@@ -196,14 +204,14 @@ export const InviteList = ({ refresh }: Props) => {
               prev.map((inv) =>
                 inv._id === updatedInvite._id
                   ? { ...updatedInvite, guests: updatedGuests }
-                  : inv
-              )
+                  : inv,
+              ),
             );
             setSelectedInvite(null);
           }}
           onDeleteInvite={(deletedInviteId) => {
             setInvites((prev) =>
-              prev.filter((inv) => inv._id !== deletedInviteId)
+              prev.filter((inv) => inv._id !== deletedInviteId),
             );
             setSelectedInvite(null);
           }}
@@ -214,7 +222,7 @@ export const InviteList = ({ refresh }: Props) => {
                     ...prev,
                     guests: prev.guests.filter((g) => g._id !== guestId),
                   }
-                : prev
+                : prev,
             );
           }}
         />
