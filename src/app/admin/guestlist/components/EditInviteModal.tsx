@@ -1,6 +1,11 @@
 "use client";
 
-import { InviteWithGuests, Guest, GuestStatus } from "../../../types";
+import {
+  InviteWithGuests,
+  Guest,
+  GuestForm,
+  GuestStatus,
+} from "../../../types";
 import { motion, AnimatePresence } from "framer-motion";
 import { useState, useEffect } from "react";
 import { useAuth } from "@clerk/nextjs";
@@ -25,32 +30,52 @@ export const EditInviteModal = ({
 }: Props) => {
   const { getToken } = useAuth();
   const [formInvite, setFormInvite] = useState<InviteWithGuests>(invite);
-  const [formGuests, setFormGuests] = useState<Guest[]>(
-    guests.map((g) => ({ ...g, tags: g.tags || [] }))
+
+  const [formGuests, setFormGuests] = useState<GuestForm[]>(
+    guests.map((g) => ({
+      ...g,
+      tags: g.tags || [],
+      isNew: false,
+    })),
   );
+
   const [loading, setLoading] = useState(false);
   const [closing, setClosing] = useState(false);
 
   useEffect(() => {
     setFormInvite(invite);
-    setFormGuests(guests.map((g) => ({ ...g, tags: g.tags || [] })));
+    setFormGuests(
+      guests.map((g) => ({
+        ...g,
+        tags: g.tags || [],
+        isNew: false,
+      })),
+    );
     setClosing(false);
   }, [invite, guests]);
 
   const handleClose = () => setClosing(true);
   const handleAnimationComplete = () => closing && onClose();
 
-  const handleGuestChange = <K extends keyof Guest>(
+  const handleGuestChange = <K extends keyof GuestForm>(
     index: number,
     field: K,
-    value: Guest[K]
+    value: GuestForm[K],
   ) => {
-    const updated = [...formGuests];
-    updated[index] = { ...updated[index], [field]: value };
-    setFormGuests(updated);
+    setFormGuests((prev) => {
+      const updated = [...prev];
+      updated[index] = { ...updated[index], [field]: value };
+      return updated;
+    });
   };
 
   const handleSave = async () => {
+    const hasInvalidGuest = formGuests.some((g) => !g.name.trim());
+
+    if (hasInvalidGuest) {
+      alert("Todos os convidados devem ter um nome antes de salvar.");
+      return;
+    }
     setLoading(true);
     try {
       const token = await getToken({ template: "backend-access" });
@@ -68,29 +93,51 @@ export const EditInviteModal = ({
             email: formInvite.email,
             phone: formInvite.phone,
           }),
-        }
+        },
       );
 
       for (const guest of formGuests) {
-        await fetch(
-          `${process.env.NEXT_PUBLIC_API_URL}/api/${invite._id}/guests/${guest._id}`,
-          {
-            method: "PUT",
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${token}`,
+        if (guest.isNew) {
+          await fetch(
+            `${process.env.NEXT_PUBLIC_API_URL}/api/invites/${invite._id}/guests`,
+            {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`,
+              },
+              body: JSON.stringify({
+                name: guest.name.trim(),
+                isAdult: guest.isAdult,
+                tags: guest.tags,
+                status: guest.status,
+              }),
             },
-            body: JSON.stringify({
-              name: guest.name,
-              isAdult: guest.isAdult,
-              tags: guest.tags,
-              status: guest.status,
-            }),
-          }
-        );
+          );
+        } else {
+          await fetch(
+            `${process.env.NEXT_PUBLIC_API_URL}/api/${invite._id}/guests/${guest._id}`,
+            {
+              method: "PUT",
+              headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`,
+              },
+              body: JSON.stringify({
+                name: guest.name.trim(),
+                isAdult: guest.isAdult,
+                tags: guest.tags,
+                status: guest.status,
+              }),
+            },
+          );
+        }
       }
+      const cleanGuests: Guest[] = formGuests
+        .filter((g) => !g.isNew)
+        .map(({ isNew, ...rest }) => rest as Guest);
 
-      onSave(formInvite, formGuests);
+      onSave(formInvite, cleanGuests);
       handleClose();
     } catch (err) {
       console.error("Erro ao salvar alterações:", err);
@@ -110,7 +157,7 @@ export const EditInviteModal = ({
         {
           method: "DELETE",
           headers: { Authorization: `Bearer ${token}` },
-        }
+        },
       );
 
       onDeleteInvite(invite._id);
@@ -129,7 +176,7 @@ export const EditInviteModal = ({
         {
           method: "DELETE",
           headers: { Authorization: `Bearer ${token}` },
-        }
+        },
       );
 
       onDeleteGuest(guestId);
@@ -139,37 +186,18 @@ export const EditInviteModal = ({
     }
   };
 
-  const handleAddGuest = async () => {
-    setLoading(true);
-    try {
-      const token = await getToken({ template: "backend-access" });
-
-      const res = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}/api/invites/${invite._id}/guests`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-          body: JSON.stringify({
-            name: "Novo convidado",
-            isAdult: true,
-            tags: [],
-            status: "pending",
-          }),
-        }
-      );
-
-      if (!res.ok) throw new Error("Erro ao adicionar convidado");
-
-      const newGuest: Guest = await res.json();
-      setFormGuests((prev) => [...prev, newGuest]);
-    } catch (err) {
-      console.error("Erro ao adicionar convidado:", err);
-    } finally {
-      setLoading(false);
-    }
+  const handleAddGuest = () => {
+    setFormGuests((prev) => [
+      ...prev,
+      {
+        _id: crypto.randomUUID(),
+        name: "",
+        isAdult: true,
+        tags: [],
+        status: "pending",
+        isNew: true,
+      },
+    ]);
   };
 
   return (
@@ -275,10 +303,18 @@ export const EditInviteModal = ({
                       <label className="block font-medium">Nome</label>
                       <input
                         type="text"
-                        value={guest.name}
+                        value={
+                          guest.name === "__NOVO_CONVIDADO__" ? "" : guest.name
+                        }
+                        placeholder="Novo convidado"
                         onChange={(e) =>
                           handleGuestChange(index, "name", e.target.value)
                         }
+                        onFocus={() => {
+                          if (guest.name === "__NOVO_CONVIDADO__") {
+                            handleGuestChange(index, "name", "");
+                          }
+                        }}
                         className="w-full rounded-md border border-gray-300 p-2 text-base focus:border-gray-500 focus:ring-gray-300"
                       />
                     </fieldset>
@@ -293,7 +329,7 @@ export const EditInviteModal = ({
                           handleGuestChange(
                             index,
                             "tags",
-                            e.target.value ? [e.target.value] : []
+                            e.target.value ? [e.target.value] : [],
                           )
                         }
                         className="w-full rounded-md border border-gray-300 p-2 text-base focus:border-gray-500 focus:ring-gray-300"
@@ -313,7 +349,7 @@ export const EditInviteModal = ({
                             handleGuestChange(
                               index,
                               "isAdult",
-                              e.target.checked
+                              e.target.checked,
                             )
                           }
                         />
@@ -329,7 +365,7 @@ export const EditInviteModal = ({
                           handleGuestChange(
                             index,
                             "status",
-                            e.target.value as GuestStatus
+                            e.target.value as GuestStatus,
                           )
                         }
                         className="w-full rounded-md border border-gray-300 p-2 text-base focus:border-gray-500 focus:ring-gray-300"
