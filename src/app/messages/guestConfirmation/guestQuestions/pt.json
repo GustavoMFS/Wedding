@@ -1,9 +1,9 @@
 {
   "guestsLoadError": "Falha ao carregar convidados",
-  "guestsConfirmationTitle": "Quem vai para o evento?",
+  "guestsConfirmationTitle": "Você vai para o evento?",
   "guestsConfirmationSubTitle": "Isso ajudará os noivos a organizar melhor o evento. Você poderá mudar a resposta quando quiser.",
-  "confirm": "Irá comparecer",
-  "notConfirm": "Não irá comparecer",
+  "confirm": "Sim",
+  "notConfirm": "Não",
   "guestsNotFound": "Nenhum convidado encontrado para este convite.",
   "continue": "Continuar",
   "inviteLoadError": "Erro ao buscar convite",
