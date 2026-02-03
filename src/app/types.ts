@@ -6,6 +6,7 @@ export interface Gift {
   value: number;
   paymentType: "full" | "partial";
   amountCollected?: number;
+  order?: number;
 }
 
 export interface LinkItem {

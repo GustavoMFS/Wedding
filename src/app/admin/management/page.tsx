@@ -10,7 +10,7 @@ export default function AdminPanel() {
   const [gifts, setGifts] = useState<Gift[]>([]);
   const [links, setLinks] = useState<LinkItem[]>([]);
   const [selectedItem, setSelectedItem] = useState<Gift | LinkItem | null>(
-    null
+    null,
   );
   const [itemType, setItemType] = useState<"gift" | "link" | null>(null);
   const [isEditing, setIsEditing] = useState(false);
@@ -39,7 +39,12 @@ export default function AdminPanel() {
     const giftsData = await (giftsRes.ok ? giftsRes.json() : []);
     const linksData = await (linksRes.ok ? linksRes.json() : []);
 
-    setGifts(Array.isArray(giftsData) ? giftsData : []);
+    setGifts(
+      (Array.isArray(giftsData) ? giftsData : []).sort(
+        (a, b) => (a.order ?? 0) - (b.order ?? 0),
+      ),
+    );
+
     setLinks(Array.isArray(linksData) ? linksData : []);
   }, [getToken]);
 
@@ -63,6 +68,37 @@ export default function AdminPanel() {
       headers: { Authorization: `Bearer ${token}` },
     });
     setLinks((prev) => prev.filter((link) => link._id !== id));
+  };
+
+  const moveGift = async (id: string, direction: "up" | "down") => {
+    const token = await getToken({ template: "backend-access" });
+
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}/api/gifts/admin/${id}/move`,
+      {
+        method: "PATCH",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ direction }),
+      },
+    );
+
+    if (!res.ok) {
+      alert("Erro ao mover presente");
+      return;
+    }
+
+    const { gift, neighbor } = await res.json();
+
+    setGifts((prev) =>
+      prev
+        .map((g) =>
+          g._id === gift._id ? gift : g._id === neighbor?._id ? neighbor : g,
+        )
+        .sort((a, b) => (a.order ?? 0) - (b.order ?? 0)),
+    );
   };
 
   const openViewModal = (item: Gift | LinkItem, type: "gift" | "link") => {
@@ -136,11 +172,11 @@ export default function AdminPanel() {
     const updatedItem = await res.json();
     if (itemType === "gift") {
       setGifts((prev) =>
-        prev.map((g) => (g._id === updatedItem._id ? updatedItem : g))
+        prev.map((g) => (g._id === updatedItem._id ? updatedItem : g)),
       );
     } else {
       setLinks((prev) =>
-        prev.map((l) => (l._id === updatedItem._id ? updatedItem : l))
+        prev.map((l) => (l._id === updatedItem._id ? updatedItem : l)),
       );
     }
 
@@ -168,6 +204,29 @@ export default function AdminPanel() {
                   whileHover={{ scale: 1.02 }}
                   className="bg-white rounded-xl shadow-2xl max-w-md w-full max-h-[90vh] overflow-y-auto p-6"
                 >
+                  <div className="flex justify-between items-center mb-3">
+                    <span className="text-xs text-gray-400">
+                      Ordem: {gift.order ?? 0}
+                    </span>
+
+                    <div className="flex gap-1">
+                      <button
+                        onClick={() => moveGift(gift._id, "up")}
+                        className="px-2 py-1 text-sm border rounded hover:bg-gray-100"
+                        title="Mover para cima"
+                      >
+                        ↑
+                      </button>
+                      <button
+                        onClick={() => moveGift(gift._id, "down")}
+                        className="px-2 py-1 text-sm border rounded hover:bg-gray-100"
+                        title="Mover para baixo"
+                      >
+                        ↓
+                      </button>
+                    </div>
+                  </div>
+
                   <div>
                     <h3 className="font-semibold text-lg text-gray-800 mb-2">
                       {gift.title}
@@ -176,6 +235,7 @@ export default function AdminPanel() {
                       R$ {gift.value.toFixed(2)}
                     </p>
                   </div>
+
                   <div className="flex justify-end gap-2 mt-4">
                     <button
                       onClick={() => openViewModal(gift, "gift")}
