@@ -24,6 +24,9 @@ export default function AdminPanel() {
 
   const { getToken } = useAuth();
 
+  const [moveTarget, setMoveTarget] = useState<Gift | null>(null);
+  const [targetOrder, setTargetOrder] = useState<number>(0);
+
   const fetchData = useCallback(async () => {
     const token = await getToken({ template: "backend-access" });
 
@@ -99,6 +102,33 @@ export default function AdminPanel() {
         )
         .sort((a, b) => (a.order ?? 0) - (b.order ?? 0)),
     );
+  };
+
+  const moveGiftToPosition = async () => {
+    if (!moveTarget) return;
+
+    const token = await getToken({ template: "backend-access" });
+
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}/api/gifts/admin/${moveTarget._id}/move-to`,
+      {
+        method: "PATCH",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ newOrder: targetOrder }),
+      },
+    );
+
+    if (!res.ok) {
+      alert("Erro ao mover presente");
+      return;
+    }
+
+    const { gifts } = await res.json();
+    setGifts(gifts);
+    setMoveTarget(null);
   };
 
   const openViewModal = (item: Gift | LinkItem, type: "gift" | "link") => {
@@ -223,6 +253,16 @@ export default function AdminPanel() {
                         title="Mover para baixo"
                       >
                         ↓
+                      </button>
+                      <button
+                        onClick={() => {
+                          setMoveTarget(gift);
+                          setTargetOrder(gift.order ?? 0);
+                        }}
+                        className="px-2 py-1 text-sm border rounded hover:bg-gray-100"
+                        title="Mover para posição específica"
+                      >
+                        ⇄
                       </button>
                     </div>
                   </div>
@@ -511,6 +551,55 @@ export default function AdminPanel() {
                     className="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition"
                   >
                     Confirmar
+                  </button>
+                </div>
+              </motion.div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+        <AnimatePresence>
+          {moveTarget && (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="fixed inset-0 bg-black/40 backdrop-blur-sm flex justify-center items-center z-50"
+            >
+              <motion.div
+                initial={{ scale: 0.9, opacity: 0 }}
+                animate={{ scale: 1, opacity: 1 }}
+                exit={{ scale: 0.9, opacity: 0 }}
+                className="bg-white p-6 rounded-xl shadow-2xl max-w-sm w-full"
+              >
+                <h3 className="text-lg font-bold mb-4">
+                  Mover “{moveTarget.title}”
+                </h3>
+
+                <label className="block text-sm mb-2">
+                  Nova posição (0 a {gifts.length - 1})
+                </label>
+
+                <input
+                  type="number"
+                  min={0}
+                  max={gifts.length - 1}
+                  value={targetOrder}
+                  onChange={(e) => setTargetOrder(Number(e.target.value))}
+                  className="w-full border rounded px-3 py-2 mb-4"
+                />
+
+                <div className="flex justify-end gap-2">
+                  <button
+                    onClick={() => setMoveTarget(null)}
+                    className="px-4 py-2 border rounded"
+                  >
+                    Cancelar
+                  </button>
+                  <button
+                    onClick={moveGiftToPosition}
+                    className="px-4 py-2 bg-indigo-600 text-white rounded"
+                  >
+                    Mover
                   </button>
                 </div>
               </motion.div>
