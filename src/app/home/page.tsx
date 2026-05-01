@@ -207,7 +207,7 @@ export default function HomePage() {
           ))}
 
           <section
-            className="text-center px-6 pb-10 max-w-2xl mx-auto"
+            className="text-center px-6 pb-3 max-w-2xl mx-auto"
             id="presentes"
           >
             <h3 className="text-2xl font-[cinzelb] mb-5">
@@ -218,10 +218,41 @@ export default function HomePage() {
             </p>
             <button
               onClick={() => router.push("/presentes")}
-              className="mt-6 bg-[#385e85] hover:bg-[#0d2946] text-white font-semibold px-6 py-2 rounded"
+              className="mt-6 bg-[#385e85] hover:bg-[#0d2946] text-white font-semibold px-6 py-2 rounded mb-5"
             >
               {messages.seeGifts}
             </button>
+
+            <p className="text-xl font-[MonetaBold] max-w-xl mx-auto text-[#000000] ">
+              {messages.giftsPixOption}
+            </p>
+
+            {/* PIX */}
+<div className="mt-6 flex flex-col items-center space-y-4">
+  <Image
+    src="/qrcode-pix.png" // coloque na pasta /public
+    alt="QR Code Pix"
+    width={180}
+    height={180}
+    className="rounded shadow"
+  />
+
+  <div className="w-full max-w-md">
+    <p className="break-all bg-[#f2f6fa] text-[#385e85] p-3 rounded text-sm text-center">
+      00020126580014BR.GOV.BCB.PIX0114+55419988773630218Presente casamento5204000053039865802BR5922GUSTAVO MATHEUS SANTOS6008CURITIBA622605224FhBLZdL9BONhSooju3vAM63046ED6
+    </p>
+
+    <button
+      onClick={() =>
+        navigator.clipboard.writeText("00020126580014BR.GOV.BCB.PIX0114+55419988773630218Presente casamento5204000053039865802BR5922GUSTAVO MATHEUS SANTOS6008CURITIBA622605224FhBLZdL9BONhSooju3vAM63046ED6")
+      }
+      className="mt-3 bg-[#385e85] hover:bg-[#0d2946] text-white font-semibold px-4 py-2 rounded w-full transition"
+    >
+      {messages.copyCode}
+    </button>
+  </div>
+</div>
+
           </section>
 
           <div className="my-10 flex justify-center">

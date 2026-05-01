@@ -18,7 +18,9 @@
   "partyHeading": "Local do Evento",
   "giftsHeading": "Lista de Presentes",
   "giftsMessage": "Você pode escolher um presente ou contribuir com qualquer valor",
+  "giftsPixOption": "Sua presença já é o nosso maior presente, mas se quiser nos ajudar de outra forma, você pode usar nosso PIX com o valor que desejar",
   "seeGifts": "Ver Lista de Presentes 🎁",
+  "copyCode": "Copiar código Pix",
   "rsvpHeading": "Confirmação de Presença",
   "rsvpMessage": "Insira o PIN que você recebeu para confirmar sua presença",
   "confirmPresence": "Confirmar Presença 📝"

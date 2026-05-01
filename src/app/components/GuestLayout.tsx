@@ -13,6 +13,17 @@ export default function GuestLayout({ children }: { children: ReactNode }) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   const { language, setLanguage, getMessages } = useLanguage();
+  
+  useEffect(() => {
+    if (language) {
+      const current = localStorage.getItem("language");
+      if (current !== language) {
+        localStorage.setItem("language", language);
+      }
+    }
+  }, [language]);
+
+  if (!language) return null
   const messages = getMessages("menu");
 
   const menuItems = [
@@ -26,14 +37,6 @@ export default function GuestLayout({ children }: { children: ReactNode }) {
     router.push(path);
   };
 
-  useEffect(() => {
-    if (language) {
-      const current = localStorage.getItem("language");
-      if (current !== language) {
-        localStorage.setItem("language", language);
-      }
-    }
-  }, [language]);
 
   return (
     <>

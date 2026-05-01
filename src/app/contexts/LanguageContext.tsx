@@ -1,6 +1,6 @@
 "use client";
 
-import { createContext, useContext, useState, ReactNode } from "react";
+import { createContext, useContext, useState, ReactNode, useEffect } from "react";
 import ptHome from "../messages/home/pt.json";
 import esHome from "../messages/home/es.json";
 import ptMenu from "../messages/menu/pt.json";
@@ -43,7 +43,7 @@ type MessagesMap = {
 };
 
 type LanguageContextType = {
-  language: Language;
+  language: Language | null;
   setLanguage: (lang: Language) => void;
   getMessages: (module: Module) => Record<string, string>;
 };
@@ -53,13 +53,16 @@ const LanguageContext = createContext<LanguageContextType | undefined>(
 );
 
 export const LanguageProvider = ({ children }: { children: ReactNode }) => {
-  const [language, setLanguage] = useState<Language>(() => {
-    if (typeof window !== "undefined") {
-      const saved = localStorage.getItem("language") as Language | null;
-      if (saved === "pt" || saved === "es") return saved;
-    }
-    return "pt";
-  });
+const [language, setLanguage] = useState<Language | null>(null);
+
+useEffect(() => {
+  const saved = localStorage.getItem("language") as Language | null;
+  if (saved === "pt" || saved === "es") {
+    setLanguage(saved);
+  } else {
+    setLanguage("pt");
+  }
+}, []);
 
   const messagesMap: Record<Language, MessagesMap> = {
     pt: {
@@ -90,7 +93,10 @@ export const LanguageProvider = ({ children }: { children: ReactNode }) => {
     },
   };
 
-  const getMessages = (module: Module) => messagesMap[language][module];
+  const getMessages = (module: Module) => {
+  if (!language) return {} as Record<string, string>;
+  return messagesMap[language][module];
+};
 
   return (
     <LanguageContext.Provider value={{ language, setLanguage, getMessages }}>
