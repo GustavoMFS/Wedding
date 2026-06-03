@@ -107,8 +107,11 @@ export default function HomePage() {
             <p className="py-1 text-xl font-[MonetaBold] text-[#000000]">
               {messages.time}
             </p>
-            <p className="py-1 text-xl font-[MonetaBold] text-[#000000]">
+            <p className="py-2 text-xl font-[MonetaBold] text-[#000000]">
               {messages.partyTime}
+            </p>
+            <p className="py-1 text-2xl font-[MonetaBold] text-[#cf0303]">
+              {messages.timeWarning}
             </p>
           </section>
 
